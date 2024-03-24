@@ -1,37 +1,103 @@
 package tn.esprit.services;
 
+import jakarta.mail.*;
+import jakarta.mail.internet.InternetAddress;
+import jakarta.mail.internet.MimeMessage;
 import tn.esprit.interfaces.IService;
 import tn.esprit.models.User;
 import tn.esprit.util.MaConnexion;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import java.security.SecureRandom;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 public class UserService implements IService<User> {
     //att
     Connection cnx = MaConnexion.getInstance().getCnx();
+    final String username = "2e4ddfacdadc07";
+    final String password = "08aa0241ca491b";
 
     //actions
+    public static String hashPassword(String password) {
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        return passwordEncoder.encode(password);
+    }
+
+    private String generateRandomString() {
+        int length = 8;
+        String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        SecureRandom random = new SecureRandom();
+        StringBuilder sb = new StringBuilder(length);
+        for (int i = 0; i < length; i++) {
+            int randomIndex = random.nextInt(CHARACTERS.length());
+            char randomChar = CHARACTERS.charAt(randomIndex);
+            sb.append(randomChar);
+        }
+        return sb.toString();
+    }
+
     @Override
     public void add(User user) {
-        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         String req = "INSERT INTO `user`(`email`, `roles`, `password`, `first_name`, `last_name`, `gender`, `address`, `phone_number`, `cin`, `created_at`, `image`, `old_email`, `activity`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try {
             PreparedStatement ps = cnx.prepareStatement(req);
-            ps.setString(1, user.getEmail());
-            ps.setString(2, user.getRoles());
-            ps.setString(3, user.getPassword());
+            String pass = generateRandomString();
+            String email = user.getFirst_name() + "." + user.getLast_name() + "@siyahi.tn";
+            ps.setString(1, email);
+            ps.setString(2, "[\"ROLE_USER\"]");
+            ps.setString(3, hashPassword(pass));
             ps.setString(4, user.getFirst_name());
             ps.setString(5, user.getLast_name());
             ps.setString(6, user.getGender());
             ps.setString(7, user.getAddress());
             ps.setInt(8, user.getPhone_number());
             ps.setInt(9, user.getCin());
-            ps.setTimestamp(10, timestamp);
-            ps.setString(11, user.getImage());
+            ps.setTimestamp(10, new Timestamp(System.currentTimeMillis()));
+            if(user.getGender().equals("M"))
+                ps.setString(11, "7f9183c93cb4803aefc8262447c4efc9.png");
+            else
+                ps.setString(11, "b56ef85920323ead69e5f0d1ca13a0cd.png");
             ps.setString(12, user.getOld_email());
-            ps.setString(13, user.getActivity());
+            ps.setString(13, "T");
+
+            /* --------- Mailing -----------*/
+            String to = user.getOld_email();
+            String from = "no-reply@siyahi.tn";
+            String host = "smtp.mailtrap.io";
+            Properties props = new Properties();
+            props.put("mail.smtp.auth", "true");
+            props.put("mail.smtp.starttls.enable", "true");
+            props.put("mail.smtp.host", host);
+            props.put("mail.smtp.port", "587");
+            Session session = Session.getInstance(props,
+                    new jakarta.mail.Authenticator() {
+                        protected PasswordAuthentication getPasswordAuthentication() {
+                            return new PasswordAuthentication(username, password);
+                        }
+                    });
+            try {
+                Message message = new MimeMessage(session);
+                message.setFrom(new InternetAddress(from));
+                message.setRecipient(Message.RecipientType.TO, new InternetAddress(to));
+                message.setSubject("Siyahi - Account creation");
+                message.setContent("<center><img src=\"https://i.imgur.com/u6bBjNg.png\"></center>\n" +
+                        "\n" +
+                        "<h1>Hello!</h1>\n" +
+                        "\n" +
+                        "<p>Congratulations! Your account creation has been completed successfully.</p>\n" +
+                        "<p>These are your account information:</p>\n" +
+                        "<p>Email: " + email + "</p>\n" +
+                        "<p>Password: " + pass +"</p>\n" +
+                        "\n" +
+                        "<p>Cheers!</p>", "text/html");
+                Transport.send(message);
+            } catch (MessagingException e) {
+                throw new RuntimeException(e);
+            }
             ps.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -43,7 +109,7 @@ public class UserService implements IService<User> {
         String req = "UPDATE `user` SET " +
                 "`email`='" + user.getEmail() +
                 "',`roles`='" + user.getRoles() +
-                "',`password`='" + user.getPassword() +
+                "',`password`='" + hashPassword(user.getPassword()) +
                 "',`first_name`='" + user.getFirst_name() +
                 "',`last_name`='" + user.getLast_name() +
                 "',`gender`='" + user.getGender() +
@@ -123,7 +189,7 @@ public class UserService implements IService<User> {
     }
 
     @Override
-    public User getOne(int id) {
+    public User getOneByID(int id) {
         User user = new User();
         try {
             String req = "SELECT * FROM `user` WHERE `id`=?";
@@ -138,5 +204,37 @@ public class UserService implements IService<User> {
         }
 
         return user;
+    }
+
+    @Override
+    public User getOneByEMAIL(String email) {
+        User user = new User();
+        try {
+            String req = "SELECT * FROM `user` WHERE `email`=?";
+            PreparedStatement statement = cnx.prepareStatement(req);
+            statement.setString(1, email);
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {
+                user = getInformation(rs);
+            }
+        } catch (SQLException ex) {
+            System.out.println("Failed to get user: " + ex.getMessage());
+        }
+
+        return user;
+    }
+
+    public boolean authentification(String email, String password){
+        boolean result = false;
+        String req = "SELECT * FROM `user` WHERE email='" + email + "' AND password='" + password+ "'";
+        try {
+            Statement st = cnx.createStatement();
+            ResultSet rs = st.executeQuery(req);
+            result = rs.next();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return result;
     }
 }
