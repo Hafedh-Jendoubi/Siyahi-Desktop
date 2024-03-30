@@ -1,6 +1,5 @@
 package tn.esprit.models;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 
 public class Reclamation {
