@@ -16,10 +16,9 @@ public class ReponseReclamation {
     }
 
     public ReponseReclamation(String description, Timestamp date_creation, String auteur) {
-        this.description = description;
-        this.date_creation = date_creation;
-        this.auteur = auteur;
-    }
+    setDescription(description);
+    this.date_creation = date_creation;
+    setAuteur(auteur);    }
 
     public ReponseReclamation(int id, String description, int reclamation_id, int user_id, Timestamp date_creation, String auteur) {
         this.id = id;
@@ -43,8 +42,13 @@ public class ReponseReclamation {
     }
 
     public void setDescription(String description) {
-        this.description = description;
+        if (description != null && !description.trim().isEmpty()) {
+            this.description = description;
+        } else {
+            throw new IllegalArgumentException("La description de la réponse ne peut pas être vide.");
+        }
     }
+    
 
     public int getReclamation_id() {
         return reclamation_id;
@@ -75,8 +79,13 @@ public class ReponseReclamation {
     }
 
     public void setAuteur(String auteur) {
-        this.auteur = auteur;
+        if (auteur != null && !auteur.trim().isEmpty()) {
+            this.auteur = auteur;
+        } else {
+            throw new IllegalArgumentException("L'auteur de la réponse ne peut pas être vide.");
+        }
     }
+
 
     @Override
     public String toString() {

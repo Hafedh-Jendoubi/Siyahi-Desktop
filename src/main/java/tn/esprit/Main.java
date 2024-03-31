@@ -20,9 +20,9 @@ public class Main {
 
         MaConnexion mac =  MaConnexion.getInstance();
         //********************test add:
-        //ReclamationService rs=new ReclamationService();
-        //Reclamation reclamation = new Reclamation("Objet de la réclamation", "Description de la réclamation", timestamp, "Auteur de la réclamation", "Email de l'auteur",true);
-         //rs.add(reclamation);
+        /*ReclamationService rs=new ReclamationService();
+        Reclamation reclamation = new Reclamation("aa", "Description de la réclamation", timestamp, "Auteur de la réclamation", "valide@mail.com",true);
+         rs.add(reclamation);*/
 
         //************************test update
 
@@ -40,7 +40,7 @@ public class Main {
 
         //****test get all*****//
 
-        /**ReclamationService service = new ReclamationService();
+        /*ReclamationService service = new ReclamationService();
         // Appelez la méthode getAll()
         List<Reclamation> reclamations = service.getAll();
         //Parcourez la liste des réclamations et affichez-les ou traitez-les
@@ -50,10 +50,10 @@ public class Main {
 
 
         // Créer un objet ReponseReclamationService
-        ReponseReclamationService service = new ReponseReclamationService();
+       ReponseReclamationService service = new ReponseReclamationService();
 
         // Tester la méthode add()
-        ReponseReclamation nouvelleReponse = new ReponseReclamation("Contenu de la nouvelle réponse", new Timestamp(System.currentTimeMillis()), "Auteur de la nouvelle réponse");
+        ReponseReclamation nouvelleReponse = new ReponseReclamation("nn", new Timestamp(System.currentTimeMillis()), "n");
         service.add(nouvelleReponse);
 
 

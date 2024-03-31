@@ -15,15 +15,16 @@ public class Reclamation {
 
     //const
 
-    public Reclamation(String objetDeLaRéclamation, String descriptionDeLaRéclamation, java.util.Date date, String auteurDeLaRéclamation, String s) {
+
+    public Reclamation() {
     }
 
     public Reclamation(String object, String description, Timestamp date_creation, String auteur, String email, boolean status) {
-        this.object = object;
-        this.description = description;
+        setObject(object);
+        setDescription(description);
+        setAuteur(auteur); // Appeler la méthode setAuteur() pour valider et définir l'auteur
+        setEmail(email); // Appeler la méthode setEmail() pour valider et définir l'email
         this.date_creation = date_creation;
-        this.auteur = auteur;
-        this.email = email;
         this.status = status;
     }
 
@@ -52,7 +53,12 @@ public class Reclamation {
     }
 
     public void setObject(String object) {
-        this.object = object;
+        // Validation : Vérifier que l'objet n'est pas vide
+        if (object != null && !object.trim().isEmpty()) {
+            this.object = object;
+        } else {
+            throw new IllegalArgumentException("L'objet de la réclamation ne peut pas être vide.");
+        }
     }
 
     public String getDescription() {
@@ -60,9 +66,13 @@ public class Reclamation {
     }
 
     public void setDescription(String description) {
-        this.description = description;
+        // Validation : Vérifier que la description n'est pas vide
+        if (description != null && !description.trim().isEmpty()) {
+            this.description = description;
+        } else {
+            throw new IllegalArgumentException("La description de la réclamation ne peut pas être vide.");
+        }
     }
-
     public Timestamp getDate_creation() {
         return date_creation;
     }
@@ -75,16 +85,25 @@ public class Reclamation {
         return auteur;
     }
 
-    public void setauteur(String auteur) {
-        this.auteur = auteur;
+    public void setAuteur(String auteur) {
+        // Validation : Vérifier que l'auteur n'est pas vide
+        if (auteur != null && !auteur.trim().isEmpty()) {
+            this.auteur = auteur;
+        } else {
+            throw new IllegalArgumentException("L'auteur de la réclamation ne peut pas être vide.");
+        }
     }
-
     public String getEmail() {
         return email;
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        // Validation : Vérifier que l'email est valide (vous pouvez utiliser une expression régulière pour cela)
+        if (email != null && email.matches("^\\S+@\\S+\\.\\S+$")) {
+            this.email = email;
+        } else {
+            throw new IllegalArgumentException("Veuillez saisir une adresse email valide.");
+        }
     }
 
     public boolean isStatus() {
