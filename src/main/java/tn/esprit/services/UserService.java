@@ -193,9 +193,9 @@ public class UserService implements IService<User> {
         User user = new User();
         try {
             String req = "SELECT * FROM `user` WHERE `id`=?";
-            PreparedStatement statement = cnx.prepareStatement(req);
-            statement.setInt(1, id);
-            ResultSet rs = statement.executeQuery();
+            PreparedStatement ps = cnx.prepareStatement(req);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 user = getInformation(rs);
             }
@@ -211,9 +211,9 @@ public class UserService implements IService<User> {
         User user = new User();
         try {
             String req = "SELECT * FROM `user` WHERE `email`=?";
-            PreparedStatement statement = cnx.prepareStatement(req);
-            statement.setString(1, email);
-            ResultSet rs = statement.executeQuery();
+            PreparedStatement ps = cnx.prepareStatement(req);
+            ps.setString(1, email);
+            ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 user = getInformation(rs);
             }
@@ -226,15 +226,121 @@ public class UserService implements IService<User> {
 
     public boolean authentification(String email, String password){
         boolean result = false;
-        String req = "SELECT * FROM `user` WHERE email='" + email + "' AND password='" + password+ "'";
+        String req = "SELECT * FROM `user` WHERE email='" + email + "'";
         try {
             Statement st = cnx.createStatement();
             ResultSet rs = st.executeQuery(req);
-            result = rs.next();
+            if (rs.next()) {
+                String hashedPassFromDB = rs.getString("password");
+                BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+                result = passwordEncoder.matches(password, hashedPassFromDB);;
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
 
         return result;
+    }
+
+    public void resetPassword(String email) {
+        User user = getOneByEMAIL(email);
+        if(user.getEmail() == null){
+            System.out.println("User n'existe pas");
+        }else{
+            /* --------- Mailing -----------*/
+            String to = user.getEmail();
+            String from = "no-reply@siyahi.tn";
+            String host = "smtp.mailtrap.io";
+            Properties props = new Properties();
+            props.put("mail.smtp.auth", "true");
+            props.put("mail.smtp.starttls.enable", "true");
+            props.put("mail.smtp.host", host);
+            props.put("mail.smtp.port", "587");
+            Session session = Session.getInstance(props, new jakarta.mail.Authenticator() {
+                            protected PasswordAuthentication getPasswordAuthentication() {
+                                return new PasswordAuthentication(username, password);
+                            }
+                        });
+            try {
+                Message message = new MimeMessage(session);
+                message.setFrom(new InternetAddress(from));
+                message.setRecipient(Message.RecipientType.TO, new InternetAddress(to));
+                message.setSubject("Reset Password");
+                message.setContent("<center><img src=\"https://i.imgur.com/u6bBjNg.png\"></center>\n" +
+                        "\n" +
+                        "<h1>Hello!</h1>\n" +
+                        "\n" +
+                        "<p>To reset your password, please visit the following link</p>\n" +
+                        "\n" +
+                        "<a href=\"http://127.0.0.1:8000/reset-password/\">Click here</a>\n" +
+                        "\n" +
+                        "<p>This link will expire in 1 hour.</p>\n" +
+                        "\n" +
+                        "<p>Cheers!</p>", "text/html");
+                Transport.send(message);
+            } catch (MessagingException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    public void enableUser(int id){
+        User user = getOneByID(id);
+        String req = "UPDATE `user` SET " +
+                "`email`='" + user.getEmail() +
+                "',`roles`='" + user.getRoles() +
+                "',`password`='" + user.getPassword() +
+                "',`first_name`='" + user.getFirst_name() +
+                "',`last_name`='" + user.getLast_name() +
+                "',`gender`='" + user.getGender() +
+                "',`address`='" + user.getAddress() +
+                "',`phone_number`='" + user.getPhone_number() +
+                "',`cin`='" + user.getCin() +
+                "',`image`='" + user.getImage() +
+                "',`old_email`='" + user.getOld_email() +
+                "',`activity`='" + "T" +
+                "' WHERE `id`=" + user.getId();
+
+        try {
+            Statement st = cnx.createStatement();
+            int rowsUpdated = st.executeUpdate(req);
+            if (rowsUpdated > 0) {
+                System.out.println("User has been activated successfully.");
+            } else {
+                System.out.println("Failed to enable user");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void disableUser(int id){
+        User user = getOneByID(id);
+        String req = "UPDATE `user` SET " +
+                "`email`='" + user.getEmail() +
+                "',`roles`='" + user.getRoles() +
+                "',`password`='" + user.getPassword() +
+                "',`first_name`='" + user.getFirst_name() +
+                "',`last_name`='" + user.getLast_name() +
+                "',`gender`='" + user.getGender() +
+                "',`address`='" + user.getAddress() +
+                "',`phone_number`='" + user.getPhone_number() +
+                "',`cin`='" + user.getCin() +
+                "',`image`='" + user.getImage() +
+                "',`old_email`='" + user.getOld_email() +
+                "',`activity`='" + "F" +
+                "' WHERE `id`=" + user.getId();
+
+        try {
+            Statement st = cnx.createStatement();
+            int rowsUpdated = st.executeUpdate(req);
+            if (rowsUpdated > 0) {
+                System.out.println("User has been deactivated successfully.");
+            } else {
+                System.out.println("Failed to disable user");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
