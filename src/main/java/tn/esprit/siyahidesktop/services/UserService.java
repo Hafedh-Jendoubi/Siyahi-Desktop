@@ -180,6 +180,20 @@ public class UserService implements IService<User> {
             while (res.next()){
                 User user = new User();
                 user = getInformation(res);
+                if(user.getActivity().equals("T"))
+                    user.setActivity("Active");
+                else
+                    user.setActivity("Inactive");
+                if(user.getGender().equals("M"))
+                    user.setGender("Male");
+                else
+                    user.setGender("Femelle");
+                if(user.getRoles().equals("[\"ROLE_USER\"]"))
+                    user.setRoles("Client");
+                else if(user.getRoles().equals("[\"ROLE_ADMIN\"]"))
+                    user.setRoles("Admin");
+                else
+                    user.setRoles("Super Admin");
                 users.add(user);
             }
         } catch (SQLException e) {

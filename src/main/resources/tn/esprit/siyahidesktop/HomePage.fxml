@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.siyahidesktop.controllers.HomePageController">
+   <children>
+      <SplitPane dividerPositions="0.29797979797979796" prefHeight="600.0" prefWidth="1300.0">
+         <items>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+               <children>
+                  <Separator layoutX="1.0" layoutY="213.0" prefHeight="7.0" prefWidth="354.0" />
+                  <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="78.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../../uploads/logoCo.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </AnchorPane>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="600.0" prefWidth="800.0">
+               <children>
+                  <Text layoutX="35.0" layoutY="55.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bienvenu à Siyahi Banque" textAlignment="CENTER" AnchorPane.leftAnchor="35.0" AnchorPane.topAnchor="35.0">
+                     <font>
+                        <Font name="Courier New Bold" size="27.0" />
+                     </font>
+                     <fill>
+                        <LinearGradient endX="1.0" endY="1.0">
+                           <stops>
+                              <Stop>
+                                 <color>
+                                    <Color red="0.2437865436077118" green="0.35447123646736145" blue="0.9078947305679321" opacity="0.949999988079071" />
+                                 </color>
+                              </Stop>
+                              <Stop offset="1.0">
+                                 <color>
+                                    <Color />
+                                 </color>
+                              </Stop>
+                           </stops>
+                        </LinearGradient>
+                     </fill>
+                  </Text>
+                  <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="625.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="25.0">
+                     <image>
+                        <Image url="@../../../../../uploads/user/7f9183c93cb4803aefc8262447c4efc9.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </AnchorPane>
+         </items>
+      </SplitPane>
+      <Button fx:id="ToHomePage" layoutX="30.0" layoutY="240.0" mnemonicParsing="false" onAction="#navigateToHomePage" prefHeight="30.0" prefWidth="300.0" text="Acceuil" />
+      <Button fx:id="ToUserSectionButton" layoutX="30.0" layoutY="290.0" mnemonicParsing="false" onAction="#navigateToUserSection" prefHeight="30.0" prefWidth="300.0" text="Gestion Utilisateurs" />
+   </children>
+</AnchorPane>
