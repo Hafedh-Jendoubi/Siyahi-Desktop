@@ -1,4 +1,4 @@
-package org.example.entities;
+package tn.esprit.models;
 
 import java.util.Date;
 

@@ -1,8 +1,8 @@
-package org.example.services;
+package tn.esprit.services;
 
-import org.example.entities.ReponseCredit;
-import org.example.interfaces.IService;
-import org.example.util.MaConnexion;
+import tn.esprit.models.ReponseCredit;
+import tn.esprit.interfaces.IService;
+import tn.esprit.util.MaConnexion;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -18,6 +18,9 @@ public class ReponseCreditService implements IService<ReponseCredit> {
     //actions
     @Override
     public void Add(ReponseCredit reponseCredit) {
+        if (reponseCredit.getNbr_mois_paiement() <= 0) {
+            throw new IllegalArgumentException("Le nombre de mois de paiement doit être supérieur à zéro.");
+        }
         String req = "INSERT INTO `reponse_credit`(`nbr_mois_paiement`, `description`, `solde_a_payer`, `date_debut_paiement`) VALUES (?, ?, ?, ?)";
         try {
             PreparedStatement st = cnx.prepareStatement(req);
@@ -34,6 +37,9 @@ public class ReponseCreditService implements IService<ReponseCredit> {
 
     @Override
     public void Update(ReponseCredit reponseCredit) {
+        if (reponseCredit.getNbr_mois_paiement() <= 0) {
+            throw new IllegalArgumentException("Le nombre de mois de paiement doit être supérieur à zéro.");
+        }
         String req = "UPDATE `reponse_credit` SET `nbr_mois_paiement`=?, `description`=?, `solde_a_payer`=?, `date_debut_paiement`=? WHERE `id`=?";
         try {
             PreparedStatement st = cnx.prepareStatement(req);

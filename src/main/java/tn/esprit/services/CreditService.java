@@ -1,8 +1,8 @@
-package org.example.services;
+package tn.esprit.services;
 
-import org.example.entities.Credit;
-import org.example.interfaces.IService;
-import org.example.util.MaConnexion;
+import tn.esprit.models.Credit;
+import tn.esprit.interfaces.IService;
+import tn.esprit.util.MaConnexion;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -15,6 +15,9 @@ public class CreditService implements IService<Credit> {
     //actions
     @Override
     public void Add(Credit credit) {
+        if (credit.getNbr_mois_paiement() <= 0) {
+            throw new IllegalArgumentException("Le nombre de mois de paiement doit être supérieur à zéro.");
+        }
         String req = "INSERT INTO `credit`(`solde_demande`, `date_debut_paiement`, `nbr_mois_paiement`, `description`, `contrat`) VALUES (" + credit.getSolde_demande() + ",'" + credit.getDate_debut_paiement() + "'," + credit.getNbr_mois_paiement() + ",'" + credit.getDescription() + "','" + credit.getContrat() + "')";
         try {
             Statement st = cnx.createStatement();

@@ -1,10 +1,10 @@
-package org.example;
-import org.example.entities.Credit;
-import org.example.services.CreditService;
-import org.example.entities.ReponseCredit;
-import org.example.services.ReponseCreditService;
+package tn.esprit;
+import tn.esprit.models.Credit;
+import tn.esprit.services.CreditService;
+import tn.esprit.models.ReponseCredit;
+import tn.esprit.services.ReponseCreditService;
 
-import org.example.util.MaConnexion;
+import tn.esprit.util.MaConnexion;
 
 import java.util.Calendar;
 import java.util.List;
@@ -20,8 +20,6 @@ public class Main {
       /*
 
         try {
-
-            // Ajout d'un crédit
             Credit credit = new Credit(0, "j en ai besoin", "", 1000, date);
             Cs.Insert(credit);
         } catch (IllegalArgumentException e) {
@@ -63,35 +61,47 @@ public class Main {
 
 
         // Ajout d'une réponse de crédit
-    /*
-        ReponseCredit reponseCreditToAdd = new ReponseCredit(36, "description", 50000, date);
+       /*
+        try {
+
+        ReponseCredit reponseCreditToAdd = new ReponseCredit(6, "d accord", 500, date);
         reponseCreditService.Add(reponseCreditToAdd);
-    */
+        } catch (IllegalArgumentException e) {
+            System.out.println("Erreur : " + e.getMessage());
+        }
+         */
+
         // Récupération de tous les réponses de crédit
-    /*
-        List<ReponseCredit> allReponsesCredit = reponseCreditService.getAll();
-        System.out.println("Toutes les réponses de crédit : " + allReponsesCredit);
-    */
+
+        //List<ReponseCredit> allReponsesCredit = reponseCreditService.getAll();
+        //System.out.println("Toutes les réponses de crédit : " + allReponsesCredit);
+
         // Récupération d'une réponse de crédit par son id
-    /*
-        ReponseCredit reponseCreditById = reponseCreditService.getOne(28);
+        /*
+        ReponseCredit reponseCreditById = reponseCreditService.getOne(33);
 
         if (reponseCreditById != null) {
             System.out.println("Réponse de crédit récupérée par id : " + reponseCreditById);
         } else {
             System.out.println("Aucune réponse de crédit trouvée pour l'identifiant spécifié.");
         }
-    */
+        */
+
         // Mise à jour d'une réponse de crédit
-    /*
-        ReponseCredit reponseCreditToUpdate = new ReponseCredit(19,36, "nouvelle description", 60000, date);
+          /*
+          try {
+        ReponseCredit reponseCreditToUpdate = new ReponseCredit(36,60, "modifie avec succes", 60000, date);
         reponseCreditService.Update(reponseCreditToUpdate);
-    */
+            } catch (IllegalArgumentException e) {
+                System.out.println("Erreur : " + e.getMessage());
+            }
+           */
+
         // Suppression d'une réponse de crédit
-    /*
-        ReponseCredit reponseCreditToDelete = new ReponseCredit(25,36, null, 0, null);
+        /*
+        ReponseCredit reponseCreditToDelete = new ReponseCredit(19,1, "del", 100, date);
         reponseCreditService.Delete(reponseCreditToDelete);
-    */
+         */
     }
 
 }
