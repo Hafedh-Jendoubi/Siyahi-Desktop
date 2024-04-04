@@ -1,12 +1,24 @@
-package tn.esprit.interfaces;
+package org.example.interfaces;
 
 import java.util.List;
 
-public interface IService <T>{
-    //CRUD
-    void add(T t);
-    void update(T t);
-    void delete(T t);
+public interface IService<T>
+{
+    // Create
+    void Add(T t);
+
+    // Update
+    void Update(T t);
+
+    // Delete
+    void Delete(T t);
+
+    // Read
+
     List<T> getAll();
     T getOne(int id);
+
+    //recherche by creteria
+
 }
+
