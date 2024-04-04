@@ -1,6 +1,6 @@
-package tn.esprit.interfaces;
+package tn.esprit.siyahidesktop.interfaces;
 
-import tn.esprit.models.User;
+import tn.esprit.siyahidesktop.models.User;
 
 import java.util.List;
 

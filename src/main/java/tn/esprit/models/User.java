@@ -1,4 +1,4 @@
-package tn.esprit.models;
+package tn.esprit.siyahidesktop.models;
 
 import java.sql.Time;
 import java.sql.Timestamp;

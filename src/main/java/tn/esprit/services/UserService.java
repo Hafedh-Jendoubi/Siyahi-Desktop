@@ -1,11 +1,11 @@
-package tn.esprit.services;
+package tn.esprit.siyahidesktop.services;
 
 import jakarta.mail.*;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
-import tn.esprit.interfaces.IService;
-import tn.esprit.models.User;
-import tn.esprit.util.MaConnexion;
+import tn.esprit.siyahidesktop.interfaces.IService;
+import tn.esprit.siyahidesktop.models.User;
+import tn.esprit.siyahidesktop.util.MaConnexion;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;

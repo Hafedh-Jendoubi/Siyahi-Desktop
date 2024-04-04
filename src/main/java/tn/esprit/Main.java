@@ -1,11 +1,23 @@
-package tn.esprit;
+package tn.esprit.siyahidesktop;
 
-import tn.esprit.models.User;
-import tn.esprit.services.UserService;
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
-public class Main {
+import java.io.IOException;
+
+public class Main extends Application{
+    @Override
+    public void start(Stage stage) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/tn/esprit/siyahidesktop/UserAuthMain.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+        stage.setTitle("Hello!");
+        stage.setScene(scene);
+        stage.show();
+    }
+
     public static void main(String[] args) {
-        UserService us = new UserService();
-        us.enableUser(43);
+        launch();
     }
 }
