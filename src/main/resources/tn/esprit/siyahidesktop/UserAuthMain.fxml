@@ -20,7 +20,7 @@
       </Label>
       <ImageView fitHeight="203.0" fitWidth="233.0" layoutX="199.0" layoutY="40.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../../../../../Personal-Repository/3A42/Semester%202/PI-DEV/images/logo.png" />
+            <Image url="@../../../../../pictures/logo.png" />
          </image>
       </ImageView>
       <Label layoutX="85.0" layoutY="297.0" prefHeight="30.0" prefWidth="89.0" text="Password:" textAlignment="CENTER">

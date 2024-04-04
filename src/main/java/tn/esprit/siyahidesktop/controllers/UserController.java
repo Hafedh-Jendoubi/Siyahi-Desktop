@@ -26,7 +26,7 @@ public class UserController {
     void authentification(ActionEvent event) {
         UserService us = new UserService();
         try {
-            us.authentification(email.getText(), password.getText());
+            System.out.println(us.authentification(email.getText(), password.getText()));
         }catch (Exception e){
             System.out.println(e.getMessage());
         }
