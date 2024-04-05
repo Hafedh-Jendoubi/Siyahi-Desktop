@@ -1,6 +1,7 @@
 package tn.esprit.services;
 
 import tn.esprit.interfaces.IService;
+import tn.esprit.models.Conge;
 import tn.esprit.models.ReponseConge;
 import tn.esprit.util.MaConnexion;
 
@@ -100,38 +101,31 @@ public class ReponseCongeService implements IService<ReponseConge> {
 
     @Override
     public List<ReponseConge> getAll() {
-        List<ReponseConge> reponse_conges = new ArrayList<>();
+        List<ReponseConge> reponseconges = new ArrayList<>();
+        String req = "SELECT * FROM Reponse_Conge";
 
-        String req = "SELECT * FROM Reponseconge";
-
+        Statement st = null;
         try {
-            PreparedStatement ps = cnx.prepareStatement(req);
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-                int id = rs.getInt("id");
-
-                String description = rs.getString("description");
-                Timestamp datecreation = rs.getTimestamp("Date_creation");
-                Date datedebut = rs.getDate("date_debut");
-                Date datefin = rs.getDate("date_fin");
-
+            st = cnx.createStatement();
+            ResultSet res = st.executeQuery(req);
+            while (res.next()) {
+                ReponseConge reponseconge = new ReponseConge();
+                reponseconge.setId(res.getInt("id"));
+                reponseconge.setDescription(res.getString("description"));
+                reponseconge.setDate_debut(res.getDate("date_debut"));
+                reponseconge.setDate_fin(res.getDate("date_fin"));
+                reponseconge.setDate_creation(res.getTimestamp("Date_creation"));
 
 
-
-                ReponseConge reponseconge = new ReponseConge(description, datedebut,datefin, datecreation);
-                reponse_conges.add(reponseconge);
+                reponseconges.add(reponseconge);
             }
-
-            rs.close();
-            ps.close();
         } catch (SQLException e) {
-            e.printStackTrace();
-            // Handle exceptions appropriately
+            throw new RuntimeException(e);
         }
 
-        return reponse_conges;
+        return reponseconges;
     }
+
 
 
     @Override

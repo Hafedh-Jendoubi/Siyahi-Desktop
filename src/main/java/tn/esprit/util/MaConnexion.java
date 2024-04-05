@@ -15,7 +15,7 @@ public class MaConnexion {
     private static MaConnexion instance;
 
     //Constructor
-    //singleton step1
+
     private MaConnexion(){
         try {
             cnx = DriverManager.getConnection(URL, USR, PWD);

@@ -52,30 +52,28 @@ public class CongeService implements IService<Conge> {
     @Override
     public void update(Conge conge) {
 
-        String req = "UPDATE conge SET  Description = ?, Date_Debut = ?, Date_Fin = ?, Date_demande = ? ,Type_demande = ? WHERE id = ?";
-
+        String req = "UPDATE `credit` SET `Description`=?, `Date_Debut`=?, `Date_fin`=?, `Date_demande`=?,`Justification`=? ,`Type_conge`=?, `status`=? WHERE `id`=?";
         try {
             PreparedStatement ps = cnx.prepareStatement(req);
-
             ps.setString(1, conge.getDescription());
             ps.setDate(2, conge.getDate_Debut());
             ps.setDate(3, conge.getDate_Fin());
             ps.setTimestamp(4, conge.getDate_demande());
             ps.setString(5, conge.getType_conge());
-            ps.setInt(6, conge.getId());
-
+            ps.setString(6, conge.getJustification());
+            ps.setBoolean(7, conge.isStatus());
+            ps.setInt(8, conge.getId()); // Assuming Conge class has an id field
             int rowsUpdated = ps.executeUpdate();
             if (rowsUpdated > 0) {
-                System.out.println("Conge updated successfully");
+                System.out.println("Reclamation updated successfully");
             } else {
-                System.out.println("No conge found with ID: " + conge.getId());
+                System.out.println("No reclamation found with ID: " + conge.getId());
             }
         } catch (SQLException e) {
             e.printStackTrace();
             // Handle exceptions appropriately
         }
     }
-
     // ...
 
 
@@ -103,33 +101,27 @@ public class CongeService implements IService<Conge> {
     @Override
     public List<Conge> getAll() {
         List<Conge> conges = new ArrayList<>();
+        String req = "SELECT * FROM Conge";
 
-        String req = "SELECT * FROM conge";
-
+        Statement st = null;
         try {
-            PreparedStatement ps = cnx.prepareStatement(req);
-            ResultSet rs = ps.executeQuery();
+            st = cnx.createStatement();
+            ResultSet res = st.executeQuery(req);
+            while (res.next()) {
+                Conge conge = new Conge();
+                conge.setId(res.getInt("id"));
+                conge.setDescription(res.getString("Description"));
+                conge.setDate_Debut(res.getDate("Date_Debut"));
+                conge.setDate_Fin(res.getDate("Date_Fin"));
+                conge.setDate_demande(res.getTimestamp("Date_demande"));
+                conge.setType_conge(res.getString("Type_conge"));
+                conge.setStatus(res.getBoolean("status"));
+                conge.setJustification(res.getString("Justification"));
 
-            while (rs.next()) {
-                int id = rs.getInt("id");
-
-                String description = rs.getString("Description");
-                Timestamp dateDemande = rs.getTimestamp("Date_demande");
-                Date datedebut = rs.getDate("Date_Debut");
-                Date datefin = rs.getDate("Date_Fin");
-                String type = rs.getString("Type_conge");
-
-                boolean status = rs.getBoolean("status");
-
-                Conge conge = new Conge(id,description, datedebut,datefin, dateDemande,type, status);
                 conges.add(conge);
             }
-
-            rs.close();
-            ps.close();
         } catch (SQLException e) {
-            e.printStackTrace();
-            // Handle exceptions appropriately
+            throw new RuntimeException(e);
         }
 
         return conges;
@@ -138,11 +130,26 @@ public class CongeService implements IService<Conge> {
 
     @Override
     public Conge getOne(int id) {
-        for (Conge conge : conges) {
-            if (conge.getId() == id) {
-                return conge;
+        String req = "SELECT * FROM conge WHERE id = ?";
+        Conge conge = null;
+        try {
+            PreparedStatement st = cnx.prepareStatement(req);
+            st.setInt(1, id);
+            ResultSet res = st.executeQuery();
+            if (res.next()) {
+                 conge = new Conge();
+                conge.setId(res.getInt("id"));
+                conge.setDescription(res.getString("Description"));
+                conge.setDate_Debut(res.getDate("Date_Debut"));
+                conge.setDate_Fin(res.getDate("Date_Fin"));
+                conge.setDate_demande(res.getTimestamp("Date_demande"));
+                conge.setType_conge(res.getString("Type_conge"));
+                conge.setStatus(res.getBoolean("status"));
+                conge.setJustification(res.getString("Justification"));
             }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
-        return null;
+        return conge;
     }
 }

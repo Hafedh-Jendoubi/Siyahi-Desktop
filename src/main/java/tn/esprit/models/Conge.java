@@ -2,6 +2,8 @@ package tn.esprit.models;
 import java.sql.Timestamp;
 import java.sql.Date;
 
+
+
 public class Conge {
     //Att
     private int id;
@@ -15,10 +17,12 @@ public class Conge {
     private String Justification;
 
     //Constructors
-    public Conge(int id, String description, Date datedebut, Date datefin, Timestamp dateDemande, String type, boolean status){}
+    public Conge(){}
 
-    public Conge(String Description, Date Date_Debut, Date Date_Fin, Timestamp Date_demande,String Type_conge, String Justification,boolean status) {
+    public Conge(int id ,String Description, Date Date_Debut, Date Date_Fin, Timestamp Date_demande,String Type_conge, String Justification,boolean status) {
+        this.id=id;
         this.Description = Description;
+
         this.Date_Debut = Date_Debut;
         this.Date_Fin = Date_Fin;
         this.Date_demande = Date_demande;
@@ -42,15 +46,20 @@ public class Conge {
     }
 
     public void setDescription(String description) {
-        Description = description;
+        if (description == null || description.trim().length() < 2) {
+            throw new IllegalArgumentException("La description doit comporter au moins 2 caractères.");
+        }Description = description;
     }
 
     public Date getDate_Debut() {
+        if (Date_Fin != null && Date_Debut != null && Date_Debut.after(Date_Fin)) {
+            throw new IllegalArgumentException("La date de début doit être antérieure à la date de fin.");
+        }
         return Date_Debut;
     }
 
     public void setDate_Debut(Date date_Debut) {
-        Date_Debut = date_Debut;
+        Date_Debut = date_Debut ;
     }
 
     public Date getDate_Fin() {
@@ -58,6 +67,9 @@ public class Conge {
     }
 
     public void setDate_Fin(Date date_Fin) {
+        if (Date_Debut != null && date_Fin != null && Date_Debut.after(date_Fin)) {
+            throw new IllegalArgumentException("La date de fin doit être postérieure à la date de début.");
+        }
         Date_Fin = date_Fin;
     }
 

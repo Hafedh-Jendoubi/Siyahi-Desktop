@@ -12,7 +12,7 @@ public class ReponseConge {
 
     private Timestamp Date_creation;
 
-    public ReponseConge(String description, Date datedebut, Date datefin, Timestamp datecreation) {
+    public ReponseConge() {
     }
 
     public ReponseConge(int id, String description, Date date_debut, Date date_fin, Timestamp date_creation) {
@@ -32,6 +32,7 @@ public class ReponseConge {
     }
 
     public String getDescription() {
+
         return description;
     }
 
@@ -40,7 +41,10 @@ public class ReponseConge {
     }
 
     public Date getDate_debut() {
-        return date_debut;
+
+        if (date_fin != null && date_debut != null && date_debut.after(date_fin)) {
+            throw new IllegalArgumentException("La date de début doit être antérieure à la date de fin.");
+        }return date_debut;
     }
 
     public void setDate_debut(Date date_debut) {
