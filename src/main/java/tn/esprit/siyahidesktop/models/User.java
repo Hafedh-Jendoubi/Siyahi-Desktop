@@ -1,8 +1,6 @@
 package tn.esprit.siyahidesktop.models;
 
-import java.sql.Time;
 import java.sql.Timestamp;
-import java.util.Date;
 
 public class User {
     //Att

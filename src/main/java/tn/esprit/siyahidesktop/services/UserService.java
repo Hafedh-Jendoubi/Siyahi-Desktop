@@ -221,6 +221,24 @@ public class UserService implements IService<User> {
     }
 
     @Override
+    public User getOneByCIN(int cin) {
+        User user = new User();
+        try {
+            String req = "SELECT * FROM `user` WHERE `cin`=?";
+            PreparedStatement ps = cnx.prepareStatement(req);
+            ps.setInt(1, cin);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                user = getInformation(rs);
+            }
+        } catch (SQLException ex) {
+            System.out.println("Failed to get user: " + ex.getMessage());
+        }
+
+        return user;
+    }
+
+    @Override
     public User getOneByEMAIL(String email) {
         User user = new User();
         try {
@@ -240,17 +258,13 @@ public class UserService implements IService<User> {
 
     public boolean authentification(String email, String password){
         boolean result = false;
-        String req = "SELECT * FROM `user` WHERE email='" + email + "'";
+        User user = getOneByEMAIL(email);
         try {
-            Statement st = cnx.createStatement();
-            ResultSet rs = st.executeQuery(req);
-            if (rs.next()) {
-                String hashedPassFromDB = rs.getString("password");
-                BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-                result = passwordEncoder.matches(password, hashedPassFromDB);;
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+            String pass = user.getPassword();
+            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+            result = passwordEncoder.matches(password, pass);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
         }
 
         return result;
@@ -298,8 +312,7 @@ public class UserService implements IService<User> {
         }
     }
 
-    public void enableUser(int id){
-        User user = getOneByID(id);
+    public void enableUser(User user){
         String req = "UPDATE `user` SET " +
                 "`email`='" + user.getEmail() +
                 "',`roles`='" + user.getRoles() +
@@ -317,19 +330,13 @@ public class UserService implements IService<User> {
 
         try {
             Statement st = cnx.createStatement();
-            int rowsUpdated = st.executeUpdate(req);
-            if (rowsUpdated > 0) {
-                System.out.println("User has been activated successfully.");
-            } else {
-                System.out.println("Failed to enable user");
-            }
+            st.executeUpdate(req);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public void disableUser(int id){
-        User user = getOneByID(id);
+    public void disableUser(User user){
         String req = "UPDATE `user` SET " +
                 "`email`='" + user.getEmail() +
                 "',`roles`='" + user.getRoles() +
@@ -347,12 +354,7 @@ public class UserService implements IService<User> {
 
         try {
             Statement st = cnx.createStatement();
-            int rowsUpdated = st.executeUpdate(req);
-            if (rowsUpdated > 0) {
-                System.out.println("User has been deactivated successfully.");
-            } else {
-                System.out.println("Failed to disable user");
-            }
+            st.executeUpdate(req);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

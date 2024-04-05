@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
@@ -9,25 +10,26 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.siyahidesktop.controllers.UserController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.siyahidesktop.controllers.ListUsersController">
    <children>
-      <TextField fx:id="email" accessibleHelp="\@siyahi.tn" layoutX="200.0" layoutY="260.0" prefHeight="25.0" prefWidth="233.0" promptText="example@siyahi.tn" />
-      <PasswordField fx:id="password" layoutX="200.0" layoutY="299.0" prefHeight="25.0" prefWidth="233.0" promptText="Password" />
-      <Label layoutX="85.0" layoutY="258.0" prefHeight="30.0" prefWidth="63.0" text="Email:" textAlignment="CENTER">
+      <TextField fx:id="email" accessibleHelp="\@siyahi.tn" layoutX="241.0" layoutY="220.0" prefHeight="25.0" prefWidth="233.0" promptText="example@siyahi.tn" />
+      <PasswordField fx:id="password" layoutX="241.0" layoutY="259.0" prefHeight="25.0" prefWidth="233.0" promptText="Mot de passe" />
+      <Label layoutX="160.0" layoutY="218.0" prefHeight="30.0" prefWidth="55.0" text="Email:" textAlignment="CENTER">
          <font>
             <Font name="Calibri Bold" size="20.0" />
          </font>
       </Label>
-      <Label layoutX="85.0" layoutY="297.0" prefHeight="30.0" prefWidth="89.0" text="Password:" textAlignment="CENTER">
+      <Label layoutX="93.0" layoutY="257.0" prefHeight="30.0" prefWidth="122.0" text="Mot de passe:" textAlignment="CENTER">
          <font>
             <Font name="Calibri Bold" size="20.0" />
          </font>
       </Label>
-      <Button contentDisplay="CENTER" layoutX="265.0" layoutY="348.0" mnemonicParsing="false" onAction="#authentification" prefHeight="25.0" prefWidth="71.0" text="Login" />
-      <ImageView fx:id="Image" fitHeight="190.0" fitWidth="247.0" layoutX="206.0" layoutY="28.0" pickOnBounds="true" preserveRatio="true">
+      <Button contentDisplay="CENTER" layoutX="241.0" layoutY="305.0" mnemonicParsing="false" onAction="#authentification" prefHeight="25.0" prefWidth="89.0" text="Login" />
+      <ImageView fx:id="Image" fitHeight="184.0" fitWidth="325.0" layoutX="208.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../../../uploads/logoCo.png" />
+            <Image url="@uploads/logoCo.png" />
          </image>
       </ImageView>
+      <Hyperlink layoutX="358.0" layoutY="306.0" onAction="#ForgotPassword" text="Mot de passe oublié?" />
    </children>
 </AnchorPane>

@@ -12,4 +12,5 @@ public interface IService <T>{
     List<T> getAll();
     T getOneByID(int id);
     T getOneByEMAIL(String email);
+    T getOneByCIN(int cin);
 }
