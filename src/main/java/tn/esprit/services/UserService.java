@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserService implements IService<User> {
-    //att
+
     Connection cnx = MaConnexion.getInstance().getCnx();
 
     //actions
@@ -127,9 +127,9 @@ public class UserService implements IService<User> {
         User user = new User();
         try {
             String req = "SELECT * FROM `user` WHERE `id`=?";
-            PreparedStatement statement = cnx.prepareStatement(req);
-            statement.setInt(1, id);
-            ResultSet rs = statement.executeQuery();
+            PreparedStatement ps = cnx.prepareStatement(req);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 user = getInformation(rs);
             }

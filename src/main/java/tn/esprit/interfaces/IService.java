@@ -1,5 +1,7 @@
 package tn.esprit.interfaces;
 
+import tn.esprit.models.Compte;
+
 import java.util.List;
 
 public interface IService <T>{
