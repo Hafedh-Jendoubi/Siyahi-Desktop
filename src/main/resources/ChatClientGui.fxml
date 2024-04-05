@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="tn.esprit.util.ChatClientController"
+      spacing="10" padding="10">
+
+    <TextArea fx:id="chatArea" editable="false" wrapText="true"/>
+    <TextField fx:id="messageField" promptText="Type your message here"/>
+    <Button text="Send" onAction="#sendMessage"/>
+</VBox>
