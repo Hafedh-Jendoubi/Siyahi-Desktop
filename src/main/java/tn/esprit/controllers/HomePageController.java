@@ -1,4 +1,4 @@
-package tn.esprit.siyahidesktop.controllers;
+package tn.esprit.controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -25,7 +25,7 @@ public class HomePageController {
     @FXML
     void navigateToHomePage(ActionEvent event) {
         try {
-            Parent ajouterUserParent = FXMLLoader.load(getClass().getResource("/tn/esprit/siyahidesktop/HomePage.fxml"));
+            Parent ajouterUserParent = FXMLLoader.load(getClass().getResource("/HomePage.fxml"));
             Scene ajouterUserScene = new Scene(ajouterUserParent);
             Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
             window.setScene(ajouterUserScene);
@@ -38,7 +38,7 @@ public class HomePageController {
     @FXML
     void navigateToUserSection(ActionEvent event) {
         try {
-            Parent ajouterUserParent = FXMLLoader.load(getClass().getResource("/tn/esprit/siyahidesktop/Users.fxml"));
+            Parent ajouterUserParent = FXMLLoader.load(getClass().getResource("/Users.fxml"));
             Scene ajouterUserScene = new Scene(ajouterUserParent);
             Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
             window.setScene(ajouterUserScene);

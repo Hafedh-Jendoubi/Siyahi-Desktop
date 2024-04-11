@@ -1,6 +1,5 @@
-package tn.esprit.siyahidesktop.controllers;
+package tn.esprit.controllers;
 
-import com.sun.javafx.application.HostServicesDelegate;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -13,9 +12,9 @@ import javafx.scene.control.*;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import tn.esprit.siyahidesktop.Main;
-import tn.esprit.siyahidesktop.models.User;
-import tn.esprit.siyahidesktop.services.UserService;
+import tn.esprit.Main;
+import tn.esprit.models.User;
+import tn.esprit.services.UserService;
 
 import java.awt.*;
 import java.io.IOException;
@@ -60,7 +59,7 @@ public class ListUsersController {
     @FXML
     void navigateToHomePage(ActionEvent event) {
         try {
-            Parent acceuil = FXMLLoader.load(getClass().getResource("/tn/esprit/siyahidesktop/HomePage.fxml"));
+            Parent acceuil = FXMLLoader.load(getClass().getResource("/HomePage.fxml"));
             Scene ajouterUserScene = new Scene(acceuil);
             Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
             window.setScene(ajouterUserScene);
@@ -75,7 +74,7 @@ public class ListUsersController {
     @FXML
     void navigateToUserSection(ActionEvent event) {
         try {
-            Parent users_section = FXMLLoader.load(getClass().getResource("/tn/esprit/siyahidesktop/Users.fxml"));
+            Parent users_section = FXMLLoader.load(getClass().getResource("/Users.fxml"));
             Scene ajouterUserScene = new Scene(users_section);
             Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
             window.setScene(ajouterUserScene);
@@ -91,7 +90,7 @@ public class ListUsersController {
     @FXML
     void NavigateToAddUser(ActionEvent event) {
         try {
-            Parent users_section = FXMLLoader.load(getClass().getResource("/tn/esprit/siyahidesktop/AddUser.fxml"));
+            Parent users_section = FXMLLoader.load(getClass().getResource("/AddUser.fxml"));
             Scene users_sectionSecene = new Scene(users_section);
             Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
             window.setScene(users_sectionSecene);
@@ -107,7 +106,7 @@ public class ListUsersController {
     @FXML
     void NavigateToUserAuth(ActionEvent event) {
         try {
-            Parent users_section = FXMLLoader.load(getClass().getResource("/tn/esprit/siyahidesktop/UserAuth.fxml"));
+            Parent users_section = FXMLLoader.load(getClass().getResource("/UserAuth.fxml"));
             Scene users_sectionSecene = new Scene(users_section);
             Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
             window.setScene(users_sectionSecene);
@@ -136,7 +135,7 @@ public class ListUsersController {
                     }
                 }else {
                     try {
-                        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/tn/esprit/siyahidesktop/HomePage.fxml"));
+                        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/HomePage.fxml"));
                         Parent root = fxmlLoader.load();
                         Stage stage = (Stage) email.getScene().getWindow();
                         stage.setWidth(1300); stage.setMaxWidth(1300); stage.setMinWidth(1300);

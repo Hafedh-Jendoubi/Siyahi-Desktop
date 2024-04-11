@@ -3,10 +3,6 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.SplitPane?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.effect.Glow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -16,7 +12,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.siyahidesktop.controllers.ListUsersController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.controllers.HomePageController">
    <children>
       <SplitPane dividerPositions="0.29797979797979796" prefHeight="600.0" prefWidth="1300.0">
          <items>
@@ -28,12 +24,10 @@
                         <Image url="@uploads/logoCo.png" />
                      </image>
                   </ImageView>
-                  <Button fx:id="ToHomePage" layoutX="30.0" layoutY="240.0" mnemonicParsing="false" onAction="#navigateToHomePage" prefHeight="30.0" prefWidth="300.0" text="Acceuil" />
-                  <Button fx:id="ToUserSectionButton" layoutX="30.0" layoutY="290.0" mnemonicParsing="false" onAction="#navigateToUserSection" prefHeight="30.0" prefWidth="300.0" text="Gestion Utilisateurs" />
                   <Button layoutX="30.0" layoutY="480.0" mnemonicParsing="false" onAction="#Logout" prefHeight="30.0" prefWidth="300.0" text="Déconnexion" />
                </children>
             </AnchorPane>
-            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="598.0" prefWidth="895.0">
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="600.0" prefWidth="800.0">
                <children>
                   <Text layoutX="35.0" layoutY="55.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bienvenu à Siyahi Banque" textAlignment="CENTER" AnchorPane.leftAnchor="35.0" AnchorPane.topAnchor="35.0">
                      <font>
@@ -61,28 +55,26 @@
                         <Image url="@uploads/user/e89b006716636e783008157a1c944c4b.png" />
                      </image>
                   </ImageView>
-                  <TableView fx:id="TableUser" layoutX="35.0" layoutY="142.0" prefHeight="315.0" prefWidth="785.0" AnchorPane.leftAnchor="35.0" AnchorPane.rightAnchor="35.0">
-                     <columns>
-                        <TableColumn fx:id="ActiviteCol" editable="false" prefWidth="60.0" resizable="false" text="Activité" />
-                        <TableColumn fx:id="NomCol" editable="false" prefWidth="100.0" resizable="false" text="Nom" />
-                        <TableColumn fx:id="PrenomCol" editable="false" prefWidth="100.0" resizable="false" text="Prenom" />
-                        <TableColumn fx:id="GenreCol" editable="false" prefWidth="64.0" resizable="false" text="Genre" />
-                        <TableColumn fx:id="AdrCol" editable="false" prefWidth="218.0" resizable="false" text="Adresse" />
-                        <TableColumn fx:id="TelCol" editable="false" prefWidth="100.0" resizable="false" text="Telephone" />
-                        <TableColumn fx:id="CinCol" editable="false" prefWidth="100.0" resizable="false" text="CIN" />
-                        <TableColumn fx:id="RoleCol" editable="false" prefWidth="100.0" resizable="false" text="Role" />
-                     </columns>
-                  </TableView>
-                  <TextField layoutX="35.0" layoutY="99.0" prefHeight="26.0" prefWidth="314.0" promptText="Rechercher Utilisateur..." />
-                  <Button layoutX="92.0" layoutY="480.0" mnemonicParsing="false" onAction="#NavigateToAddUser" prefHeight="30.0" prefWidth="200.0" text="Ajouter Utilisateur" />
-                  <Button layoutX="624.0" layoutY="480.0" mnemonicParsing="false" onAction="#ActivateDesactivateUser" prefHeight="30.0" prefWidth="200.0" text="Activer/Désactiver" />
-                  <Button layoutX="364.0" layoutY="480.0" mnemonicParsing="false" onAction="#DeleteUser" prefHeight="30.0" prefWidth="200.0" text="Supprimer Utilisateur" />
+                  <ImageView fitHeight="248.0" fitWidth="287.0" layoutX="86.0" layoutY="145.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@uploads/d4815ee54bf64fcae9aa43f66857d366.jpg" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="191.0" fitWidth="287.0" layoutX="546.0" layoutY="160.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@uploads/5e475f2980e4b624bfa5bdd33a85615b.jpg" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="150.0" fitWidth="410.0" layoutX="341.0" layoutY="403.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@uploads/5050492787c300bb65d4213b506f4baa.jpg" />
+                     </image>
+                  </ImageView>
                </children>
             </AnchorPane>
          </items>
       </SplitPane>
+      <Button fx:id="ToHomePage" layoutX="30.0" layoutY="240.0" mnemonicParsing="false" onAction="#navigateToHomePage" prefHeight="30.0" prefWidth="300.0" text="Acceuil" />
+      <Button fx:id="ToUserSectionButton" layoutX="30.0" layoutY="290.0" mnemonicParsing="false" onAction="#navigateToUserSection" prefHeight="30.0" prefWidth="300.0" text="Gestion Utilisateurs" />
    </children>
-   <effect>
-      <Glow />
-   </effect>
 </AnchorPane>

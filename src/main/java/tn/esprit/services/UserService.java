@@ -1,11 +1,11 @@
-package tn.esprit.siyahidesktop.services;
+package tn.esprit.services;
 
 import jakarta.mail.*;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
-import tn.esprit.siyahidesktop.interfaces.IService;
-import tn.esprit.siyahidesktop.models.User;
-import tn.esprit.siyahidesktop.util.MaConnexion;
+import tn.esprit.interfaces.IService;
+import tn.esprit.models.User;
+import tn.esprit.util.MaConnexion;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -285,10 +285,10 @@ public class UserService implements IService<User> {
             props.put("mail.smtp.host", host);
             props.put("mail.smtp.port", "587");
             Session session = Session.getInstance(props, new jakarta.mail.Authenticator() {
-                            protected PasswordAuthentication getPasswordAuthentication() {
-                                return new PasswordAuthentication(username, password);
-                            }
-                        });
+                protected PasswordAuthentication getPasswordAuthentication() {
+                    return new PasswordAuthentication(username, password);
+                }
+            });
             try {
                 Message message = new MimeMessage(session);
                 message.setFrom(new InternetAddress(from));

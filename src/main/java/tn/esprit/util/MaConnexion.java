@@ -1,4 +1,4 @@
-package tn.esprit.siyahidesktop.util;
+package tn.esprit.util;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

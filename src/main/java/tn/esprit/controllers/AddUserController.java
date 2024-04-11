@@ -1,12 +1,12 @@
-package tn.esprit.siyahidesktop.controllers;
+package tn.esprit.controllers;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import tn.esprit.siyahidesktop.models.User;
-import tn.esprit.siyahidesktop.services.UserService;
+import tn.esprit.models.User;
+import tn.esprit.services.UserService;
 
 import java.util.Optional;
 
