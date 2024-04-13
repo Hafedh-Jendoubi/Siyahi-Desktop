@@ -15,12 +15,12 @@ public class ReponseConge {
     public ReponseConge() {
     }
 
-    public ReponseConge(int id, String description, Date date_debut, Date date_fin, Timestamp date_creation) {
-        this.id = id;
+    public ReponseConge( int id,String description, Date date_debut, Date date_fin,Timestamp Date_creation) {
+this.id=id;
         this.description = description;
         this.date_debut = date_debut;
         this.date_fin = date_fin;
-        Date_creation = date_creation;
+this.Date_creation=Date_creation;
     }
 
     public int getId() {
@@ -63,8 +63,8 @@ public class ReponseConge {
         return Date_creation;
     }
 
-    public void setDate_creation(Timestamp date_creation) {
-        Date_creation = date_creation;
+    public void setDate_creation(Timestamp Date_creation) {
+        this.Date_creation = Date_creation;
     }
 
     @Override

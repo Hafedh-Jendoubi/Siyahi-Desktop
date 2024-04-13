@@ -1,5 +1,6 @@
 package tn.esprit;
 import tn.esprit.models.ReponseConge;
+import tn.esprit.models.Conge;
 
 import tn.esprit.services.CongeService;
 import tn.esprit.services.ReponseCongeService;
@@ -81,16 +82,27 @@ public class Main {
 
 
 
-       /* try {
-            ReponseConge reponseconge = new ReponseConge(
-            );
+       /*try {
+
+           ReponseConge reponseconge = new ReponseConge("abbbn",
+                   java.sql.Date.valueOf("2021-02-20"),
+                   java.sql.Date.valueOf("2021-02-30"),
+                   timestamp);
             rc.add(reponseconge);
             System.out.println("Reponseconge ajoutée avec succès.");
         } catch (IllegalArgumentException e) {
             System.out.println("Erreur : " + e.getMessage());
         }*/
         //Récupération de tous les congés
-        System.out.println(rc.getAll());
+       /* System.out.println(rc.getAll());*/
+
+        try {
+        ReponseConge congeToUpdate = new ReponseConge( 1,"j en ai tres besoin",  java.sql.Date.valueOf("2021-02-22"),java.sql.Date.valueOf("2021-02-30"),new Timestamp(System.currentTimeMillis()));
+        rc.update(congeToUpdate);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Erreur : " + e.getMessage());
+        }
+
     }
         }
 

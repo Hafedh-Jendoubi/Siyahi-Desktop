@@ -19,8 +19,8 @@ public class Conge {
     //Constructors
     public Conge(){}
 
-    public Conge(int id ,String Description, Date Date_Debut, Date Date_Fin, Timestamp Date_demande,String Type_conge, String Justification,boolean status) {
-        this.id=id;
+    public Conge(String Description, Date Date_Debut, Date Date_Fin, Timestamp Date_demande,String Type_conge, String Justification,boolean status) {
+
         this.Description = Description;
 
         this.Date_Debut = Date_Debut;

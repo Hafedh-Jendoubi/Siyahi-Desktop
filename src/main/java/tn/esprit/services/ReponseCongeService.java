@@ -22,14 +22,12 @@ public class ReponseCongeService implements IService<ReponseConge> {
 
     @Override
     public void add(ReponseConge Reponseconge) {
-        String req = "INSERT INTO conge ( description, date_debut, date_fin,Date_creation) VALUES (?, ?, ?, ?)";
+        String req = "INSERT INTO Reponse_Conge ( description, date_debut, date_fin,Date_creation) VALUES (?, ?, ?,?)";
 
 // Assuming you have a PreparedStatement object named 'ps' and a Conge object named 'conge'
 
         try {
             PreparedStatement ps = cnx.prepareStatement(req);
-
-
             ps.setString(1, Reponseconge.getDescription());
             ps.setDate(2, Reponseconge.getDate_debut());
             ps.setDate(3, Reponseconge.getDate_fin());
@@ -52,7 +50,7 @@ public class ReponseCongeService implements IService<ReponseConge> {
     @Override
     public void update(ReponseConge Reponseconge) {
 
-        String req = "UPDATE conge SET  description = ?, date_debut = ?, date_fin = ?, Date_creation = ?  WHERE id = ?";
+        String req = "UPDATE Reponse_Conge SET  description = ?, date_debut = ?, date_fin = ?, Date_creation = ?  WHERE id = ?";
 
         try {
             PreparedStatement ps = cnx.prepareStatement(req);
@@ -61,6 +59,7 @@ public class ReponseCongeService implements IService<ReponseConge> {
             ps.setDate(2, Reponseconge.getDate_debut());
             ps.setDate(3, Reponseconge.getDate_fin());
             ps.setTimestamp(4, Reponseconge.getDate_creation());
+            ps.setInt(5, Reponseconge.getId());
 
 
             int rowsUpdated = ps.executeUpdate();
@@ -80,7 +79,7 @@ public class ReponseCongeService implements IService<ReponseConge> {
 
     @Override
     public void delete(ReponseConge Reponseconge) {
-        String req = "DELETE FROM conge WHERE id = ?";
+        String req = "DELETE FROM Reponseconge WHERE id = ?";
 
         try {
             PreparedStatement ps = cnx.prepareStatement(req);
