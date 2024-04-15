@@ -1,0 +1,62 @@
+package tn.esprit.controllers;
+
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.TextField;
+import tn.esprit.models.Credit;
+import tn.esprit.services.CreditService;
+import java.sql.Date;
+import java.sql.SQLException;
+
+public class AjouterCredit {
+
+    @FXML
+    private TextField ContratTF;
+
+    @FXML
+    private DatePicker DateTF;
+
+    @FXML
+    private TextField DescriptionTF;
+
+    @FXML
+    private TextField NbrTF;
+
+    @FXML
+    private TextField SoldeTF;
+
+    private final CreditService cs = new CreditService();
+    @FXML
+    void AjouterC(ActionEvent event) {
+        try{
+        cs.Insert(new Credit(Integer.parseInt(NbrTF.getText()),DescriptionTF.getText(),ContratTF.getText(),Float.parseFloat(SoldeTF.getText()),Date.valueOf(DateTF.getValue())));
+            showAlert(Alert.AlertType.INFORMATION, "Success", "Leave request added successfully.");
+            clearFields();
+
+       // } catch (IllegalArgumentException e) {
+       //     System.out.println("Erreur : " + e.getMessage());
+        }catch (Exception f) {
+            showAlert(Alert.AlertType.ERROR, "Error", f.getMessage());
+
+        }
+    }
+
+    private void showAlert(Alert.AlertType alertType, String title, String content) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
+    private void clearFields() {
+        DateTF.setValue(null);
+        DescriptionTF.clear();
+        NbrTF.clear();
+        SoldeTF.clear();
+        ContratTF.clear();
+    }
+
+
+}
