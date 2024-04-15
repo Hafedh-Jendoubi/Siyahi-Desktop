@@ -1,7 +1,7 @@
 package tn.esprit.models;
 import java.sql.Timestamp;
 import java.sql.Date;
-
+import java.time.LocalDate;
 
 
 public class Conge {
@@ -19,13 +19,13 @@ public class Conge {
     //Constructors
     public Conge(){}
 
-    public Conge(String Description, Date Date_Debut, Date Date_Fin, Timestamp Date_demande,String Type_conge, String Justification,boolean status) {
+    public Conge(String Description, Date Date_Debut, Date Date_Fin, String Type_conge,String Justification ,boolean status) {
 
         this.Description = Description;
 
         this.Date_Debut = Date_Debut;
         this.Date_Fin = Date_Fin;
-        this.Date_demande = Date_demande;
+
         this.Justification = Justification;
         this.Type_conge = Type_conge;
         this.status = status;

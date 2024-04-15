@@ -21,7 +21,7 @@ public class CongeService implements IService<Conge> {
 
     @Override
     public void add(Conge conge) {
-        String req = "INSERT INTO conge ( Description, Date_Debut, Date_Fin,Date_demande,Type_conge,status) VALUES (?, ?, ?, ?,?,?)";
+        String req = "INSERT INTO conge ( Description, Date_Debut, Date_Fin,Type_conge,justification,status) VALUES (?, ?, ?, ?,?,?)";
 
 // Assuming you have a PreparedStatement object named 'ps' and a Conge object named 'conge'
 
@@ -32,8 +32,9 @@ public class CongeService implements IService<Conge> {
             ps.setString(1, conge.getDescription());
             ps.setDate(2, conge.getDate_Debut());
             ps.setDate(3, conge.getDate_Fin());
-            ps.setTimestamp(4, conge.getDate_demande());
-            ps.setString(5, conge.getType_conge());
+
+            ps.setString(4, conge.getType_conge());
+            ps.setString(5, conge.getJustification());
             ps.setBoolean(6, conge.isStatus());
 
 

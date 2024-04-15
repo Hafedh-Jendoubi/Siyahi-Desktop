@@ -18,11 +18,11 @@ public class Main {
         MaConnexion mac = MaConnexion.getInstance();
 
         CongeService rs = new CongeService();
-       /* try {
-            Conge conge = new Conge("aahh",
+       try {
+            Conge conge = new Conge("aav",
                     java.sql.Date.valueOf("2021-02-20"),
                     java.sql.Date.valueOf("2021-02-30"),
-                    timestamp,
+
                     "aaaaa",
                     "",
                     true);
@@ -30,7 +30,7 @@ public class Main {
         } catch (IllegalArgumentException e) {
             System.out.println("Erreur : " + e.getMessage());
         }
-*/
+
         //Récupération de tous les congés
        /* System.out.println(rs.getAll());
 
@@ -96,12 +96,12 @@ public class Main {
         //Récupération de tous les congés
        /* System.out.println(rc.getAll());*/
 
-        try {
+        /*try {
         ReponseConge congeToUpdate = new ReponseConge( 1,"j en ai tres besoin",  java.sql.Date.valueOf("2021-02-22"),java.sql.Date.valueOf("2021-02-30"),new Timestamp(System.currentTimeMillis()));
         rc.update(congeToUpdate);
         } catch (IllegalArgumentException e) {
             System.out.println("Erreur : " + e.getMessage());
-        }
+        }*/
 
     }
         }
