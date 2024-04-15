@@ -17,7 +17,7 @@ public class MainFX extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/AjouterCredit.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/ListCredit.fxml"));
 
         try {
             Parent root = loader.load();
