@@ -10,11 +10,11 @@
    <children>
       <DatePicker fx:id="datedebutTF" layoutX="52.0" layoutY="66.0" promptText="Date_Debut" />
       <DatePicker fx:id="datefinTF" layoutX="52.0" layoutY="115.0" promptText="Date_Fin" />
-      <TextField fx:id="descriptionTF" layoutX="52.0" layoutY="175.0" promptText="Description" />
-      <TextField fx:id="type_congeTF" layoutX="52.0" layoutY="224.0" promptText="TypeConge" />
-      <TextField fx:id="justification" layoutX="52.0" layoutY="272.0" promptText="justification" />
+      <TextField fx:id="type_congeTF" layoutX="52.0" layoutY="169.0" promptText="TypeConge" />
 
       <Button layoutX="150.0" layoutY="373.0" mnemonicParsing="false" onAction="#ajouterC" prefHeight="25.0" prefWidth="103.0" text="Confirmer" AnchorPane.leftAnchor="150.0" />
       <CheckBox fx:id="status" layoutX="52.0" layoutY="355.0" text="Status" />
+      <TextField fx:id="descriptionTF" layoutX="53.0" layoutY="216.0" promptText="Description" />
+      <TextField fx:id="justification" layoutX="53.0" layoutY="266.0" promptText="justification" />
    </children>
 </AnchorPane>

@@ -15,11 +15,11 @@ public class MainFX extends Application {
     }
         @Override
         public void start (Stage primaryStage)  {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/AddConge.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ListConge.fxml"));
             try {
                 Parent root = loader.load();
                 Scene scene = new Scene(root);
-                primaryStage.setTitle("Siyahi Bank | Ajouter Congé ");
+                primaryStage.setTitle("Siyahi Bank | liste Congé ");
                 primaryStage.setScene(scene);
                 primaryStage.show();
             } catch (IOException e) {

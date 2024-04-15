@@ -35,7 +35,7 @@ public class AddCongeController {
     @FXML
     void ajouterC(ActionEvent event) {
         // Check if any of the required fields are empty
-        if (datedebutTF.getValue() == null || datefinTF.getValue() == null || descriptionTF.getText().isEmpty() || type_congeTF.getText().isEmpty()  ) {
+        if (datedebutTF.getValue() == null || datefinTF.getValue() == null  || type_congeTF.getText().isEmpty()  ) {
             showAlert(AlertType.ERROR, "Error", "Please fill in all required fields.");
             return;
         }
