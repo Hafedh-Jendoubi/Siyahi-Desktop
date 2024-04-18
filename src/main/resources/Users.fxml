@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.SplitPane?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.Glow?>
 <?import javafx.scene.image.Image?>
@@ -61,22 +60,11 @@
                         <Image url="@uploads/user/e89b006716636e783008157a1c944c4b.png" />
                      </image>
                   </ImageView>
-                  <TableView fx:id="TableUser" layoutX="35.0" layoutY="142.0" prefHeight="315.0" prefWidth="785.0" AnchorPane.leftAnchor="35.0" AnchorPane.rightAnchor="35.0">
-                     <columns>
-                        <TableColumn fx:id="ActiviteCol" editable="false" prefWidth="60.0" resizable="false" text="Activité" />
-                        <TableColumn fx:id="NomCol" editable="false" prefWidth="100.0" resizable="false" text="Nom" />
-                        <TableColumn fx:id="PrenomCol" editable="false" prefWidth="100.0" resizable="false" text="Prenom" />
-                        <TableColumn fx:id="GenreCol" editable="false" prefWidth="64.0" resizable="false" text="Genre" />
-                        <TableColumn fx:id="AdrCol" editable="false" prefWidth="218.0" resizable="false" text="Adresse" />
-                        <TableColumn fx:id="TelCol" editable="false" prefWidth="100.0" resizable="false" text="Telephone" />
-                        <TableColumn fx:id="CinCol" editable="false" prefWidth="100.0" resizable="false" text="CIN" />
-                        <TableColumn fx:id="RoleCol" editable="false" prefWidth="100.0" resizable="false" text="Role" />
-                     </columns>
-                  </TableView>
                   <TextField layoutX="35.0" layoutY="99.0" prefHeight="26.0" prefWidth="314.0" promptText="Rechercher Utilisateur..." />
                   <Button layoutX="92.0" layoutY="480.0" mnemonicParsing="false" onAction="#NavigateToAddUser" prefHeight="30.0" prefWidth="200.0" text="Ajouter Utilisateur" />
                   <Button layoutX="624.0" layoutY="480.0" mnemonicParsing="false" onAction="#ActivateDesactivateUser" prefHeight="30.0" prefWidth="200.0" text="Activer/Désactiver" />
                   <Button layoutX="364.0" layoutY="480.0" mnemonicParsing="false" onAction="#DeleteUser" prefHeight="30.0" prefWidth="200.0" text="Supprimer Utilisateur" />
+                  <ListView fx:id="UsersList" layoutX="35.0" layoutY="144.0" prefHeight="320.0" prefWidth="832.0" />
                </children>
             </AnchorPane>
          </items>

@@ -61,7 +61,12 @@ public class AddUserController {
         } else {
             cin.setStyle("-fx-border-color: red;");
         }
-        if(i == 4) { //Tous les inputs sont valides:
+        if (num_tel.getText().matches("\\d{8}")) {
+            num_tel.setStyle("-fx-border-color: transparent;"); i++;
+        } else {
+            num_tel.setStyle("-fx-border-color: red;");
+        }
+        if(i == 5) { //Tous les inputs sont valides:
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Confirmation");
             alert.setHeaderText("Voulez-vous vraiment ajouter l'utilisateur suivant?");

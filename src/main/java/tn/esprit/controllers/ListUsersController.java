@@ -10,7 +10,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import tn.esprit.Main;
 import tn.esprit.models.User;
@@ -20,7 +19,6 @@ import java.awt.*;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.List;
 import java.util.Optional;
 
 public class ListUsersController {
@@ -54,7 +52,7 @@ public class ListUsersController {
     private TableColumn<User, Integer> TelCol;
 
     @FXML
-    private TableView<User> TableUser;
+    private ListView<User> UsersList;
 
     @FXML
     void navigateToHomePage(ActionEvent event) {
@@ -198,8 +196,8 @@ public class ListUsersController {
         alert.setHeaderText("Voulez-vous vraiment supprimer l'utilisateur suivant ?");
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
-            us.delete(TableUser.getSelectionModel().getSelectedItem());
-            TableUser.getItems().remove(TableUser.getSelectionModel().getSelectedItem());
+            us.delete(UsersList.getSelectionModel().getSelectedItem());
+            UsersList.getItems().remove(UsersList.getSelectionModel().getSelectedItem());
             showSuccessMessage("Utilisateur supprimé avec succès!");
         } else {
             alert.close();
@@ -209,7 +207,7 @@ public class ListUsersController {
     @FXML
     void ActivateDesactivateUser(ActionEvent event){
         UserService us = new UserService();
-        User user = TableUser.getSelectionModel().getSelectedItem();
+        User user = UsersList.getSelectionModel().getSelectedItem();
         User user1 = us.getOneByCIN(user.getCin()); //I created this user1 because the user variable got gender as "Male" not "M" and role "Client" instead of "["ROLE_USER"]"
         if(user1.getActivity().equals("F")){
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -249,20 +247,25 @@ public class ListUsersController {
     void initialize() {
         UserService us = new UserService();
         try {
-            List<User> users = us.getAll();
-            ObservableList<User> observableList = FXCollections.observableList(users);
-
-            ActiviteCol.setCellValueFactory(new PropertyValueFactory<>("activity"));
-            NomCol.setCellValueFactory(new PropertyValueFactory<>("last_name"));
-            PrenomCol.setCellValueFactory(new PropertyValueFactory<>("first_name"));
-            GenreCol.setCellValueFactory(new PropertyValueFactory<>("gender"));
-            AdrCol.setCellValueFactory(new PropertyValueFactory<>("address"));
-            TelCol.setCellValueFactory(new PropertyValueFactory<>("phone_number"));
-            CinCol.setCellValueFactory(new PropertyValueFactory<>("cin"));
-            RoleCol.setCellValueFactory(new PropertyValueFactory<>("roles"));
-
-            TableUser.setItems(observableList);
-        }catch (Exception e){
+            ObservableList<User> data = FXCollections.observableList(us.getAll());
+            UsersList.setCellFactory(param -> new ListCell<User>() {
+                @Override
+                protected void updateItem(User item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty || item == null) {
+                        setText(null);
+                    } else {
+                        setText(String.format("%-20s %-20s %-20s %-20s %-20s",
+                                item.getActivity(),
+                                item.getFirst_name(),
+                                item.getLast_name(),
+                                item.getGender(),
+                                item.getRoles()));
+                    }
+                }
+            });
+            UsersList.setItems(data);
+        } catch (Exception e) {
             System.err.println(e.getMessage());
         }
     }

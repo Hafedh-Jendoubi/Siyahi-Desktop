@@ -55,21 +55,11 @@
                         <Image url="@uploads/user/e89b006716636e783008157a1c944c4b.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="248.0" fitWidth="287.0" layoutX="86.0" layoutY="145.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@uploads/d4815ee54bf64fcae9aa43f66857d366.jpg" />
-                     </image>
-                  </ImageView>
-                  <ImageView fitHeight="191.0" fitWidth="287.0" layoutX="546.0" layoutY="160.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@uploads/5e475f2980e4b624bfa5bdd33a85615b.jpg" />
-                     </image>
-                  </ImageView>
-                  <ImageView fitHeight="150.0" fitWidth="410.0" layoutX="341.0" layoutY="403.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@uploads/5050492787c300bb65d4213b506f4baa.jpg" />
-                     </image>
-                  </ImageView>
+                  <Text layoutX="207.0" layoutY="333.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Home Page" wrappingWidth="495.0">
+                     <font>
+                        <Font size="96.0" />
+                     </font>
+                  </Text>
                </children>
             </AnchorPane>
          </items>
