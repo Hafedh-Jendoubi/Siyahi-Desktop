@@ -49,6 +49,12 @@ public class ListCredit {
 
     @FXML
     void SupprimerC(ActionEvent event) {
+        Credit selectedCredit = ListCreditLV.getSelectionModel().getSelectedItem();
+
+        if (selectedCredit == null) {
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Aucun credit sélectionné", "Veuillez sélectionner un crédit à supprimer.");
+            return;
+        }
         CreditService cs = new CreditService();
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirmation");
@@ -89,6 +95,41 @@ public class ListCredit {
         alert.setTitle("Succès");
         alert.setHeaderText(null);
         alert.setContentText(message);
+        alert.showAndWait();
+    }
+
+    @FXML
+    void ModifierLV(ActionEvent event) {
+        Credit selectedCredit = ListCreditLV.getSelectionModel().getSelectedItem();
+
+        if (selectedCredit == null) {
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Aucun credit sélectionné", "Veuillez sélectionner un credit à modifier.");
+            return;
+        }
+
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ModifierCredit.fxml"));
+            Parent edit = loader.load();
+
+            ModifierCredit ModifierCredit = loader.getController();
+            ModifierCredit.initData(selectedCredit);
+
+            Scene editScene = new Scene(edit);
+            Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+            window.setScene(editScene);
+            window.setHeight(400); window.setMaxHeight(400); window.setMinHeight(400);
+            window.setWidth(606); window.setMaxWidth(600); window.setMinWidth(600);
+            window.setTitle("Siyahi Bank | Modifier un credit");
+            window.show();
+        } catch (IOException e) {
+            System.err.println(e.getMessage());
+        }
+    }
+    private void showAlert(Alert.AlertType alertType, String title, String header, String content) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
         alert.showAndWait();
     }
 }
