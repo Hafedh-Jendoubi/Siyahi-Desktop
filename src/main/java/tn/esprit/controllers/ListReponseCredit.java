@@ -12,6 +12,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
+import tn.esprit.models.Credit;
 import tn.esprit.models.ReponseCredit;
 import tn.esprit.services.ReponseCreditService;
 
@@ -44,9 +45,43 @@ public class ListReponseCredit {
             System.err.println(e.getMessage());
         }
     }
+    @FXML
+    void ModifierMLV(ActionEvent event) {
+        ReponseCredit selectedReponseCredit = ListReponseCreditLV.getSelectionModel().getSelectedItem();
+
+        if (selectedReponseCredit == null) {
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Aucune reponse n'est sélectionné", "Veuillez sélectionner une reponse à modifier.");
+            return;
+        }
+
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ModifierReponseCredit.fxml"));
+            Parent edit = loader.load();
+
+            ModifierReponseCredit ModifierReponseCredit = loader.getController();
+            ModifierReponseCredit.initData(selectedReponseCredit);
+
+            Scene editScene = new Scene(edit);
+            Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+            window.setScene(editScene);
+            window.setHeight(400); window.setMaxHeight(400); window.setMinHeight(400);
+            window.setWidth(606); window.setMaxWidth(600); window.setMinWidth(600);
+            window.setTitle("Siyahi Bank | Modifier une reponse d'un credit");
+            window.show();
+        } catch (IOException e) {
+            System.err.println(e.getMessage());
+        }
+    }
 
     @FXML
     void SupprimerRC(ActionEvent event) {
+        ReponseCredit selectedReponseCredit = ListReponseCreditLV.getSelectionModel().getSelectedItem();
+
+        if (selectedReponseCredit == null) {
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Aucune reponse n'est sélectionné", "Veuillez sélectionner une reponse à modifier.");
+            return;
+        }
+
         ReponseCreditService rcs = new ReponseCreditService();
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirmation");
@@ -74,7 +109,13 @@ public class ListReponseCredit {
             showAlert(Alert.AlertType.ERROR, "Error", e.getMessage());
         }
     }
-
+    private void showAlert(Alert.AlertType alertType, String title, String header, String content) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
     private void showAlert(Alert.AlertType alertType, String title, String content) {
         Alert alert = new Alert(alertType);
         alert.setTitle(title);

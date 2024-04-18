@@ -8,8 +8,9 @@
    <children>
       <ListView fx:id="ListReponseCreditLV" layoutX="56.0" layoutY="43.0" prefHeight="320.0" prefWidth="400.0" />
       <Button layoutX="493.0" layoutY="73.0" mnemonicParsing="false" onAction="#AjouterRC" prefHeight="26.0" prefWidth="71.0" text="Ajouter" />
-      <Button layoutX="493.0" layoutY="165.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="71.0" text="Modifié" />
+      <Button layoutX="493.0" layoutY="165.0" mnemonicParsing="false" onAction="#ModifierMLV" prefHeight="26.0" prefWidth="71.0" text="Modifié" />
       <Button layoutX="493.0" layoutY="257.0" mnemonicParsing="false" onAction="#SupprimerRC" prefHeight="26.0" prefWidth="71.0" text="Supprimer" />
       <Button layoutX="493.0" layoutY="324.0" mnemonicParsing="false" onAction="#VoirCreditsLV" prefHeight="44.0" prefWidth="78.0" text="Voir la liste des credits" wrapText="true" />
    </children>
 </AnchorPane>
+

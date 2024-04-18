@@ -1,6 +1,6 @@
 package tn.esprit.models;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class ReponseCredit {
     private int id;
@@ -68,12 +68,14 @@ public class ReponseCredit {
         this.solde_a_payer = solde_a_payer;
     }
 
+
     public Date getDate_debut_paiement() {
         return date_debut_paiement;
     }
 
     public void setDate_debut_paiement(Date date_debut_paiement) {
-        if (date_debut_paiement == null || date_debut_paiement.before(new Date())) {
+        Date currentDate = new Date(System.currentTimeMillis()); // Obtient la date actuelle
+        if (date_debut_paiement == null || date_debut_paiement.before(currentDate)) {
             throw new IllegalArgumentException("La date de début de paiement doit être dans le futur.");
         }
         this.date_debut_paiement = date_debut_paiement;
