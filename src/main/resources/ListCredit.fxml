@@ -4,12 +4,12 @@
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.controllers.ListCredit">
    <children>
       <ListView fx:id="ListCreditLV" layoutX="40.0" layoutY="42.0" prefHeight="301.0" prefWidth="394.0" />
-      <Button layoutX="474.0" layoutY="99.0" mnemonicParsing="false" onAction="#AjouterC" prefHeight="26.0" prefWidth="71.0" text="Ajouter" />
-      <Button layoutX="483.0" layoutY="180.0" mnemonicParsing="false" text="Modifié" />
-      <Button layoutX="476.0" layoutY="261.0" mnemonicParsing="false" onAction="#SupprimerC" text="Supprimer" />
+      <Button layoutX="475.0" layoutY="80.0" mnemonicParsing="false" onAction="#AjouterC" prefHeight="26.0" prefWidth="71.0" text="Ajouter" />
+      <Button layoutX="476.0" layoutY="160.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="71.0" text="Modifié" />
+      <Button layoutX="476.0" layoutY="239.0" mnemonicParsing="false" onAction="#SupprimerC" text="Supprimer" />
+      <Button layoutX="476.0" layoutY="317.0" mnemonicParsing="false" onAction="#AjouterReponseLV" prefHeight="26.0" prefWidth="78.0" text="Traiter" />
    </children>
 </AnchorPane>
