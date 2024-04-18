@@ -1,6 +1,10 @@
 package tn.esprit.controllers;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.DatePicker;
@@ -8,8 +12,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.event.ActionEvent;
+import javafx.stage.Stage;
 import tn.esprit.models.Conge;
 import tn.esprit.services.CongeService;
+
+import java.io.IOException;
 import java.sql.Date;
 
 public class AddCongeController {
@@ -82,6 +89,21 @@ public class AddCongeController {
         type_congeTF.clear();
         justification.clear();
         status.setSelected(false);
+    }
+    @FXML
+    void retourLV(ActionEvent event) {
+        try {
+            Parent retour = FXMLLoader.load(getClass().getResource("/ListConge.fxml"));
+            Scene listSecene = new Scene(retour);
+            Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+            window.setScene(listSecene);
+            window.setHeight(400); window.setMaxHeight(400); window.setMinHeight(400);
+            window.setWidth(606); window.setMaxWidth(600); window.setMinWidth(600);
+            window.setTitle("Siyahi Bank | liste des   congés ");
+            window.show();
+        } catch (IOException e) {
+            showAlert(Alert.AlertType.ERROR, "Error", e.getMessage());
+        }
     }
 
 }

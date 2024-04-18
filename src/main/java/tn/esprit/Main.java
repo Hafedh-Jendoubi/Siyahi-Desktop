@@ -8,6 +8,7 @@ import tn.esprit.services.ReponseCongeService;
 import tn.esprit.util.MaConnexion;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 
 
 public class Main {
@@ -18,7 +19,7 @@ public class Main {
         MaConnexion mac = MaConnexion.getInstance();
 
         CongeService rs = new CongeService();
-       try {
+      /* try {
             Conge conge = new Conge("aav",
                     java.sql.Date.valueOf("2021-02-20"),
                     java.sql.Date.valueOf("2021-02-30"),
@@ -30,7 +31,7 @@ public class Main {
         } catch (IllegalArgumentException e) {
             System.out.println("Erreur : " + e.getMessage());
         }
-
+*/
         //Récupération de tous les congés
        /* System.out.println(rs.getAll());
 
@@ -45,39 +46,20 @@ public class Main {
         // Mise à jour d'un conge
 
 
-       /* CongeService congeService = new CongeService();
+        CongeService congeService = new CongeService();
 
-        // Création d'un objet SimpleDateFormat pour analyser les chaînes de date
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-
-        // Création d'un objet Conge avec les nouvelles valeurs à mettre à jour
-        Conge congeToUpdate = new Conge();
-        congeToUpdate.setId(1);  // ID de l'objet à mettre à jour
-        congeToUpdate.setDescription("Nouvelle description");
         try {
-            congeToUpdate.setDate_Debut(new java.sql.Date(dateFormat.parse("2024-04-01").getTime())); // Nouvelle date de début
-            congeToUpdate.setDate_Fin(new java.sql.Date(dateFormat.parse("2024-04-05").getTime()));   // Nouvelle date de fin
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        congeToUpdate.setDate_demande(new Timestamp(System.currentTimeMillis())); // Nouvelle date de demande
-        congeToUpdate.setType_conge("Nouveau type de congé");
-        congeToUpdate.setJustification("Nouvelle justification");
-        congeToUpdate.setStatus(true);  // Nouveau statut
-
-        // Appel de la méthode update
-        congeService.update(congeToUpdate);
-
-        // Affichage du résultat
-        System.out.println("Congé mis à jour avec succès !");
-*/
-        // Suppression d'un crédit
+            Conge congeToUpdate = new Conge("j en ai tres besoin", java.sql.Date.valueOf("2021-02-22"), java.sql.Date.valueOf("2021-02-30"), "malade", "aaa", true);
+            congeService.update(congeToUpdate);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Erreur : " + e.getMessage());
+            // Suppression d'un crédit
         /*Conge congeToDelete = new Conge(14, null, null, null, null, null,null,true);
 
         rs.delete(congeToDelete);
         */
-        /*****************************************************************************************/
-        ReponseCongeService rc = new ReponseCongeService();
+            /*****************************************************************************************/
+            ReponseCongeService rc = new ReponseCongeService();
 
 
 
@@ -93,8 +75,8 @@ public class Main {
         } catch (IllegalArgumentException e) {
             System.out.println("Erreur : " + e.getMessage());
         }*/
-        //Récupération de tous les congés
-       /* System.out.println(rc.getAll());*/
+            //Récupération de tous les congés
+            /* System.out.println(rc.getAll());*/
 
         /*try {
         ReponseConge congeToUpdate = new ReponseConge( 1,"j en ai tres besoin",  java.sql.Date.valueOf("2021-02-22"),java.sql.Date.valueOf("2021-02-30"),new Timestamp(System.currentTimeMillis()));
@@ -103,6 +85,6 @@ public class Main {
             System.out.println("Erreur : " + e.getMessage());
         }*/
 
-    }
         }
+    }}
 

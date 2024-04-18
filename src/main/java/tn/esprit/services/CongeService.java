@@ -53,20 +53,20 @@ public class CongeService implements IService<Conge> {
     @Override
     public void update(Conge conge) {
 
-        String req = "UPDATE `credit` SET `Description`=?, `Date_Debut`=?, `Date_fin`=?, `Date_demande`=?,`Justification`=? ,`Type_conge`=?, `status`=? WHERE `id`=?";
+        String req = "UPDATE `conge` SET `Description`=?, `Date_Debut`=?, `Date_fin`=?,`Justification`=? ,`Type_conge`=?, `status`=? WHERE `id`=?";
         try {
             PreparedStatement ps = cnx.prepareStatement(req);
             ps.setString(1, conge.getDescription());
             ps.setDate(2, conge.getDate_Debut());
             ps.setDate(3, conge.getDate_Fin());
-            ps.setTimestamp(4, conge.getDate_demande());
-            ps.setString(5, conge.getType_conge());
-            ps.setString(6, conge.getJustification());
-            ps.setBoolean(7, conge.isStatus());
-            ps.setInt(8, conge.getId()); // Assuming Conge class has an id field
+
+            ps.setString(4, conge.getType_conge());
+            ps.setString(5, conge.getJustification());
+            ps.setBoolean(6, conge.isStatus());
+            ps.setInt(7, conge.getId()); // Assuming Conge class has an id field
             int rowsUpdated = ps.executeUpdate();
             if (rowsUpdated > 0) {
-                System.out.println("Reclamation updated successfully");
+                System.out.println("Conge updated successfully");
             } else {
                 System.out.println("No reclamation found with ID: " + conge.getId());
             }

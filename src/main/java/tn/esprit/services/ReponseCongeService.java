@@ -79,7 +79,7 @@ public class ReponseCongeService implements IService<ReponseConge> {
 
     @Override
     public void delete(ReponseConge Reponseconge) {
-        String req = "DELETE FROM Reponseconge WHERE id = ?";
+        String req = "DELETE FROM Reponse_conge WHERE id = ?";
 
         try {
             PreparedStatement ps = cnx.prepareStatement(req);

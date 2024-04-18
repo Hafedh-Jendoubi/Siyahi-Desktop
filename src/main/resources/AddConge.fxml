@@ -5,6 +5,7 @@
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
 
 <AnchorPane prefHeight="500.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.controllers.AddCongeController">
    <children>
@@ -12,9 +13,11 @@
       <DatePicker fx:id="datefinTF" layoutX="52.0" layoutY="115.0" promptText="Date_Fin" />
       <TextField fx:id="type_congeTF" layoutX="52.0" layoutY="169.0" promptText="TypeConge" />
 
-      <Button layoutX="150.0" layoutY="373.0" mnemonicParsing="false" onAction="#ajouterC" prefHeight="25.0" prefWidth="103.0" text="Confirmer" AnchorPane.leftAnchor="150.0" />
+      <Button layoutX="76.0" layoutY="389.0" mnemonicParsing="false" onAction="#ajouterC" prefHeight="25.0" prefWidth="103.0" text="Confirmer" AnchorPane.leftAnchor="76.0" />
       <CheckBox fx:id="status" layoutX="52.0" layoutY="355.0" text="Status" />
       <TextField fx:id="descriptionTF" layoutX="53.0" layoutY="216.0" promptText="Description" />
       <TextField fx:id="justification" layoutX="53.0" layoutY="266.0" promptText="justification" />
+      <Button layoutX="227.0" onAction="#retourLV" layoutY="389.0" mnemonicParsing="false" text="Retour à la liste de congé" />
+      <Text layoutX="152.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ajouter un congé " />
    </children>
 </AnchorPane>

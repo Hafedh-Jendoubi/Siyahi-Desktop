@@ -15,46 +15,47 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.stage.Stage;
 import tn.esprit.models.Conge;
-import tn.esprit.services.CongeService; // Assurez-vous d'avoir une classe CongeService pour récupérer les données
+import tn.esprit.models.ReponseConge;
+import tn.esprit.services.ReponseCongeService; // Assurez-vous d'avoir une classe CongeService pour récupérer les données
 
 
 import java.io.IOException;
 import java.util.Optional;
 
-public class listCongeController {
+public class listReponseCongeController {
 
     @FXML
-    private ListView<Conge> listViewConge;
+    private ListView<ReponseConge> listViewReponseConge;
     @FXML
     private Button btnModifier;
     @FXML
     private Button btnSupprimer;
-    private CongeService congeService = new CongeService(); // Changez CongeService avec votre service réel
+    private ReponseCongeService ReponsecongeService = new ReponseCongeService(); // Changez CongeService avec votre service réel
 
     @FXML
     public void initialize() {
         // Récupérer les données de congé et les lier au ListView
-        ObservableList<Conge> conges = FXCollections.observableArrayList(congeService.getAll());
-        listViewConge.setItems(conges);
+        ObservableList<ReponseConge> reponseconges = FXCollections.observableArrayList(ReponsecongeService.getAll());
+        listViewReponseConge.setItems(reponseconges);
     }
     @FXML
-    void modifierConge(ActionEvent event) {
-        Conge selectedConge = listViewConge.getSelectionModel().getSelectedItem();
+    void modifierReponseConge(ActionEvent event) {
+        ReponseConge selectedrConge = listViewReponseConge.getSelectionModel().getSelectedItem();
 
-        if (selectedConge == null) {
+        if (selectedrConge == null) {
             // Aucun congé sélectionné, afficher un message d'erreur
-            showAlert(Alert.AlertType.ERROR, "Erreur", "Aucun congé sélectionné", "Veuillez sélectionner un congé à modifier.");
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Aucune Reponse congé sélectionné", "Veuillez sélectionner un congé à modifier.");
             return;
         }
 
         try {
             // Charger la vue de modification du congé
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/EditConge.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/EditReponseConge.fxml"));
             Parent edit = loader.load();
 
             // Passer le congé sélectionné au contrôleur de la vue de modification
-            editCongeController editCongeController = loader.getController();
-            editCongeController.initData(selectedConge);
+            editReponseCongeController editCongeController = loader.getController();
+            editCongeController.initData1(selectedrConge);
 
             // Afficher la fenêtre de modification
             Scene editScene = new Scene(edit);
@@ -62,7 +63,7 @@ public class listCongeController {
             window.setScene(editScene);
             window.setHeight(400); window.setMaxHeight(400); window.setMinHeight(400);
             window.setWidth(606); window.setMaxWidth(600); window.setMinWidth(600);
-            window.setTitle("Siyahi Bank | Modifier un congé");
+            window.setTitle("Siyahi Bank | Modifier une réponse congé");
             window.show();
         } catch (IOException e) {
             System.err.println(e.getMessage());
@@ -76,16 +77,16 @@ public class listCongeController {
         alert.showAndWait();
     }
     @FXML
-    void supprimerConge(ActionEvent event) {
-        CongeService cs = new CongeService();
+    void supprimerReponseConge(ActionEvent event) {
+        ReponseCongeService rs = new ReponseCongeService();
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirmation");
-        alert.setHeaderText("Voulez-vous vraiment supprimer le conge suivant ?");
+        alert.setHeaderText("Voulez-vous vraiment supprimer la reponse de conge suivant ?");
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
-            cs.delete(listViewConge.getSelectionModel().getSelectedItem());
-            listViewConge.getItems().remove(listViewConge.getSelectionModel().getSelectedItem());
-            showSuccessMessage("Congé supprimé avec succès!");
+            rs.delete(listViewReponseConge.getSelectionModel().getSelectedItem());
+            listViewReponseConge.getItems().remove(listViewReponseConge.getSelectionModel().getSelectedItem());
+            showSuccessMessage("Reponse Congé supprimé avec succès!");
         } else {
             alert.close();
         }
@@ -99,15 +100,15 @@ public class listCongeController {
     }
 
     @FXML
-    void ajoutConge(ActionEvent event) {
+    void ajoutReponseConge(ActionEvent event) {
         try {
-            Parent ajout = FXMLLoader.load(getClass().getResource("/AddConge.fxml"));
+            Parent ajout = FXMLLoader.load(getClass().getResource("/AddReponseConge.fxml"));
             Scene ajoutSecene = new Scene(ajout);
             Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
             window.setScene(ajoutSecene);
             window.setHeight(400); window.setMaxHeight(400); window.setMinHeight(400);
             window.setWidth(606); window.setMaxWidth(600); window.setMinWidth(600);
-            window.setTitle("Siyahi Bank | Ajouter un congé");
+            window.setTitle("Siyahi Bank | Ajouter une reponse congé");
             window.show();
         } catch (IOException e) {
             System.err.println(e.getMessage());

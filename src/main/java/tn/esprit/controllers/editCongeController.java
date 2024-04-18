@@ -1,10 +1,7 @@
 package tn.esprit.controllers;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 import tn.esprit.models.Conge;
 import tn.esprit.services.CongeService;
@@ -26,21 +23,22 @@ public class editCongeController {
     private CheckBox statusCB;
 
     private Conge selectedConge;
+    private final CongeService cs = new CongeService();
+    public void initData(Conge congé) {
+        this.selectedConge = congé;
+        // Afficher les données du congé dans les champs de la vue de modification
+        descriptionTF.setText(congé.getDescription());
+        datedebutTF.setValue(congé.getDate_Debut().toLocalDate());
+        datefinTF.setValue(congé.getDate_Fin().toLocalDate());
+        type_congeTF.setText(congé.getType_conge());
+        justificationTF.setText(congé.getJustification());
 
-    public void initData(Conge conge) {
-        selectedConge = conge;
-        // Populate fields with congé details for editing
-        descriptionTF.setText(selectedConge.getDescription());
-        datedebutTF.setValue(selectedConge.getDate_Debut().toLocalDate());
-        datefinTF.setValue(selectedConge.getDate_Fin().toLocalDate());
-        type_congeTF.setText(selectedConge.getType_conge());
-        justificationTF.setText(selectedConge.getJustification());
-        statusCB.setSelected(selectedConge.isStatus());
     }
 
+    // Méthode appelée lors de la sauvegarde des modifications
     @FXML
-    private void modifierC(ActionEvent event) {
-        // Update congé details with edited values
+    void modifierC() {
+        // Mettre à jour les données du congé sélectionné avec les nouvelles valeurs des champs
         selectedConge.setDescription(descriptionTF.getText());
         selectedConge.setDate_Debut(Date.valueOf(datedebutTF.getValue()));
         selectedConge.setDate_Fin(Date.valueOf(datefinTF.getValue()));
@@ -48,11 +46,21 @@ public class editCongeController {
         selectedConge.setJustification(justificationTF.getText());
         selectedConge.setStatus(statusCB.isSelected());
 
-        // Call the update method in CongeService to update the congé in the database
-        CongeService congeService = new CongeService();
-        congeService.update(selectedConge);
 
-        // Close the window after modification
-        ((Stage)((Button)event.getSource()).getScene().getWindow()).close();
+        // Call CongeService to add the leave request
+        cs.update(selectedConge);
+
+
+        // Afficher un message de succès
+        showAlert(Alert.AlertType.INFORMATION, "Modification réussie", null, "Les modifications ont été enregistrées avec succès.");
+    }
+
+    // Fonction utilitaire pour afficher une boîte de dialogue d'alerte
+    private void showAlert(Alert.AlertType alertType, String title, String header, String content) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
 }

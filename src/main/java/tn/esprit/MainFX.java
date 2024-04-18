@@ -19,7 +19,7 @@ public class MainFX extends Application {
             try {
                 Parent root = loader.load();
                 Scene scene = new Scene(root);
-                primaryStage.setTitle("Siyahi Bank | liste Congé ");
+                primaryStage.setTitle("Siyahi Bank | liste des reponse de Congé ");
                 primaryStage.setScene(scene);
                 primaryStage.show();
             } catch (IOException e) {
