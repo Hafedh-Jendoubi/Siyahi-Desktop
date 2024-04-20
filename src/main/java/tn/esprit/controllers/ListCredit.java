@@ -14,6 +14,9 @@ import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 import tn.esprit.models.Credit;
 import tn.esprit.services.CreditService;
+import tn.esprit.models.ReponseCredit;
+import tn.esprit.services.ReponseCreditService;
+
 
 import java.io.IOException;
 import java.util.Optional;
@@ -24,6 +27,7 @@ public class ListCredit {
     private ListView<Credit> ListCreditLV;
 
     private CreditService CreditService = new CreditService();
+
 
     @FXML
     public void initialize() {
@@ -70,19 +74,40 @@ public class ListCredit {
     }
     @FXML
     void AjouterReponseLV(ActionEvent event) {
+        Credit selectedCredit = ListCreditLV.getSelectionModel().getSelectedItem();
+
+        if (selectedCredit == null) {
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Aucun crédit sélectionné", "Veuillez sélectionner un crédit pour traiter.");
+            return;
+        }
+
+        ReponseCreditService reponseCreditService = new ReponseCreditService();
+        if (reponseCreditService.isTraite(selectedCredit.getId())) {
+            showAlert(Alert.AlertType.WARNING, "Attention", "Crédit déjà traité", "Le crédit sélectionné a déjà été traité.");
+            return;
+        }
         try {
-            Parent ajoute = FXMLLoader.load(getClass().getResource("/AjouterReponseCredit.fxml"));
-            Scene ajouteSecene = new Scene(ajoute);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/AjouterReponseCredit.fxml"));
+            Parent ajoutReponse = loader.load();
+
+            AjouterReponseCredit ajouterReponseCredit = loader.getController();
+            ajouterReponseCredit.initData(selectedCredit.getId());
+
+            // Initialiser la sélection dans le ComboBox "ReferenceCredit" avec le crédit sélectionné
+            ajouterReponseCredit.ReferenceCredit.getSelectionModel().select(selectedCredit);
+
+            Scene ajoutReponseScene = new Scene(ajoutReponse);
             Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-            window.setScene(ajouteSecene);
+            window.setScene(ajoutReponseScene);
             window.setHeight(400); window.setMaxHeight(400); window.setMinHeight(400);
             window.setWidth(606); window.setMaxWidth(600); window.setMinWidth(600);
-            window.setTitle("Siyahi Bank | Ajouter une reponse à un credit");
+            window.setTitle("Siyahi Bank | Ajouter une réponse à un crédit");
             window.show();
         } catch (IOException e) {
             System.err.println(e.getMessage());
         }
     }
+
     private void showAlert(Alert.AlertType alertType, String title, String content) {
         Alert alert = new Alert(alertType);
         alert.setTitle(title);

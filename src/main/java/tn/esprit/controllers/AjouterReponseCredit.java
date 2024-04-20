@@ -7,6 +7,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -17,6 +18,7 @@ import tn.esprit.services.ReponseCreditService;
 
 import java.io.IOException;
 import java.sql.Date;
+import java.util.List;
 
 public class AjouterReponseCredit {
     @FXML
@@ -30,22 +32,52 @@ public class AjouterReponseCredit {
 
     @FXML
     private TextField nbrconfirmTF;
-    private final ReponseCreditService cs = new ReponseCreditService();
+
+    @FXML
+    ComboBox<Credit> ReferenceCredit; // Ajout de ComboBox pour la référence au crédit
+
+    private final ReponseCreditService reponseCreditService = new ReponseCreditService();
+    private final CreditService creditService = new CreditService();
+    private int creditId;
+
+    public void initData(int creditId) {
+        this.creditId = creditId;
+    }
+
+
+    @FXML
+    public void initialize() {
+        loadCredits(); // Charger la liste des crédits dans la ComboBox lors de l'initialisation du contrôleur
+    }
+
+    private void loadCredits() {
+        List<Credit> credits = creditService.getAll();
+        ReferenceCredit.getItems().addAll(credits);
+    }
 
     @FXML
     void AjouterRC(ActionEvent event) {
-        try{
-            cs.Add(new ReponseCredit(Integer.parseInt(nbrconfirmTF.getText()),DescriptionconfirmTF.getText(),Float.parseFloat(SoldeàpTF.getText()), Date.valueOf(DateConfirm.getValue())));
-            showAlert(Alert.AlertType.INFORMATION, "Success", "Leave request added successfully.");
+        try {
+            Credit selectedCredit = ReferenceCredit.getValue();
+            if (selectedCredit == null) {
+                showAlert(Alert.AlertType.ERROR, "Error", "Veuillez sélectionner un crédit.");
+                return;
+            }
+
+            reponseCreditService.Add(new ReponseCredit(
+                    Integer.parseInt(nbrconfirmTF.getText()),
+                    DescriptionconfirmTF.getText(),
+                    Float.parseFloat(SoldeàpTF.getText()),
+                    Date.valueOf(DateConfirm.getValue()),
+                    selectedCredit.getId()
+            ));
+            showAlert(Alert.AlertType.INFORMATION, "Success", "Réponse de crédit ajoutée avec succès.");
             clearFields();
-
-            // } catch (IllegalArgumentException e) {
-            //     System.out.println("Erreur : " + e.getMessage());
-        }catch (Exception f) {
-            showAlert(Alert.AlertType.ERROR, "Error", f.getMessage());
-
+        } catch (Exception e) {
+            showAlert(Alert.AlertType.ERROR, "Error", e.getMessage());
         }
     }
+
     @FXML
     void RetourReponseLV(ActionEvent event) {
         try {
@@ -59,6 +91,7 @@ public class AjouterReponseCredit {
             showAlert(Alert.AlertType.ERROR, "Error", e.getMessage());
         }
     }
+
     private void showAlert(Alert.AlertType alertType, String title, String content) {
         Alert alert = new Alert(alertType);
         alert.setTitle(title);
@@ -66,10 +99,12 @@ public class AjouterReponseCredit {
         alert.setContentText(content);
         alert.showAndWait();
     }
+
     private void clearFields() {
         DateConfirm.setValue(null);
         DescriptionconfirmTF.clear();
         nbrconfirmTF.clear();
         SoldeàpTF.clear();
+        ReferenceCredit.getSelectionModel().clearSelection();
     }
 }

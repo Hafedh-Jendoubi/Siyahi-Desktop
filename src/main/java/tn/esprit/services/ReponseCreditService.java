@@ -1,30 +1,27 @@
 package tn.esprit.services;
 
 import tn.esprit.models.ReponseCredit;
-import tn.esprit.interfaces.IService;
 import tn.esprit.util.MaConnexion;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReponseCreditService implements IService<ReponseCredit> {
-    //attributes
-    Connection cnx = MaConnexion.getInstance().getCnx();
+public class ReponseCreditService {
+    private Connection cnx = MaConnexion.getInstance().getCnx();
 
-    //actions
-    @Override
     public void Add(ReponseCredit reponseCredit) {
         if (reponseCredit.getNbr_mois_paiement() <= 0) {
             throw new IllegalArgumentException("Le nombre de mois de paiement doit être supérieur à zéro.");
         }
-        String req = "INSERT INTO `reponse_credit`(`nbr_mois_paiement`, `description`, `solde_a_payer`, `date_debut_paiement`) VALUES (?, ?, ?, ?)";
+        String req = "INSERT INTO `reponse_credit`(`nbr_mois_paiement`, `description`, `solde_a_payer`, `date_debut_paiement`, `credit_id`) VALUES (?, ?, ?, ?, ?)";
         try {
             PreparedStatement st = cnx.prepareStatement(req);
             st.setInt(1, reponseCredit.getNbr_mois_paiement());
             st.setString(2, reponseCredit.getDescription());
             st.setFloat(3, reponseCredit.getSolde_a_payer());
             st.setDate(4, new java.sql.Date(reponseCredit.getDate_debut_paiement().getTime()));
+            st.setInt(5, reponseCredit.getCredit_id());
             st.executeUpdate();
             System.out.println("Réponse de crédit ajoutée avec succès !");
         } catch (SQLException e) {
@@ -32,19 +29,19 @@ public class ReponseCreditService implements IService<ReponseCredit> {
         }
     }
 
-    @Override
     public void Update(ReponseCredit reponseCredit) {
         if (reponseCredit.getNbr_mois_paiement() <= 0) {
             throw new IllegalArgumentException("Le nombre de mois de paiement doit être supérieur à zéro.");
         }
-        String req = "UPDATE `reponse_credit` SET `nbr_mois_paiement`=?, `description`=?, `solde_a_payer`=?, `date_debut_paiement`=? WHERE `id`=?";
+        String req = "UPDATE `reponse_credit` SET `nbr_mois_paiement`=?, `description`=?, `solde_a_payer`=?, `date_debut_paiement`=?, `credit_id`=? WHERE `id`=?";
         try {
             PreparedStatement st = cnx.prepareStatement(req);
             st.setInt(1, reponseCredit.getNbr_mois_paiement());
             st.setString(2, reponseCredit.getDescription());
             st.setFloat(3, reponseCredit.getSolde_a_payer());
             st.setDate(4, new java.sql.Date(reponseCredit.getDate_debut_paiement().getTime()));
-            st.setInt(5, reponseCredit.getId()); // Assuming ReponseCredit class has an id field
+            st.setInt(5, reponseCredit.getCredit_id());
+            st.setInt(6, reponseCredit.getId());
             int rowsUpdated = st.executeUpdate();
             if (rowsUpdated > 0) {
                 System.out.println("Réponse de crédit mise à jour avec succès !");
@@ -56,12 +53,11 @@ public class ReponseCreditService implements IService<ReponseCredit> {
         }
     }
 
-    @Override
     public void Delete(ReponseCredit reponseCredit) {
         String req = "DELETE FROM `reponse_credit` WHERE `id`=?";
         try {
             PreparedStatement st = cnx.prepareStatement(req);
-            st.setInt(1, reponseCredit.getId()); // Assuming ReponseCredit class has an id field
+            st.setInt(1, reponseCredit.getId());
             int rowsDeleted = st.executeUpdate();
             if (rowsDeleted > 0) {
                 System.out.println("Réponse de crédit supprimée avec succès !");
@@ -73,10 +69,9 @@ public class ReponseCreditService implements IService<ReponseCredit> {
         }
     }
 
-    @Override
     public List<ReponseCredit> getAll() {
         List<ReponseCredit> reponseCredits = new ArrayList<>();
-        String req = "SELECT * FROM reponse_credit";
+        String req = "SELECT rc.*, c.id AS credit_id FROM reponse_credit rc JOIN credit c ON rc.credit_id = c.id";
 
         try {
             PreparedStatement st = cnx.prepareStatement(req);
@@ -88,6 +83,7 @@ public class ReponseCreditService implements IService<ReponseCredit> {
                 reponseCredit.setDescription(res.getString("description"));
                 reponseCredit.setSolde_a_payer(res.getFloat("solde_a_payer"));
                 reponseCredit.setDate_debut_paiement(res.getDate("date_debut_paiement"));
+                reponseCredit.setCredit_id(res.getInt("credit_id"));
                 reponseCredits.add(reponseCredit);
             }
         } catch (SQLException e) {
@@ -97,9 +93,8 @@ public class ReponseCreditService implements IService<ReponseCredit> {
         return reponseCredits;
     }
 
-    @Override
     public ReponseCredit getOne(int id) {
-        String req = "SELECT * FROM reponse_credit WHERE id = ?";
+        String req = "SELECT rc.*, c.id AS credit_id FROM reponse_credit rc JOIN credit c ON rc.credit_id = c.id WHERE rc.id = ?";
         ReponseCredit reponseCredit = null;
         try {
             PreparedStatement st = cnx.prepareStatement(req);
@@ -112,10 +107,24 @@ public class ReponseCreditService implements IService<ReponseCredit> {
                 reponseCredit.setDescription(res.getString("description"));
                 reponseCredit.setSolde_a_payer(res.getFloat("solde_a_payer"));
                 reponseCredit.setDate_debut_paiement(res.getDate("date_debut_paiement"));
+                reponseCredit.setCredit_id(res.getInt("credit_id"));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         return reponseCredit;
     }
+    public boolean isTraite(int creditId) {
+        String req = "SELECT * FROM reponse_credit WHERE credit_id = ?";
+        try {
+            PreparedStatement st = cnx.prepareStatement(req);
+            st.setInt(1, creditId);
+            ResultSet res = st.executeQuery();
+            return res.next(); // Retourne vrai si une réponse de crédit est trouvée, sinon faux
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
 }

@@ -14,6 +14,5 @@
         <TextField fx:id="ContratTFM" layoutX="49.0" layoutY="293.0" promptText="Contrat" />
         <Button layoutX="272.0" layoutY="328.0" mnemonicParsing="false" onAction="#modifierC" prefHeight="26.0" prefWidth="78.0" text="Modifier" />
         <Button layoutX="378.0" layoutY="328.0" mnemonicParsing="false" onAction="#RetourMLV" prefHeight="26.0" prefWidth="112.0" text="retourner à la liste" />
-
     </children>
 </AnchorPane>
