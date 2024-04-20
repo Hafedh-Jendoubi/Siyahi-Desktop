@@ -19,6 +19,7 @@ import tn.esprit.services.ReponseCreditService;
 import java.io.IOException;
 import java.sql.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class AjouterReponseCredit {
     @FXML
@@ -52,8 +53,15 @@ public class AjouterReponseCredit {
 
     private void loadCredits() {
         List<Credit> credits = creditService.getAll();
-        ReferenceCredit.getItems().addAll(credits);
+
+        // Filtrer les crédits déjà traités
+        List<Credit> creditsNonTraites = credits.stream()
+                .filter(credit -> !reponseCreditService.isTraite(credit.getId()))
+                .collect(Collectors.toList());
+
+        ReferenceCredit.getItems().addAll(creditsNonTraites);
     }
+
 
     @FXML
     void AjouterRC(ActionEvent event) {
@@ -73,6 +81,9 @@ public class AjouterReponseCredit {
             ));
             showAlert(Alert.AlertType.INFORMATION, "Success", "Réponse de crédit ajoutée avec succès.");
             clearFields();
+
+            // Appeler directement la fonction RetourReponseLV
+            RetourReponseLV(event);
         } catch (Exception e) {
             showAlert(Alert.AlertType.ERROR, "Error", e.getMessage());
         }

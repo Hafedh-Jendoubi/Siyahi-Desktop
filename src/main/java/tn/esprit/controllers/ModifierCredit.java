@@ -42,16 +42,21 @@ public class ModifierCredit {
 
     // Méthode appelée lors de la sauvegarde des modifications
     @FXML
-    void modifierC() {
-        selectedCredit.setDescription(DescriptionTFM.getText());
-        selectedCredit.setDate_debut_paiement(Date.valueOf(DateTFM.getValue()));
-        selectedCredit.setNbr_mois_paiement(Integer.parseInt(NbrTFM.getText())); // Conversion en entier
-        selectedCredit.setSolde_demande(Float.parseFloat(SoldeTFM.getText())); // Conversion en flottant
-        selectedCredit.setContrat(ContratTFM.getText());
+    void modifierC(ActionEvent event) {
+        try {
+            selectedCredit.setDescription(DescriptionTFM.getText());
+            selectedCredit.setDate_debut_paiement(Date.valueOf(DateTFM.getValue()));
+            selectedCredit.setNbr_mois_paiement(Integer.parseInt(NbrTFM.getText())); // Conversion en entier
+            selectedCredit.setSolde_demande(Float.parseFloat(SoldeTFM.getText())); // Conversion en flottant
+            selectedCredit.setContrat(ContratTFM.getText());
 
-        cs.Update(selectedCredit);
-        // Afficher un message de succès
-        showAlert(Alert.AlertType.INFORMATION, "Modification réussie", null, "Les modifications ont été enregistrées avec succès.");
+            cs.Update(selectedCredit);
+            // Afficher un message de succès
+            showAlert(Alert.AlertType.INFORMATION, "Modification réussie", null, "Les modifications ont été enregistrées avec succès.");
+            RetourMLV(event);
+        } catch (Exception e) {
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Erreur lors de la modification", e.getMessage());
+        }
     }
 
     @FXML

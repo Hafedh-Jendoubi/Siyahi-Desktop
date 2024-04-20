@@ -60,7 +60,7 @@ public class ModifierReponseCredit {
     }
 
     @FXML
-    void ModifierRC() {
+    void ModifierRC(ActionEvent event) {
         try {
             Credit selectedCredit = ReferenceCredit.getValue();
             if (selectedCredit == null) {
@@ -76,6 +76,7 @@ public class ModifierReponseCredit {
 
             rcs.Update(selectedReponseCredit);
             showAlert(Alert.AlertType.INFORMATION, "Modification réussie", null, "Les modifications ont été enregistrées avec succès.");
+            RetourReponseMLV(event);
         } catch (Exception e) {
             showAlert(Alert.AlertType.ERROR, "Erreur", "Erreur lors de la modification", e.getMessage());
         }

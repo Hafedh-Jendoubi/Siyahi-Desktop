@@ -41,6 +41,7 @@ public class AjouterCredit {
         cs.Insert(new Credit(Integer.parseInt(NbrTF.getText()),DescriptionTF.getText(),ContratTF.getText(),Float.parseFloat(SoldeTF.getText()),Date.valueOf(DateTF.getValue())));
             showAlert(Alert.AlertType.INFORMATION, "Success", "Leave request added successfully.");
             clearFields();
+            RetourLV(event);
 
        // } catch (IllegalArgumentException e) {
        //     System.out.println("Erreur : " + e.getMessage());

@@ -59,6 +59,11 @@ public class ListCredit {
             showAlert(Alert.AlertType.ERROR, "Erreur", "Aucun credit sélectionné", "Veuillez sélectionner un crédit à supprimer.");
             return;
         }
+        ReponseCreditService reponseCreditService = new ReponseCreditService();
+        if (reponseCreditService.isTraite(selectedCredit.getId())) {
+            showAlert(Alert.AlertType.WARNING, "Attention", "Crédit déjà traité.", "Le crédit sélectionné a déjà été traité. Vous ne pouvez pas le supprimé.");
+            return;
+        }
         CreditService cs = new CreditService();
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirmation");
@@ -129,6 +134,11 @@ public class ListCredit {
 
         if (selectedCredit == null) {
             showAlert(Alert.AlertType.ERROR, "Erreur", "Aucun credit sélectionné", "Veuillez sélectionner un credit à modifier.");
+            return;
+        }
+        ReponseCreditService reponseCreditService = new ReponseCreditService();
+        if (reponseCreditService.isTraite(selectedCredit.getId())) {
+            showAlert(Alert.AlertType.WARNING, "Attention", "Crédit déjà traité.", "Le crédit sélectionné a déjà été traité. Vous ne pouvez pas le modifié.");
             return;
         }
 
