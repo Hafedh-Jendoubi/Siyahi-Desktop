@@ -1,23 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="500.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.controllers.AddCongeController">
+<AnchorPane prefHeight="551.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.controllers.AddCongeController">
    <children>
-      <DatePicker fx:id="datedebutTF" layoutX="52.0" layoutY="66.0" promptText="Date_Debut" />
-      <DatePicker fx:id="datefinTF" layoutX="52.0" layoutY="115.0" promptText="Date_Fin" />
-      <TextField fx:id="type_congeTF" layoutX="52.0" layoutY="169.0" promptText="TypeConge" />
+      <DatePicker fx:id="datedebutTF" layoutX="52.0" layoutY="52.0" promptText="Date_Debut" />
+      <DatePicker fx:id="datefinTF" layoutX="52.0" layoutY="93.0" promptText="Date_Fin" />
+      <ComboBox fx:id="type_congeTF" layoutX="53.0" layoutY="139.0" promptText="Type Congé">
+         <items>
+            <FXCollections fx:factory="observableArrayList">
+               <String fx:value="Maladie " />
+               <String fx:value="vacances" />
+               <String fx:value="mariage" />
+               <!-- Ajoutez d'autres types de congé ici si nécessaire -->
+            </FXCollections>
+         </items>
+      </ComboBox>
 
-      <Button layoutX="76.0" layoutY="389.0" mnemonicParsing="false" onAction="#ajouterC" prefHeight="25.0" prefWidth="103.0" text="Confirmer" AnchorPane.leftAnchor="76.0" />
-      <CheckBox fx:id="status" layoutX="52.0" layoutY="355.0" text="Status" />
-      <TextField fx:id="descriptionTF" layoutX="53.0" layoutY="216.0" promptText="Description" />
-      <TextField fx:id="justification" layoutX="53.0" layoutY="266.0" promptText="justification" />
-      <Button layoutX="227.0" onAction="#retourLV" layoutY="389.0" mnemonicParsing="false" text="Retour à la liste de congé" />
-      <Text layoutX="152.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ajouter un congé " />
+      <Button layoutX="76.0" layoutY="312.0" mnemonicParsing="false" onAction="#ajouterC" prefHeight="25.0" prefWidth="103.0" text="Confirmer" AnchorPane.leftAnchor="76.0" />
+
+      <TextField fx:id="descriptionTF" layoutX="53.0" layoutY="182.0" promptText="Description" />
+      <TextField fx:id="justification" layoutX="53.0" layoutY="224.0" promptText="justification" />
+      <Button layoutX="227.0" layoutY="312.0" mnemonicParsing="false" onAction="#retourLV" text="Retour à la liste de congé" />
+      <Text layoutX="189.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ajouter un congé " />
+
    </children>
 </AnchorPane>

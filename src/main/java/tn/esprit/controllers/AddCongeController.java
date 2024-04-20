@@ -5,11 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextField;
-import javafx.scene.control.Alert;
+import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import javafx.event.ActionEvent;
 import javafx.stage.Stage;
@@ -29,7 +25,7 @@ public class AddCongeController {
     @FXML
     private TextField descriptionTF;
     @FXML
-    private TextField type_congeTF;
+    private ComboBox<String> type_congeTF;
 
     @FXML
     private CheckBox status;
@@ -42,7 +38,7 @@ public class AddCongeController {
     @FXML
     void ajouterC(ActionEvent event) {
         // Check if any of the required fields are empty
-        if (datedebutTF.getValue() == null || datefinTF.getValue() == null  || type_congeTF.getText().isEmpty()  ) {
+        if (datedebutTF.getValue() == null || datefinTF.getValue() == null  || type_congeTF.getValue().isEmpty()  ) {
             showAlert(AlertType.ERROR, "Error", "Please fill in all required fields.");
             return;
         }
@@ -52,7 +48,7 @@ public class AddCongeController {
             Date dateDebut = Date.valueOf(datedebutTF.getValue());
             Date dateFin = Date.valueOf(datefinTF.getValue());
             String description = descriptionTF.getText();
-            String typeConge = type_congeTF.getText();
+            String typeConge = type_congeTF.getValue();
             String justificationText = justification.getText();
             boolean stat = status.isSelected();
 
@@ -86,7 +82,7 @@ public class AddCongeController {
         datedebutTF.setValue(null);
         datefinTF.setValue(null);
         descriptionTF.clear();
-        type_congeTF.clear();
+        datefinTF.setValue(null);
         justification.clear();
         status.setSelected(false);
     }

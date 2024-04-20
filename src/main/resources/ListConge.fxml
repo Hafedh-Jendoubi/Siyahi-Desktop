@@ -8,9 +8,9 @@
 <AnchorPane prefHeight="400.0" prefWidth="734.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.controllers.listCongeController">
    <children>
       <ListView fx:id="listViewConge" layoutX="93.0" layoutY="58.0" prefHeight="271.0" prefWidth="456.0" />
-      <Button layoutX="631.0" layoutY="99.0" mnemonicParsing="false" onAction="#supprimerConge" text="supprimer" />
-      <Button layoutX="631.0" layoutY="216.0" mnemonicParsing="false" onAction="#ajoutConge" prefHeight="26.0" prefWidth="70.0" text="Ajouter" />
-      <Button fx:id="btnModifier" layoutX="631.0" layoutY="154.0" mnemonicParsing="false" onAction="#modifierConge" prefHeight="26.0" prefWidth="70.0" text="Modifier" />
+      <Button layoutX="621.0" layoutY="89.0" mnemonicParsing="false" onAction="#supprimerConge" prefHeight="36.0" prefWidth="80.0" text="supprimer" />
+      <Button layoutX="617.0" layoutY="225.0" mnemonicParsing="false" onAction="#ajoutConge" prefHeight="36.0" prefWidth="87.0" stylesheets="@listconge.css" text="Ajouter" />
+      <Button fx:id="btnModifier" layoutX="621.0" layoutY="154.0" mnemonicParsing="false" onAction="#modifierConge" prefHeight="36.0" prefWidth="80.0" styleClass="button2" stylesheets="@listconge.css" text="Traiter" />
       <Text layoutX="300.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Liste des congés" />
    </children>
 </AnchorPane>

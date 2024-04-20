@@ -1,0 +1,32 @@
+.button {
+    -fx-background-color: #4CAF50; /* Couleur de fond */
+    -fx-text-fill: white; /* Couleur du texte */
+    -fx-font-size: 14px; /* Taille de la police */
+    -fx-padding: 8px 16px; /* Rembourrage */
+    -fx-background-radius: 5px; /* Rayon de bordure */
+    -fx-border-radius: 5px; /* Rayon de bordure */
+}
+.button1 {
+    -fx-background-color: #cd0606; /* Couleur de fond */
+    -fx-text-fill: white; /* Couleur du texte */
+    -fx-font-size: 14px; /* Taille de la police */
+    -fx-padding: 8px 16px; /* Rembourrage */
+    -fx-background-radius: 5px; /* Rayon de bordure */
+    -fx-border-radius: 5px; /* Rayon de bordure */
+}
+.button2 {
+    -fx-background-color: #04ada7; /* Couleur de fond */
+    -fx-text-fill: white; /* Couleur du texte */
+    -fx-font-size: 14px; /* Taille de la police */
+    -fx-padding: 8px 16px; /* Rembourrage */
+    -fx-background-radius: 5px; /* Rayon de bordure */
+    -fx-border-radius: 5px; /* Rayon de bordure */
+}
+
+.button:hover {
+    -fx-background-color: #45a049; /* Couleur de fond au survol */
+}
+
+.button:pressed {
+    -fx-background-color: #357a38; /* Couleur de fond lorsqu'appuyé */
+}

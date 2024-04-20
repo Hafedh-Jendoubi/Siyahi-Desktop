@@ -79,6 +79,13 @@ public class listReponseCongeController {
     @FXML
     void supprimerReponseConge(ActionEvent event) {
         ReponseCongeService rs = new ReponseCongeService();
+        ReponseConge selectedrConge = listViewReponseConge.getSelectionModel().getSelectedItem();
+
+        if (selectedrConge == null) {
+            // Aucun congé sélectionné, afficher un message d'erreur
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Aucune Reponse congé sélectionné", "Veuillez sélectionner une  reponse congé à supprimer.");
+            return;
+        }
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirmation");
         alert.setHeaderText("Voulez-vous vraiment supprimer la reponse de conge suivant ?");

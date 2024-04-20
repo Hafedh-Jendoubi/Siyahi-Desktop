@@ -42,7 +42,7 @@ public class CongeService implements IService<Conge> {
 
             // Execute the statement
             ps.executeUpdate();
-            System.out.println("conge added successfully");
+            System.out.println("conge ajouté");
 
         } catch (SQLException e) {
             e.printStackTrace();
