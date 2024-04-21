@@ -6,9 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.MenuItem;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
@@ -18,12 +16,71 @@ import java.util.Optional;
 
 import static tn.esprit.services.UserService.connectedUser;
 
-public class HomePageController {
+public class ProfileController {
+
+    @FXML
+    private Button ToHomePage;
+
+    @FXML
+    private Button ToUserSectionButton;
+
+    @FXML
+    private Label adress;
+
+    @FXML
+    private Label cin;
+
+    @FXML
+    private Label email;
+
+    @FXML
+    private Label first_name;
+
+    @FXML
+    private Label gender;
+
+    @FXML
+    private Label last_name;
+
+    @FXML
+    private MenuItem menuItem;
+
+    @FXML
+    private PasswordField pass;
+
+    @FXML
+    private Label tel;
+
     @FXML
     private ImageView userPicture;
 
     @FXML
-    private MenuItem menuItem;
+    private ImageView profilePic;
+
+    @FXML
+    void Logout(ActionEvent event){
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmation");
+        alert.setHeaderText("Voulez-vous vraiment déconnecter?");
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            Parent parent = null;
+            try {
+                parent = FXMLLoader.load(getClass().getResource("/UserAuth.fxml"));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            Scene users_sectionSecene = new Scene(parent);
+            Stage window = (Stage) menuItem.getParentPopup().getOwnerWindow();
+            window.setScene(users_sectionSecene);
+            window.setHeight(400); window.setMaxHeight(400); window.setMinHeight(400);
+            window.setWidth(600); window.setMaxWidth(600); window.setMinWidth(600);
+            window.setTitle("Siyahi Bank | Connexion");
+            window.show();
+        } else {
+            alert.close();
+        }
+    }
 
     @FXML
     void navigateToHomePage(ActionEvent event) {
@@ -52,30 +109,8 @@ public class HomePageController {
     }
 
     @FXML
-    void Logout(ActionEvent event){
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Confirmation");
-        alert.setHeaderText("Voulez-vous vraiment déconnecter?");
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.isPresent() && result.get() == ButtonType.OK) {
-            Stage window_toClose = (Stage) menuItem.getParentPopup().getOwnerWindow();
-            window_toClose.close();
-            Parent users_section = null;
-            try {
-                users_section = FXMLLoader.load(getClass().getResource("/UserAuth.fxml"));
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            Scene users_sectionSecene = new Scene(users_section);
-            Stage window = new Stage();
-            window.setScene(users_sectionSecene);
-            window.setHeight(400); window.setMaxHeight(400); window.setMinHeight(400);
-            window.setWidth(600); window.setMaxWidth(600); window.setMinWidth(600);
-            window.setTitle("Siyahi Bank | Connexion");
-            window.show();
-        } else {
-            alert.close();
-        }
+    void updateUser(ActionEvent event) {
+        //Will add update user here
     }
 
     @FXML
@@ -100,8 +135,18 @@ public class HomePageController {
             String imagePath = "/uploads/user/" + imageName;
             Image image = new Image(getClass().getResource(imagePath).toExternalForm());
             userPicture.setImage(image);
+            profilePic.setImage(image);
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
+
+        first_name.setText(connectedUser.getFirst_name());
+        last_name.setText(connectedUser.getLast_name());
+        gender.setText(connectedUser.getGender());
+        adress.setText(connectedUser.getAddress());
+        tel.setText(String.valueOf(connectedUser.getPhone_number()));
+        cin.setText(String.valueOf(connectedUser.getCin()));
+        email.setText(connectedUser.getEmail());
+        pass.setText(connectedUser.getPassword());
     }
 }

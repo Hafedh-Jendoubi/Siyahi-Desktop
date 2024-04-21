@@ -20,6 +20,7 @@ public class UserService implements IService<User> {
     Connection cnx = MaConnexion.getInstance().getCnx();
     final String username = "2e4ddfacdadc07";
     final String password = "08aa0241ca491b";
+    public static User connectedUser;
 
     //actions
     public static String hashPassword(String password) {
@@ -173,7 +174,7 @@ public class UserService implements IService<User> {
     @Override
     public List<User> getAll() {
         List<User> users = new ArrayList<>();
-        String req = "SELECT * FROM `user`";
+        String req = "SELECT * FROM `user` WHERE NOT JSON_CONTAINS(roles, '\"ROLE_SUPER_ADMIN\"', '$')";
         try {
             Statement st = cnx.createStatement();
             ResultSet res = st.executeQuery(req);
@@ -190,6 +191,8 @@ public class UserService implements IService<User> {
                     user.setGender("Femelle");
                 if(user.getRoles().equals("[\"ROLE_USER\"]"))
                     user.setRoles("Client");
+                else if(user.getRoles().equals("[\"ROLE_STAFF\"]"))
+                    user.setRoles("Employé(e)");
                 else if(user.getRoles().equals("[\"ROLE_ADMIN\"]"))
                     user.setRoles("Admin");
                 else
@@ -220,7 +223,6 @@ public class UserService implements IService<User> {
         return user;
     }
 
-    @Override
     public User getOneByCIN(int cin) {
         User user = new User();
         try {
@@ -238,7 +240,6 @@ public class UserService implements IService<User> {
         return user;
     }
 
-    @Override
     public User getOneByEMAIL(String email) {
         User user = new User();
         try {
@@ -256,18 +257,37 @@ public class UserService implements IService<User> {
         return user;
     }
 
-    public boolean authentification(String email, String password){
+    public User authentification(String email, String password){
         boolean result = false;
         User user = getOneByEMAIL(email);
         try {
             String pass = user.getPassword();
             BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
             result = passwordEncoder.matches(password, pass);
+            if(result) {
+                if(user.getActivity().equals("T"))
+                    user.setActivity("Active");
+                else
+                    user.setActivity("Inactive");
+                if(user.getGender().equals("M"))
+                    user.setGender("Male");
+                else
+                    user.setGender("Femelle");
+                if(user.getRoles().equals("[\"ROLE_USER\"]"))
+                    user.setRoles("Client");
+                else if(user.getRoles().equals("[\"ROLE_ADMIN\"]"))
+                    user.setRoles("Admin");
+                else
+                    user.setRoles("Super Admin");
+                user.setPassword(password);
+                connectedUser = user;
+            }else
+                connectedUser = null;
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
 
-        return result;
+        return connectedUser;
     }
 
     public void resetPassword(String email) {

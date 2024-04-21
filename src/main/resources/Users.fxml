@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.effect.Glow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -29,7 +31,6 @@
                   </ImageView>
                   <Button fx:id="ToHomePage" layoutX="30.0" layoutY="240.0" mnemonicParsing="false" onAction="#navigateToHomePage" prefHeight="30.0" prefWidth="300.0" text="Acceuil" />
                   <Button fx:id="ToUserSectionButton" layoutX="30.0" layoutY="290.0" mnemonicParsing="false" onAction="#navigateToUserSection" prefHeight="30.0" prefWidth="300.0" text="Gestion Utilisateurs" />
-                  <Button layoutX="30.0" layoutY="480.0" mnemonicParsing="false" onAction="#Logout" prefHeight="30.0" prefWidth="300.0" text="Déconnexion" />
                </children>
             </AnchorPane>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="598.0" prefWidth="895.0">
@@ -55,22 +56,36 @@
                         </LinearGradient>
                      </fill>
                   </Text>
-                  <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="625.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="25.0">
+                  <TextField fx:id="filterField" layoutX="35.0" layoutY="99.0" prefHeight="26.0" prefWidth="314.0" promptText="Rechercher Utilisateur..." />
+                  <MenuButton layoutX="842.0" layoutY="38.0" mnemonicParsing="false">
+                     <items>
+                        <MenuItem mnemonicParsing="false" onAction="#Profile" text="Profile" />
+                        <MenuItem fx:id="menuItem" mnemonicParsing="false" onAction="#Logout" text="Déconnexion" />
+                     </items>
+                  </MenuButton>
+                  <ImageView fx:id="userPicture" disable="true" fitHeight="50.0" fitWidth="50.0" layoutX="833.0" layoutY="26.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@uploads/user/e89b006716636e783008157a1c944c4b.png" />
                      </image>
                   </ImageView>
-                  <TextField layoutX="35.0" layoutY="99.0" prefHeight="26.0" prefWidth="314.0" promptText="Rechercher Utilisateur..." />
                   <Button layoutX="92.0" layoutY="480.0" mnemonicParsing="false" onAction="#NavigateToAddUser" prefHeight="30.0" prefWidth="200.0" text="Ajouter Utilisateur" />
                   <Button layoutX="624.0" layoutY="480.0" mnemonicParsing="false" onAction="#ActivateDesactivateUser" prefHeight="30.0" prefWidth="200.0" text="Activer/Désactiver" />
                   <Button layoutX="364.0" layoutY="480.0" mnemonicParsing="false" onAction="#DeleteUser" prefHeight="30.0" prefWidth="200.0" text="Supprimer Utilisateur" />
-                  <ListView fx:id="UsersList" layoutX="35.0" layoutY="144.0" prefHeight="320.0" prefWidth="832.0" />
+                  <TableView fx:id="TableUser" layoutX="35.0" layoutY="142.0" prefHeight="315.0" prefWidth="785.0" AnchorPane.leftAnchor="35.0" AnchorPane.rightAnchor="35.0">
+                     <columns>
+                        <TableColumn fx:id="ActiviteCol" editable="false" prefWidth="60.0" resizable="false" text="Activité" />
+                        <TableColumn fx:id="NomCol" editable="false" prefWidth="100.0" resizable="false" text="Nom" />
+                        <TableColumn fx:id="PrenomCol" editable="false" prefWidth="100.0" resizable="false" text="Prenom" />
+                        <TableColumn fx:id="GenreCol" editable="false" prefWidth="64.0" resizable="false" text="Genre" />
+                        <TableColumn fx:id="AdrCol" editable="false" prefWidth="218.0" resizable="false" text="Adresse" />
+                        <TableColumn fx:id="TelCol" editable="false" prefWidth="100.0" resizable="false" text="Telephone" />
+                        <TableColumn fx:id="CinCol" editable="false" prefWidth="100.0" resizable="false" text="CIN" />
+                        <TableColumn fx:id="RoleCol" editable="false" prefWidth="100.0" resizable="false" text="Role" />
+                     </columns>
+                  </TableView>
                </children>
             </AnchorPane>
          </items>
       </SplitPane>
    </children>
-   <effect>
-      <Glow />
-   </effect>
 </AnchorPane>

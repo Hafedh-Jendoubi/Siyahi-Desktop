@@ -2,6 +2,8 @@ package tn.esprit.controllers;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -9,7 +11,11 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import tn.esprit.Main;
 import tn.esprit.models.User;
@@ -20,6 +26,8 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Optional;
+
+import static tn.esprit.services.UserService.connectedUser;
 
 public class ListUsersController {
     @FXML
@@ -51,8 +59,21 @@ public class ListUsersController {
     @FXML
     private TableColumn<User, Integer> TelCol;
 
+    private UserService us = new UserService();
+
+    private final ObservableList<User> dataList = FXCollections.observableList(us.getAll());
+
     @FXML
-    private ListView<User> UsersList;
+    private TableView<User> TableUser = new TableView<>(dataList);
+
+    @FXML
+    private MenuItem menuItem;
+
+    @FXML
+    private ImageView userPicture;
+
+    @FXML
+    private TextField filterField = new TextField();
 
     @FXML
     void navigateToHomePage(ActionEvent event) {
@@ -103,25 +124,27 @@ public class ListUsersController {
 
     @FXML
     void NavigateToUserAuth(ActionEvent event) {
+        Stage window_toClose = (Stage) menuItem.getParentPopup().getOwnerWindow();
+        window_toClose.close();
+        Parent users_section = null;
         try {
-            Parent users_section = FXMLLoader.load(getClass().getResource("/UserAuth.fxml"));
-            Scene users_sectionSecene = new Scene(users_section);
-            Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-            window.setScene(users_sectionSecene);
-            window.setHeight(400); window.setMaxHeight(400); window.setMinHeight(400);
-            window.setWidth(606); window.setMaxWidth(600); window.setMinWidth(600);
-            window.setTitle("Siyahi Bank | Connexion");
-            window.show();
+            users_section = FXMLLoader.load(getClass().getResource("/UserAuth.fxml"));
         } catch (IOException e) {
-            System.err.println(e.getMessage());
+            throw new RuntimeException(e);
         }
+        Scene users_sectionSecene = new Scene(users_section);
+        Stage window = new Stage();
+        window.setScene(users_sectionSecene);
+        window.setHeight(400); window.setMaxHeight(400); window.setMinHeight(400);
+        window.setWidth(600); window.setMaxWidth(600); window.setMinWidth(600);
+        window.setTitle("Siyahi Bank | Connexion");
+        window.show();
     }
 
     @FXML
     void authentification(ActionEvent event) {
-        UserService us = new UserService();
         try {
-            if(us.authentification(email.getText(), password.getText())) { //Login Success
+            if(us.authentification(email.getText(), password.getText()) != null) { //Login Success
                 User user = us.getOneByEMAIL(email.getText());
                 if(user.getActivity().equals("F")){
                     Alert alert = showFailedMessage("Votre compte a été désactivé.");
@@ -179,6 +202,21 @@ public class ListUsersController {
         }
     }
 
+    @FXML
+    void Profile(ActionEvent event) {
+        Parent parent = null;
+        try {
+            parent = FXMLLoader.load(getClass().getResource("/Profile.fxml"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        Scene scene = new Scene(parent);
+        Stage window = (Stage) menuItem.getParentPopup().getOwnerWindow();
+        window.setScene(scene);
+        window.setTitle("Siyahi Bank | Profil d'utitlisateur");
+        window.show();
+    }
+
     private Alert showFailedMessage(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Erreur de connexion");
@@ -190,14 +228,13 @@ public class ListUsersController {
 
     @FXML
     void DeleteUser(ActionEvent event) {
-        UserService us = new UserService();
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirmation");
         alert.setHeaderText("Voulez-vous vraiment supprimer l'utilisateur suivant ?");
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
-            us.delete(UsersList.getSelectionModel().getSelectedItem());
-            UsersList.getItems().remove(UsersList.getSelectionModel().getSelectedItem());
+            us.delete(TableUser.getSelectionModel().getSelectedItem());
+            TableUser.getItems().remove(TableUser.getSelectionModel().getSelectedItem());
             showSuccessMessage("Utilisateur supprimé avec succès!");
         } else {
             alert.close();
@@ -206,8 +243,7 @@ public class ListUsersController {
 
     @FXML
     void ActivateDesactivateUser(ActionEvent event){
-        UserService us = new UserService();
-        User user = UsersList.getSelectionModel().getSelectedItem();
+        User user = TableUser.getSelectionModel().getSelectedItem();
         User user1 = us.getOneByCIN(user.getCin()); //I created this user1 because the user variable got gender as "Male" not "M" and role "Client" instead of "["ROLE_USER"]"
         if(user1.getActivity().equals("F")){
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -245,28 +281,54 @@ public class ListUsersController {
 
     @FXML
     void initialize() {
-        UserService us = new UserService();
         try {
-            ObservableList<User> data = FXCollections.observableList(us.getAll());
-            UsersList.setCellFactory(param -> new ListCell<User>() {
-                @Override
-                protected void updateItem(User item, boolean empty) {
-                    super.updateItem(item, empty);
-                    if (empty || item == null) {
-                        setText(null);
-                    } else {
-                        setText(String.format("%-20s %-20s %-20s %-20s %-20s",
-                                item.getActivity(),
-                                item.getFirst_name(),
-                                item.getLast_name(),
-                                item.getGender(),
-                                item.getRoles()));
-                    }
-                }
-            });
-            UsersList.setItems(data);
+            ActiviteCol.setCellValueFactory(new PropertyValueFactory<>("activity"));
+            NomCol.setCellValueFactory(new PropertyValueFactory<>("last_name"));
+            PrenomCol.setCellValueFactory(new PropertyValueFactory<>("first_name"));
+            GenreCol.setCellValueFactory(new PropertyValueFactory<>("gender"));
+            AdrCol.setCellValueFactory(new PropertyValueFactory<>("address"));
+            TelCol.setCellValueFactory(new PropertyValueFactory<>("phone_number"));
+            CinCol.setCellValueFactory(new PropertyValueFactory<>("cin"));
+            RoleCol.setCellValueFactory(new PropertyValueFactory<>("roles"));
+
+            TableUser.setItems(dataList);
+        }catch (Exception e){
+            System.err.println(e.getMessage());
+        }
+
+        //Set User Image
+        try {
+            String imageName = connectedUser.getImage();
+            String imagePath = "/uploads/user/" + imageName;
+            javafx.scene.image.Image image = new Image(getClass().getResource(imagePath).toExternalForm());
+            userPicture.setImage(image);
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
+
+        //Search Filter
+        FilteredList<User> filteredData = new FilteredList<>(dataList, b -> true);
+        filterField.setText("");
+        filterField.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(User -> {
+                if(newValue == null || newValue.isEmpty()){
+                    return true;
+                }
+
+                String lowerCaseFilter = newValue.toLowerCase();
+
+                if(User.getFirst_name().toLowerCase().indexOf(lowerCaseFilter) != -1){
+                    return true;
+                } else if (User.getLast_name().toLowerCase().indexOf(lowerCaseFilter) != -1){
+                    return true;
+                }else if(String.valueOf(User.getCin()).toLowerCase().indexOf(lowerCaseFilter) != -1){
+                    return true;
+                }else
+                    return false;
+            });
+        });
+        SortedList<User> sortedData = new SortedList<>(filteredData);
+        sortedData.comparatorProperty().bind(TableUser.comparatorProperty());
+        TableUser.setItems(sortedData);
     }
 }

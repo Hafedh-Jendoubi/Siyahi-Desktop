@@ -9,6 +9,4 @@ public interface IService <T>{
     void delete(T t);
     List<T> getAll();
     T getOneByID(int id);
-    T getOneByEMAIL(String email);
-    T getOneByCIN(int cin);
 }
