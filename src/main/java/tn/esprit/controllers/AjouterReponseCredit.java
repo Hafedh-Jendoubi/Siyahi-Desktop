@@ -46,9 +46,9 @@ public class AjouterReponseCredit {
     private int creditId;
 
     // Configuration des identifiants Twilio
-    private static final String ACCOUNT_SID = "ACd4df0fc05c27caa57a1852fe00965381";
-    private static final String AUTH_TOKEN = "5fac94566b5277862bb218422aff5bf1";
-    private static final String TWILIO_NUMBER = "+12672824271";
+    private static final String ACCOUNT_SID = "*";
+    private static final String AUTH_TOKEN = "*";
+    private static final String TWILIO_NUMBER = "*";
 
     // Initialisation de Twilio
     static {
