@@ -9,6 +9,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -52,10 +54,10 @@ public class ProfileController {
     private Label tel;
 
     @FXML
-    private ImageView userPicture;
+    private Circle circle;
 
     @FXML
-    private ImageView profilePic;
+    private Circle big_circle;
 
     @FXML
     void Logout(ActionEvent event){
@@ -134,8 +136,8 @@ public class ProfileController {
             String imageName = connectedUser.getImage();
             String imagePath = "/uploads/user/" + imageName;
             Image image = new Image(getClass().getResource(imagePath).toExternalForm());
-            userPicture.setImage(image);
-            profilePic.setImage(image);
+            circle.setFill(new ImagePattern(image));
+            big_circle.setFill(new ImagePattern(image));
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }

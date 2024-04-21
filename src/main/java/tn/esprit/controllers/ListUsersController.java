@@ -16,6 +16,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import tn.esprit.Main;
 import tn.esprit.models.User;
@@ -70,7 +72,7 @@ public class ListUsersController {
     private MenuItem menuItem;
 
     @FXML
-    private ImageView userPicture;
+    private Circle circle;
 
     @FXML
     private TextField filterField = new TextField();
@@ -281,6 +283,7 @@ public class ListUsersController {
 
     @FXML
     void initialize() {
+        //Filling up the TableView
         try {
             ActiviteCol.setCellValueFactory(new PropertyValueFactory<>("activity"));
             NomCol.setCellValueFactory(new PropertyValueFactory<>("last_name"));
@@ -290,8 +293,6 @@ public class ListUsersController {
             TelCol.setCellValueFactory(new PropertyValueFactory<>("phone_number"));
             CinCol.setCellValueFactory(new PropertyValueFactory<>("cin"));
             RoleCol.setCellValueFactory(new PropertyValueFactory<>("roles"));
-
-            TableUser.setItems(dataList);
         }catch (Exception e){
             System.err.println(e.getMessage());
         }
@@ -301,7 +302,7 @@ public class ListUsersController {
             String imageName = connectedUser.getImage();
             String imagePath = "/uploads/user/" + imageName;
             javafx.scene.image.Image image = new Image(getClass().getResource(imagePath).toExternalForm());
-            userPicture.setImage(image);
+            circle.setFill(new ImagePattern(image));
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
@@ -322,6 +323,8 @@ public class ListUsersController {
                 } else if (User.getLast_name().toLowerCase().indexOf(lowerCaseFilter) != -1){
                     return true;
                 }else if(String.valueOf(User.getCin()).toLowerCase().indexOf(lowerCaseFilter) != -1){
+                    return true;
+                }else if(String.valueOf(User.getPhone_number()).toLowerCase().indexOf(lowerCaseFilter) != -1){
                     return true;
                 }else
                     return false;

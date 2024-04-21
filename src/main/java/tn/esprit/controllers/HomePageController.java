@@ -11,6 +11,8 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -20,7 +22,7 @@ import static tn.esprit.services.UserService.connectedUser;
 
 public class HomePageController {
     @FXML
-    private ImageView userPicture;
+    private Circle circle;
 
     @FXML
     private MenuItem menuItem;
@@ -99,7 +101,7 @@ public class HomePageController {
             String imageName = connectedUser.getImage();
             String imagePath = "/uploads/user/" + imageName;
             Image image = new Image(getClass().getResource(imagePath).toExternalForm());
-            userPicture.setImage(image);
+            circle.setFill(new ImagePattern(image));
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }

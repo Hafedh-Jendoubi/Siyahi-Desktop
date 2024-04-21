@@ -11,6 +11,7 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.paint.LinearGradient?>
 <?import javafx.scene.paint.Stop?>
+<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
@@ -51,22 +52,18 @@
                         </LinearGradient>
                      </fill>
                   </Text>
-                  <MenuButton layoutX="842.0" layoutY="39.0" mnemonicParsing="false">
+                  <MenuButton layoutX="830.0" layoutY="40.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0">
                     <items>
                       <MenuItem mnemonicParsing="false" onAction="#Profile" text="Profile" />
                       <MenuItem fx:id="menuItem" mnemonicParsing="false" onAction="#Logout" text="Déconnexion" />
                     </items>
                   </MenuButton>
-                  <ImageView fx:id="userPicture" disable="true" fitHeight="50.0" fitWidth="50.0" layoutX="833.0" layoutY="26.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@uploads/user/e89b006716636e783008157a1c944c4b.png" />
-                     </image>
-                  </ImageView>
                   <Text layoutX="207.0" layoutY="333.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Home Page" wrappingWidth="495.0">
                      <font>
                         <Font size="96.0" />
                      </font>
                   </Text>
+                  <Circle fx:id="circle" disable="true" fill="DODGERBLUE" layoutX="850.0" layoutY="60.0" radius="32.0" stroke="BLACK" strokeType="INSIDE" />
                </children>
             </AnchorPane>
          </items>
