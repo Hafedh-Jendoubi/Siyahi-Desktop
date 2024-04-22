@@ -19,7 +19,6 @@ import java.util.Optional;
 import static tn.esprit.services.UserService.connectedUser;
 
 public class ProfileController {
-
     @FXML
     private Button ToHomePage;
 
@@ -30,7 +29,13 @@ public class ProfileController {
     private Label adress;
 
     @FXML
+    private Circle big_circle;
+
+    @FXML
     private Label cin;
+
+    @FXML
+    private Circle circle;
 
     @FXML
     private Label email;
@@ -48,16 +53,7 @@ public class ProfileController {
     private MenuItem menuItem;
 
     @FXML
-    private PasswordField pass;
-
-    @FXML
     private Label tel;
-
-    @FXML
-    private Circle circle;
-
-    @FXML
-    private Circle big_circle;
 
     @FXML
     void Logout(ActionEvent event){
@@ -111,11 +107,6 @@ public class ProfileController {
     }
 
     @FXML
-    void updateUser(ActionEvent event) {
-        //Will add update user here
-    }
-
-    @FXML
     void Profile(ActionEvent event) {
         Parent parent = null;
         try {
@@ -128,6 +119,16 @@ public class ProfileController {
         window.setScene(scene);
         window.setTitle("Siyahi Bank | Profil d'utitlisateur");
         window.show();
+    }
+
+    @FXML
+    void updateUser(ActionEvent event) {
+        //Will add update user here
+    }
+
+    @FXML
+    void deleteUser(ActionEvent event) {
+        //Delete User
     }
 
     @FXML
@@ -145,10 +146,9 @@ public class ProfileController {
         first_name.setText(connectedUser.getFirst_name());
         last_name.setText(connectedUser.getLast_name());
         gender.setText(connectedUser.getGender());
+        cin.setText(String.valueOf(connectedUser.getCin()));
         adress.setText(connectedUser.getAddress());
         tel.setText(String.valueOf(connectedUser.getPhone_number()));
-        cin.setText(String.valueOf(connectedUser.getCin()));
         email.setText(connectedUser.getEmail());
-        pass.setText(connectedUser.getPassword());
     }
 }
