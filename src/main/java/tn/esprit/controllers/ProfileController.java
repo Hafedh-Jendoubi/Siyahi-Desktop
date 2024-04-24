@@ -59,7 +59,7 @@ public class ProfileController {
     @FXML
     private void navigateToHomePage(ActionEvent event) {
         try {
-            Parent ajouterUserParent = FXMLLoader.load(getClass().getResource("/HomePage.fxml"));
+            Parent ajouterUserParent = FXMLLoader.load(getClass().getResource("/AdminHomePage.fxml"));
             Scene ajouterUserScene = new Scene(ajouterUserParent);
             Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
             window.setScene(ajouterUserScene);
@@ -73,6 +73,19 @@ public class ProfileController {
     private void navigateToUserSection(ActionEvent event) {
         try {
             Parent ajouterUserParent = FXMLLoader.load(getClass().getResource("/Users.fxml"));
+            Scene ajouterUserScene = new Scene(ajouterUserParent);
+            Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+            window.setScene(ajouterUserScene);
+            window.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    void navigateToTransactions(ActionEvent event) {
+        try {
+            Parent ajouterUserParent = FXMLLoader.load(getClass().getResource("/Transactions.fxml"));
             Scene ajouterUserScene = new Scene(ajouterUserParent);
             Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
             window.setScene(ajouterUserScene);
@@ -114,9 +127,9 @@ public class ProfileController {
 
     @FXML
     void initialize() {
-        if (profileCheck == 1) { //Going into Profile.fxml from "Profile" menuItem.
+        if (profileCheck == 1) { //Going into ProfileAdmin.fxml from "Profile" menuItem.
             setUserValues(connectedUser);
-        } else { //Going into Profile.fxml from "TableView" as an Admin or Super_Admin
+        } else { //Going into ProfileAdmin.fxml from "TableView" as an Admin or Super_Admin
             setUserValues(user);
         }
     }

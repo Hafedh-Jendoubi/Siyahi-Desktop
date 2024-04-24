@@ -262,6 +262,23 @@ public class UserService implements IService<User> {
         return user;
     }
 
+    public int getOneByRIB(long rib) {
+        int result = -1;
+        try {
+            String req = "SELECT `user_id` FROM `compte_client` WHERE `rib`=?";
+            PreparedStatement ps = cnx.prepareStatement(req);
+            ps.setLong(1, rib);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                result = rs.getInt(1);
+            }
+        } catch (SQLException ex) {
+            System.out.println("Failed to get user: " + ex.getMessage());
+        }
+
+        return result;
+    }
+
     public User authentification(String email, String password){
         boolean result = false;
         User user = getOneByEMAIL(email);
@@ -280,6 +297,8 @@ public class UserService implements IService<User> {
                     user.setGender("Femelle");
                 if(user.getRoles().equals("[\"ROLE_USER\"]"))
                     user.setRoles("Client");
+                else if(user.getRoles().equals("[\"ROLE_STAFF\"]"))
+                    user.setRoles("Employé(e)");
                 else if(user.getRoles().equals("[\"ROLE_ADMIN\"]"))
                     user.setRoles("Admin");
                 else

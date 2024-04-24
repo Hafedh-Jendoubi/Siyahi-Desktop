@@ -5,17 +5,17 @@ import java.sql.Date;
 public class Transaction {
     //Att
     private int id;
-    private int idUserSent;
-    private int idUserReceived;
-    private float cash;
+    private long ribUserSent;
+    private long ribUserReceived;
+    private double cash;
     private Date date;
 
     //Constructors
     public Transaction(){}
 
-    public Transaction(int idUserSent, int idUserReceived, float cash, Date date) {
-        this.idUserSent = idUserSent;
-        this.idUserReceived = idUserReceived;
+    public Transaction(long ribUserSent, long ribUserReceived, double cash, Date date) {
+        this.ribUserSent = ribUserSent;
+        this.ribUserReceived = ribUserReceived;
         this.cash = cash;
         this.date = date;
     }
@@ -30,27 +30,19 @@ public class Transaction {
         this.id = id;
     }
 
-    public int getIdUserSent() {
-        return idUserSent;
-    }
+    public long getRibUserSent() {return ribUserSent;}
 
-    public void setIdUserSent(int idUserSent) {
-        this.idUserSent = idUserSent;
-    }
+    public void setRibUserSent(long ribUserSent) {this.ribUserSent = ribUserSent;}
 
-    public int getIdUserReceived() {
-        return idUserReceived;
-    }
+    public long getRibUserReceived() {return ribUserReceived;}
 
-    public void setIdUserReceived(int idUserReceived) {
-        this.idUserReceived = idUserReceived;
-    }
+    public void setRibUserReceived(long ribUserReceived) {this.ribUserReceived = ribUserReceived;}
 
-    public float getCash() {
+    public double getCash() {
         return cash;
     }
 
-    public void setCash(float cash) {
+    public void setCash(double cash) {
         this.cash = cash;
     }
 
@@ -67,8 +59,8 @@ public class Transaction {
     public String toString() {
         return "Transaction{" +
                 "id=" + id +
-                ", idUserSent=" + idUserSent +
-                ", idUserReceived=" + idUserReceived +
+                ", idUserSent=" + ribUserSent +
+                ", idUserReceived=" + ribUserReceived +
                 ", cash=" + cash +
                 ", date=" + date +
                 '}';

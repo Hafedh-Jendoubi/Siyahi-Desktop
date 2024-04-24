@@ -28,9 +28,14 @@ public class HomePageController {
     private MenuItem menuItem;
 
     @FXML
+    void navigateToUserHomePage(ActionEvent event) {
+
+    }
+
+    @FXML
     void navigateToHomePage(ActionEvent event) {
         try {
-            Parent ajouterUserParent = FXMLLoader.load(getClass().getResource("/HomePage.fxml"));
+            Parent ajouterUserParent = FXMLLoader.load(getClass().getResource("/AdminHomePage.fxml"));
             Scene ajouterUserScene = new Scene(ajouterUserParent);
             Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
             window.setScene(ajouterUserScene);
@@ -44,6 +49,19 @@ public class HomePageController {
     void navigateToUserSection(ActionEvent event) {
         try {
             Parent ajouterUserParent = FXMLLoader.load(getClass().getResource("/Users.fxml"));
+            Scene ajouterUserScene = new Scene(ajouterUserParent);
+            Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+            window.setScene(ajouterUserScene);
+            window.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    void navigateToTransactions(ActionEvent event) {
+        try {
+            Parent ajouterUserParent = FXMLLoader.load(getClass().getResource("/Transactions.fxml"));
             Scene ajouterUserScene = new Scene(ajouterUserParent);
             Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
             window.setScene(ajouterUserScene);
@@ -85,7 +103,10 @@ public class HomePageController {
         Parent parent = null;
         try {
             profileCheck = 1;
-            parent = FXMLLoader.load(getClass().getResource("/Profile.fxml"));
+            if(connectedUser.getRoles().equals("Client") || connectedUser.getRoles().equals("Employé(e)"))
+                parent = FXMLLoader.load(getClass().getResource("/ProfileUser.fxml"));
+            else
+                parent = FXMLLoader.load(getClass().getResource("/ProfileAdmin.fxml"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

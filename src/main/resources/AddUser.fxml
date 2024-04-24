@@ -17,20 +17,20 @@
       </ImageView>
       <TextField fx:id="prenom" layoutX="30.0" layoutY="183.0" prefHeight="25.0" prefWidth="150.0" promptText="Prénom*" AnchorPane.leftAnchor="30.0" />
       <TextField fx:id="nom" layoutX="220.0" layoutY="183.0" prefHeight="25.0" prefWidth="150.0" promptText="Nom*" />
+      <ComboBox fx:id="genre" layoutX="30.0" layoutY="253.0" prefWidth="150.0" promptText="Genre" visibleRowCount="2" />
       <TextField fx:id="adresse" layoutX="220.0" layoutY="253.0" prefHeight="25.0" prefWidth="150.0" promptText="Adresse" />
       <TextField fx:id="email_input" layoutX="30.0" layoutY="324.0" prefHeight="25.0" prefWidth="150.0" promptText="Email*" />
       <TextField fx:id="num_tel" layoutX="220.0" layoutY="324.0" prefHeight="25.0" prefWidth="150.0" promptText="Numéro téléphone" />
+      <TextField fx:id="cin" layoutX="31.0" layoutY="398.0" promptText="CIN*" />
+      <Button layoutX="220.0" layoutY="398.0" mnemonicParsing="false" onAction="#browseImage" prefHeight="25.0" prefWidth="150.0" text="Importer Fichier" />
       <Text layoutX="30.0" layoutY="170.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Prénom:" />
       <Text layoutX="220.0" layoutY="170.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nom:" />
       <Text layoutX="30.0" layoutY="242.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Genre:" />
-      <ComboBox fx:id="genre" layoutX="30.0" layoutY="253.0" prefWidth="150.0" promptText="Genre" visibleRowCount="2" />
       <Text layoutX="223.0" layoutY="242.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Adresse:" />
       <Text layoutX="30.0" layoutY="314.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Email:" />
       <Text layoutX="223.0" layoutY="314.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Numéro téléphone:" />
-      <TextField fx:id="cin" layoutX="31.0" layoutY="398.0" promptText="CIN*" />
       <Text layoutX="30.0" layoutY="383.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CIN:" />
       <Text layoutX="227.0" layoutY="383.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Image:" />
-      <Button layoutX="220.0" layoutY="398.0" mnemonicParsing="false" onAction="#browseImage" prefHeight="25.0" prefWidth="150.0" text="Importer Fichier" />
       <Button layoutX="74.0" layoutY="453.0" mnemonicParsing="false" onAction="#AddUser" prefHeight="25.0" prefWidth="103.0" text="Confirmer" AnchorPane.leftAnchor="86.0" />
       <Button layoutX="211.0" layoutY="453.0" mnemonicParsing="false" onAction="#CancelAddUser" prefHeight="25.0" prefWidth="103.0" text="Annuler" AnchorPane.rightAnchor="86.0" />
    </children>

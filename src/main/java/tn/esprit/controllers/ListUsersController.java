@@ -88,7 +88,7 @@ public class ListUsersController {
     @FXML
     void navigateToHomePage(ActionEvent event) {
         try {
-            Parent acceuil = FXMLLoader.load(getClass().getResource("/HomePage.fxml"));
+            Parent acceuil = FXMLLoader.load(getClass().getResource("/AdminHomePage.fxml"));
             Scene ajouterUserScene = new Scene(acceuil);
             Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
             window.setScene(ajouterUserScene);
@@ -156,7 +156,7 @@ public class ListUsersController {
         try {
             if(us.authentification(email.getText(), password.getText()) != null) { //Login Success
                 User user = us.getOneByEMAIL(email.getText());
-                if(user.getActivity().equals("F")){
+                if(user.getActivity().equals("F")){ //Compte desactivé
                     Alert alert = showFailedMessage("Votre compte a été désactivé.");
                     ButtonType confirmButton = new ButtonType("Ok");
                     alert.getButtonTypes().setAll(confirmButton);
@@ -164,16 +164,31 @@ public class ListUsersController {
                     if (result.isPresent() && result.get() == confirmButton) {
                         alert.close();
                     }
-                }else {
-                    try {
-                        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/HomePage.fxml"));
-                        Parent root = fxmlLoader.load();
-                        Stage stage = (Stage) email.getScene().getWindow();
-                        stage.setWidth(1300); stage.setMaxWidth(1300); stage.setMinWidth(1300);
-                        stage.setHeight(600); stage.setMaxHeight(600); stage.setMinHeight(600);
-                        email.getScene().setRoot(root);
-                    } catch (IOException ex) {
-                        System.err.println(ex.getMessage());
+                }else { //Compte activé
+                    if(user.getRoles().equals("[\"ROLE_USER\"]") || user.getRoles().equals("[\"ROLE_STAFF\"]")){
+                        try {
+                            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/UserHomePage.fxml"));
+                            Parent root = fxmlLoader.load();
+                            Stage stage = (Stage) email.getScene().getWindow();
+                            stage.setWidth(1300); stage.setMaxWidth(1300); stage.setMinWidth(1300);
+                            stage.setHeight(600); stage.setMaxHeight(600); stage.setMinHeight(600);
+                            email.getScene().setRoot(root);
+                            stage.show();
+                        } catch (IOException ex) {
+                            System.err.println(ex.getMessage());
+                        }
+                    }else{
+                        try {
+                            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/AdminHomePage.fxml"));
+                            Parent root = fxmlLoader.load();
+                            Stage stage = (Stage) email.getScene().getWindow();
+                            stage.setWidth(1300); stage.setMaxWidth(1300); stage.setMinWidth(1300);
+                            stage.setHeight(600); stage.setMaxHeight(600); stage.setMinHeight(600);
+                            email.getScene().setRoot(root);
+                            stage.show();
+                        } catch (IOException ex) {
+                            System.err.println(ex.getMessage());
+                        }
                     }
                 }
             } else { //Login Failure.
@@ -217,7 +232,7 @@ public class ListUsersController {
         Parent parent = null;
         try {
             profileCheck = 1;
-            parent = FXMLLoader.load(getClass().getResource("/Profile.fxml"));
+            parent = FXMLLoader.load(getClass().getResource("/ProfileAdmin.fxml"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -253,7 +268,7 @@ public class ListUsersController {
             user = selectedUser;
             if (selectedUser != null) {
                 try {
-                    Parent parent = FXMLLoader.load(getClass().getResource("/Profile.fxml"));
+                    Parent parent = FXMLLoader.load(getClass().getResource("/ProfileAdmin.fxml"));
                     Scene scene = new Scene(parent);
                     Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
                     window.setScene(scene);

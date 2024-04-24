@@ -17,14 +17,26 @@ public class TransactionService implements IService<Transaction> {
     //actions
     @Override
     public void add(Transaction transaction) {
-        String req = "INSERT INTO `transaction`(`userSent`, `userReceived`, `cash`, `date`) VALUES (?, ?, ?, ?)";
+        String req = "INSERT INTO `transaction`(`ribSent`, `ribRec`, `cash`, `date`) VALUES (?, ?, ?, ?)";
+        String req1 = "UPDATE `compte_client` SET `solde` = `solde` - ? WHERE `rib` = ?";
+        String req2 = "UPDATE `compte_client` SET `solde` = `solde` + ? WHERE `rib` = ?";
         try{
             PreparedStatement ps = cnx.prepareStatement(req);
-            ps.setInt(1, transaction.getIdUserSent());
-            ps.setInt(2, transaction.getIdUserReceived());
-            ps.setFloat(3, transaction.getCash());
+            ps.setLong(1, transaction.getRibUserSent());
+            ps.setLong(2, transaction.getRibUserReceived());
+            ps.setDouble(3, transaction.getCash());
             ps.setDate(4, transaction.getDate());
             ps.executeUpdate();
+
+            PreparedStatement ps1 = cnx.prepareStatement(req1);
+            ps1.setDouble(1, transaction.getCash());
+            ps1.setLong(2, transaction.getRibUserSent());
+            ps1.executeUpdate();
+
+            PreparedStatement ps2 = cnx.prepareStatement(req2);
+            ps2.setDouble(1, transaction.getCash());
+            ps2.setLong(2, transaction.getRibUserReceived());
+            ps2.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -33,8 +45,8 @@ public class TransactionService implements IService<Transaction> {
     @Override
     public void update(Transaction transaction) {
         String req = "UPDATE `transaction` SET " +
-                "`userSent`='" + transaction.getIdUserSent() +
-                "',`userReceived`='" + transaction.getIdUserReceived() +
+                "`ribSent`='" + transaction.getRibUserSent() +
+                "',`ribRec`='" + transaction.getRibUserReceived() +
                 "',`cash`='" + transaction.getCash() +
                 "',`date`='" + transaction.getDate() +
                 "' WHERE `id`=" + transaction.getId();
@@ -73,8 +85,8 @@ public class TransactionService implements IService<Transaction> {
             while (res.next()){
                 Transaction transaction = new Transaction();
                 transaction.setId(res.getInt(1));
-                transaction.setIdUserSent(res.getInt(2));
-                transaction.setIdUserReceived(res.getInt(3));
+                transaction.setRibUserSent(res.getInt(2));
+                transaction.setRibUserReceived(res.getInt(3));
                 transaction.setCash(res.getFloat(4));
                 transaction.setDate(res.getDate(5));
                 transactions.add(transaction);
@@ -95,8 +107,8 @@ public class TransactionService implements IService<Transaction> {
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 transaction.setId(id);
-                transaction.setIdUserSent(rs.getInt(2));
-                transaction.setIdUserReceived(rs.getInt(3));
+                transaction.setRibUserSent(rs.getInt(2));
+                transaction.setRibUserReceived(rs.getInt(3));
                 transaction.setCash(rs.getFloat(4));
                 transaction.setDate(rs.getDate(5));
             }
