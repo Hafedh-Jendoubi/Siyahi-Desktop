@@ -1,7 +1,6 @@
 package tn.esprit.models;
 
 import java.sql.Date;
-import java.time.LocalDate;
 
 public class Credit {
     private int id;

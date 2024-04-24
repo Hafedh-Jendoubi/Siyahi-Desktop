@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 public class MaConnexion {
     //DB
-    final String URL="jdbc:mysql://localhost:3306/siyahiintegration1";
+    final String URL="jdbc:mysql://localhost:3306/siyahiintegration2";
     final String USR="root";
     final String PWD="";
 
