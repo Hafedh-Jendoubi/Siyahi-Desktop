@@ -30,7 +30,7 @@
       <TextField fx:id="cin" layoutX="31.0" layoutY="398.0" promptText="CIN*" />
       <Text layoutX="30.0" layoutY="383.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CIN:" />
       <Text layoutX="227.0" layoutY="383.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Image:" />
-      <Button fx:id="image" layoutX="220.0" layoutY="398.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="150.0" text="Importer Fichier" />
+      <Button layoutX="220.0" layoutY="398.0" mnemonicParsing="false" onAction="#browseImage" prefHeight="25.0" prefWidth="150.0" text="Importer Fichier" />
       <Button layoutX="74.0" layoutY="453.0" mnemonicParsing="false" onAction="#AddUser" prefHeight="25.0" prefWidth="103.0" text="Confirmer" AnchorPane.leftAnchor="86.0" />
       <Button layoutX="211.0" layoutY="453.0" mnemonicParsing="false" onAction="#CancelAddUser" prefHeight="25.0" prefWidth="103.0" text="Annuler" AnchorPane.rightAnchor="86.0" />
    </children>

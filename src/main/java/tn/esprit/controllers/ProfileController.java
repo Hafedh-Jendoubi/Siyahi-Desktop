@@ -8,23 +8,17 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
+import tn.esprit.models.User;
 
 import java.io.IOException;
-import java.util.Optional;
+import java.util.Objects;
 
 import static tn.esprit.services.UserService.connectedUser;
 
 public class ProfileController {
-    @FXML
-    private Button ToHomePage;
-
-    @FXML
-    private Button ToUserSectionButton;
-
     @FXML
     private Label activity;
 
@@ -58,8 +52,12 @@ public class ProfileController {
     @FXML
     private Label tel;
 
+    public static int profileCheck;
+
+    public static User user;
+
     @FXML
-    void navigateToHomePage(ActionEvent event) {
+    private void navigateToHomePage(ActionEvent event) {
         try {
             Parent ajouterUserParent = FXMLLoader.load(getClass().getResource("/HomePage.fxml"));
             Scene ajouterUserScene = new Scene(ajouterUserParent);
@@ -72,7 +70,7 @@ public class ProfileController {
     }
 
     @FXML
-    void navigateToUserSection(ActionEvent event) {
+    private void navigateToUserSection(ActionEvent event) {
         try {
             Parent ajouterUserParent = FXMLLoader.load(getClass().getResource("/Users.fxml"));
             Scene ajouterUserScene = new Scene(ajouterUserParent);
@@ -85,41 +83,41 @@ public class ProfileController {
     }
 
     @FXML
-    void updateUser(ActionEvent event) {
+    private void updateUser(ActionEvent event) {
         //Will add update user here
     }
 
-    @FXML
-    void deleteUser(ActionEvent event) {
-        //Delete User
+    private void setUserValues(User user){
+        if (user.getActivity().equals("Active")) {
+            activity.setText("[Activé]");
+            activity.setStyle("-fx-text-fill: green;");
+        } else {
+            activity.setText("[Blocké]");
+            activity.setStyle("-fx-text-fill: red;");
+        }
+        date_creation.setText(user.getDate_creation_c().toString());
+        role.setText(user.getRoles());
+        first_name.setText(user.getFirst_name());
+        last_name.setText(user.getLast_name());
+        gender.setText(user.getGender());
+        cin.setText(String.valueOf(user.getCin()));
+        adress.setText(user.getAddress());
+        tel.setText(String.valueOf(user.getPhone_number()));
+        email.setText(user.getEmail());
+
+        //Setting the user picture
+        String imageName = user.getImage();
+        String imagePath = "/uploads/user/" + imageName;
+        Image image = new Image(Objects.requireNonNull(getClass().getResource(imagePath)).toExternalForm());
+        big_circle.setFill(new ImagePattern(image));
     }
 
     @FXML
     void initialize() {
-        try {
-            String imageName = connectedUser.getImage();
-            String imagePath = "/uploads/user/" + imageName;
-            Image image = new Image(getClass().getResource(imagePath).toExternalForm());
-            big_circle.setFill(new ImagePattern(image));
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
+        if (profileCheck == 1) { //Going into Profile.fxml from "Profile" menuItem.
+            setUserValues(connectedUser);
+        } else { //Going into Profile.fxml from "TableView" as an Admin or Super_Admin
+            setUserValues(user);
         }
-
-        if(connectedUser.getActivity().equals("Active")) {
-            activity.setText("[Activé]");
-            activity.setStyle("-fx-text-fill: green;");
-        }else{
-            activity.setText("[Blocké]");
-            activity.setStyle("-fx-text-fill: red;");
-        }
-        date_creation.setText(connectedUser.getDate_creation_c().toString());
-        role.setText(connectedUser.getRoles());
-        first_name.setText(connectedUser.getFirst_name());
-        last_name.setText(connectedUser.getLast_name());
-        gender.setText(connectedUser.getGender());
-        cin.setText(String.valueOf(connectedUser.getCin()));
-        adress.setText(connectedUser.getAddress());
-        tel.setText(String.valueOf(connectedUser.getPhone_number()));
-        email.setText(connectedUser.getEmail());
     }
 }

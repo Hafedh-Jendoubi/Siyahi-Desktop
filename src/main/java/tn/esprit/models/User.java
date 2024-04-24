@@ -22,7 +22,7 @@ public class User {
     //Constructors
     public User(){}
 
-    public User(String first_name, String last_name, String gender, String address, int phone_number, int cin, String old_email) {
+    public User(String first_name, String last_name, String gender, String address, int phone_number, int cin, String old_email, String image) {
         this.first_name = first_name;
         this.last_name = last_name;
         this.gender = gender;
@@ -30,6 +30,7 @@ public class User {
         this.phone_number = phone_number;
         this.cin = cin;
         this.old_email = old_email;
+        this.image = image;
     }
 
     public User(String email, String roles, String password, String first_name, String last_name, String gender, String address, int phone_number, int cin, String image, String old_email, String activity) {

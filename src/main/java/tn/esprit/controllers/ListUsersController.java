@@ -17,6 +17,8 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
@@ -30,9 +32,15 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Optional;
 
+import static tn.esprit.controllers.ProfileController.profileCheck;
 import static tn.esprit.services.UserService.connectedUser;
+import static tn.esprit.controllers.ProfileController.user;
 
 public class ListUsersController {
+    private UserService us = new UserService();
+
+    private final ObservableList<User> dataList = FXCollections.observableList(us.getAll());
+
     @FXML
     private TextField email;
 
@@ -61,10 +69,6 @@ public class ListUsersController {
 
     @FXML
     private TableColumn<User, Integer> TelCol;
-
-    private UserService us = new UserService();
-
-    private final ObservableList<User> dataList = FXCollections.observableList(us.getAll());
 
     @FXML
     private TableView<User> TableUser = new TableView<>(dataList);
@@ -117,7 +121,7 @@ public class ListUsersController {
         try {
             Parent users_section = FXMLLoader.load(getClass().getResource("/AddUser.fxml"));
             Scene users_sectionSecene = new Scene(users_section);
-            Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+            Stage window = new Stage();
             window.setScene(users_sectionSecene);
             window.setMaxHeight(550); window.setMinHeight(550);
             window.setMaxWidth(400); window.setMinWidth(400);
@@ -172,7 +176,7 @@ public class ListUsersController {
                         System.err.println(ex.getMessage());
                     }
                 }
-            } else {
+            } else { //Login Failure.
                 Alert alert = showFailedMessage("Veuillez vérifier vos identifiants.");
                 ButtonType confirmButton = new ButtonType("Ok");
                 alert.getButtonTypes().setAll(confirmButton);
@@ -212,6 +216,7 @@ public class ListUsersController {
     void Profile(ActionEvent event) {
         Parent parent = null;
         try {
+            profileCheck = 1;
             parent = FXMLLoader.load(getClass().getResource("/Profile.fxml"));
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -240,6 +245,26 @@ public class ListUsersController {
         alert.showAndWait();
     }
 
+    @FXML
+    void viewUser(MouseEvent event) {
+        profileCheck = 2;
+        if (event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 2) {
+            User selectedUser = TableUser.getSelectionModel().getSelectedItem();
+            user = selectedUser;
+            if (selectedUser != null) {
+                try {
+                    Parent parent = FXMLLoader.load(getClass().getResource("/Profile.fxml"));
+                    Scene scene = new Scene(parent);
+                    Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+                    window.setScene(scene);
+                    window.show();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
     private void showMenu(User user, Button actionButton) {
         ContextMenu contextMenu = new ContextMenu();
         MenuItem editItem = new MenuItem("Modifier");
@@ -258,7 +283,6 @@ public class ListUsersController {
             Optional<ButtonType> result = alert.showAndWait();
             if (result.isPresent() && result.get() == ButtonType.OK) {
                 us.delete(user);
-                TableUser.getItems().remove(TableUser.getSelectionModel().getSelectedItem());
                 showSuccessMessage("Utilisateur supprimé avec succès!");
             } else {
                 alert.close();
@@ -330,11 +354,16 @@ public class ListUsersController {
                     }
                 }
             });
+
+            //Centering TableView Data:
+            TelCol.setStyle("-fx-alignment: CENTER;");
+            CinCol.setStyle("-fx-alignment: CENTER;");
+            actionCol.setStyle("-fx-alignment: CENTER;");
         }catch (Exception e){
             System.err.println(e.getMessage());
         }
 
-        //Set User Image
+        //Set Connected User Image
         try {
             String imageName = connectedUser.getImage();
             String imagePath = "/uploads/user/" + imageName;

@@ -10,7 +10,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
@@ -19,6 +18,7 @@ import java.io.IOException;
 import java.util.Optional;
 
 import static tn.esprit.services.UserService.connectedUser;
+import static tn.esprit.controllers.ProfileController.profileCheck;
 
 public class HomePageController {
     @FXML
@@ -84,6 +84,7 @@ public class HomePageController {
     void Profile(ActionEvent event) {
         Parent parent = null;
         try {
+            profileCheck = 1;
             parent = FXMLLoader.load(getClass().getResource("/Profile.fxml"));
         } catch (IOException e) {
             throw new RuntimeException(e);

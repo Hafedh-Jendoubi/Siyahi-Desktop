@@ -30,8 +30,8 @@
                         <Image url="@uploads/logoCo.png" />
                      </image>
                   </ImageView>
-                  <Button fx:id="ToHomePage" layoutX="30.0" layoutY="240.0" mnemonicParsing="false" onAction="#navigateToHomePage" prefHeight="30.0" prefWidth="300.0" text="Acceuil" />
-                  <Button fx:id="ToUserSectionButton" layoutX="30.0" layoutY="290.0" mnemonicParsing="false" onAction="#navigateToUserSection" prefHeight="30.0" prefWidth="300.0" text="Gestion Utilisateurs" />
+                  <Button layoutX="30.0" layoutY="240.0" mnemonicParsing="false" onAction="#navigateToHomePage" prefHeight="30.0" prefWidth="300.0" text="Acceuil" />
+                  <Button layoutX="30.0" layoutY="290.0" mnemonicParsing="false" onAction="#navigateToUserSection" prefHeight="30.0" prefWidth="300.0" text="Gestion Utilisateurs" />
                </children>
             </AnchorPane>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="598.0" prefWidth="952.0" style="-fx-background-color: #E4E4E4;">
@@ -45,7 +45,7 @@
                   <AnchorPane layoutX="25.0" layoutY="95.0" prefHeight="481.0" prefWidth="887.0" style="-fx-background-color: #E4E4E4; -fx-border-radius: 15px; -fx-border-width: 1px;">
                      <children>
                         <TextField fx:id="filterField" layoutX="6.0" layoutY="28.0" prefHeight="26.0" prefWidth="314.0" promptText="Rechercher Utilisateur..." style="-fx-background-radius: 50px;" />
-                        <TableView fx:id="TableUser" layoutX="8.0" layoutY="83.0" prefHeight="315.0" prefWidth="874.0" style="-fx-background-color: grey;" AnchorPane.leftAnchor="8.0" AnchorPane.rightAnchor="-2.0">
+                        <TableView fx:id="TableUser" layoutX="8.0" layoutY="83.0" onMouseClicked="#viewUser" prefHeight="315.0" prefWidth="874.0" style="-fx-background-color: grey;" AnchorPane.leftAnchor="8.0" AnchorPane.rightAnchor="-2.0">
                            <columns>
                               <TableColumn fx:id="ActiviteCol" editable="false" prefWidth="60.0" resizable="false" text="Activité" />
                               <TableColumn fx:id="NomCol" editable="false" prefWidth="84.0" resizable="false" text="Nom" />

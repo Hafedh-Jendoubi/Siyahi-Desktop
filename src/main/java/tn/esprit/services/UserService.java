@@ -47,7 +47,7 @@ public class UserService implements IService<User> {
         try {
             PreparedStatement ps = cnx.prepareStatement(req);
             String pass = generateRandomString();
-            String email = user.getFirst_name() + "." + user.getLast_name() + "@siyahi.tn";
+            String email = user.getFirst_name().toLowerCase() + "." + user.getLast_name().toLowerCase() + "@siyahi.tn";
             ps.setString(1, email);
             ps.setString(2, "[\"ROLE_USER\"]");
             ps.setString(3, hashPassword(pass));
@@ -58,10 +58,15 @@ public class UserService implements IService<User> {
             ps.setInt(8, user.getPhone_number());
             ps.setInt(9, user.getCin());
             ps.setTimestamp(10, new Timestamp(System.currentTimeMillis()));
-            if(user.getGender().equals("M"))
-                ps.setString(11, "7f9183c93cb4803aefc8262447c4efc9.png");
-            else
-                ps.setString(11, "b56ef85920323ead69e5f0d1ca13a0cd.png");
+            if(user.getImage() == null){ //Employee has not imported a User Profile Picture
+                if(user.getGender().equals("M"))
+                    ps.setString(11, "7f9183c93cb4803aefc8262447c4efc9.png");
+                else
+                    ps.setString(11, "b56ef85920323ead69e5f0d1ca13a0cd.png");
+            }else{
+                ps.setString(11, user.getImage());
+            }
+
             ps.setString(12, user.getOld_email());
             ps.setString(13, "T");
 

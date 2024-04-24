@@ -4,10 +4,18 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.shape.Path;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import tn.esprit.models.User;
 import tn.esprit.services.UserService;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Optional;
 
 public class AddUserController {
@@ -24,9 +32,6 @@ public class AddUserController {
     private ComboBox<String> genre;
 
     @FXML
-    private Button image;
-
-    @FXML
     private TextField nom;
 
     @FXML
@@ -35,7 +40,14 @@ public class AddUserController {
     @FXML
     private TextField prenom;
 
+    private String picturePath;
 
+    //Getter & Setter
+    public String getPicturePath() {return picturePath;}
+
+    public void setPicturePath(String picturePath) {this.picturePath = picturePath;}
+
+    //Methods
     @FXML
     void AddUser(ActionEvent event) {
         //Controle de saisie
@@ -73,9 +85,10 @@ public class AddUserController {
             Optional<ButtonType> result = alert.showAndWait();
             if (result.isPresent() && result.get() == ButtonType.OK) {
                 if (genre.getValue().equals("Male"))
-                    us.add(new User(prenom.getText(), nom.getText(), "M", adresse.getText(), Integer.parseInt(num_tel.getText()), Integer.parseInt(cin.getText()), email_input.getText()));
+                    us.add(new User(prenom.getText(), nom.getText(), "M", adresse.getText(), Integer.parseInt(num_tel.getText()), Integer.parseInt(cin.getText()), email_input.getText(), picturePath));
                 else
-                    us.add(new User(prenom.getText(), nom.getText(), "F", adresse.getText(), Integer.parseInt(num_tel.getText()), Integer.parseInt(cin.getText()), email_input.getText()));
+                    us.add(new User(prenom.getText(), nom.getText(), "F", adresse.getText(), Integer.parseInt(num_tel.getText()), Integer.parseInt(cin.getText()), email_input.getText(), picturePath));
+                CancelAddUser(event);
             } else {
                 alert.close();
             }
@@ -84,9 +97,39 @@ public class AddUserController {
     }
 
     @FXML
+    void browseImage(ActionEvent event) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Select Image File");
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("*.png", "*.jpg", "*.jpeg"));
+
+        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+        File selectedFile = fileChooser.showOpenDialog(window);
+        if (selectedFile != null) {
+            String destinationFolderPath1 = "D:\\Users\\hafeu\\Desktop\\Siyahi-Desktop\\src\\main\\resources\\uploads\\user";
+            String destinationFolderPath2 = "D:\\Users\\hafeu\\Desktop\\Hafedh\\Personal-Repository\\3A42\\Semester 2\\PI-DEV\\Web Symfony\\Siyahi-Web\\public\\uploads\\user";
+
+            try {
+                java.nio.file.Path sourcePath = selectedFile.toPath();
+                java.nio.file.Path destinationPath1 = Paths.get(destinationFolderPath1, selectedFile.getName());
+                java.nio.file.Path destinationPath2 = Paths.get(destinationFolderPath2, selectedFile.getName());
+
+                Files.copy(sourcePath, destinationPath1);
+                Files.copy(sourcePath, destinationPath2);
+
+                //Just to retreive the Picture Name in order to upload it to the Database
+                String pictureName = destinationPath1.toString();
+                String resultName = pictureName.replaceFirst(".*\\\\uploads\\\\user\\\\", "");
+                setPicturePath(resultName);
+            } catch (IOException e) {
+                System.err.println("Error transferring image: " + e.getMessage());
+            }
+        }
+    }
+
+    @FXML
     void CancelAddUser(ActionEvent event) {
-        ListUsersController lc = new ListUsersController();
-        lc.navigateToUserSection(event);
+        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+        window.close();
     }
 
     @FXML
