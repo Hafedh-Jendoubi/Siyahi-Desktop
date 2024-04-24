@@ -334,19 +334,8 @@ public class UserService implements IService<User> {
 
     public void enableUser(User user){
         String req = "UPDATE `user` SET " +
-                "`email`='" + user.getEmail() +
-                "',`roles`='" + user.getRoles() +
-                "',`password`='" + user.getPassword() +
-                "',`first_name`='" + user.getFirst_name() +
-                "',`last_name`='" + user.getLast_name() +
-                "',`gender`='" + user.getGender() +
-                "',`address`='" + user.getAddress() +
-                "',`phone_number`='" + user.getPhone_number() +
-                "',`cin`='" + user.getCin() +
-                "',`image`='" + user.getImage() +
-                "',`old_email`='" + user.getOld_email() +
-                "',`activity`='" + "T" +
-                "' WHERE `id`=" + user.getId();
+                "`activity`= 'T'" +
+                " WHERE `id`= " + user.getId();
 
         try {
             Statement st = cnx.createStatement();
@@ -358,19 +347,8 @@ public class UserService implements IService<User> {
 
     public void disableUser(User user){
         String req = "UPDATE `user` SET " +
-                "`email`='" + user.getEmail() +
-                "',`roles`='" + user.getRoles() +
-                "',`password`='" + user.getPassword() +
-                "',`first_name`='" + user.getFirst_name() +
-                "',`last_name`='" + user.getLast_name() +
-                "',`gender`='" + user.getGender() +
-                "',`address`='" + user.getAddress() +
-                "',`phone_number`='" + user.getPhone_number() +
-                "',`cin`='" + user.getCin() +
-                "',`image`='" + user.getImage() +
-                "',`old_email`='" + user.getOld_email() +
-                "',`activity`='" + "F" +
-                "' WHERE `id`=" + user.getId();
+                "`activity`= 'F'" +
+                " WHERE `id`= " + user.getId();
 
         try {
             Statement st = cnx.createStatement();

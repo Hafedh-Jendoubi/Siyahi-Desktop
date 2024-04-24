@@ -7,15 +7,16 @@ import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Side;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
@@ -76,6 +77,9 @@ public class ListUsersController {
 
     @FXML
     private TextField filterField = new TextField();
+
+    @FXML
+    private TableColumn<User, Void> actionCol;
 
     @FXML
     void navigateToHomePage(ActionEvent event) {
@@ -228,57 +232,70 @@ public class ListUsersController {
         return alert;
     }
 
-    @FXML
-    void DeleteUser(ActionEvent event) {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Confirmation");
-        alert.setHeaderText("Voulez-vous vraiment supprimer l'utilisateur suivant ?");
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.isPresent() && result.get() == ButtonType.OK) {
-            us.delete(TableUser.getSelectionModel().getSelectedItem());
-            TableUser.getItems().remove(TableUser.getSelectionModel().getSelectedItem());
-            showSuccessMessage("Utilisateur supprimé avec succès!");
-        } else {
-            alert.close();
-        }
-    }
-
-    @FXML
-    void ActivateDesactivateUser(ActionEvent event){
-        User user = TableUser.getSelectionModel().getSelectedItem();
-        User user1 = us.getOneByCIN(user.getCin()); //I created this user1 because the user variable got gender as "Male" not "M" and role "Client" instead of "["ROLE_USER"]"
-        if(user1.getActivity().equals("F")){
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Confirmation");
-            alert.setHeaderText("Voulez-vous vraiment activer l'utilisateur suivant?");
-            Optional<ButtonType> result = alert.showAndWait();
-            if (result.isPresent() && result.get() == ButtonType.OK) {
-                us.enableUser(user1);
-                showSuccessMessage("Utilisateur a été activé avec succès!");
-            } else {
-                alert.close();
-            }
-        }else{
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Confirmation");
-            alert.setHeaderText("Voulez-vous vraiment désactiver l'utilisateur suivant?");
-            Optional<ButtonType> result = alert.showAndWait();
-            if (result.isPresent() && result.get() == ButtonType.OK) {
-                us.disableUser(user1);
-                showSuccessMessage("Utilisateur a été désactivé avec succès!");
-            } else {
-                alert.close();
-            }
-        }
-        initialize();
-    }
-
     private void showSuccessMessage(String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Succès");
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    private void showMenu(User user, Button actionButton) {
+        ContextMenu contextMenu = new ContextMenu();
+        MenuItem editItem = new MenuItem("Modifier");
+        MenuItem deleteItem = new MenuItem("Supprimer");
+        MenuItem blockItem = new MenuItem("Bloquer");
+        MenuItem unblockItem = new MenuItem("Débloquer");
+
+        editItem.setOnAction(event -> {
+            // Handle edit action
+            // For example: show edit dialog
+        });
+        deleteItem.setOnAction(event -> {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Confirmation");
+            alert.setHeaderText("Voulez-vous vraiment supprimer l'utilisateur suivant ?");
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                us.delete(user);
+                TableUser.getItems().remove(TableUser.getSelectionModel().getSelectedItem());
+                showSuccessMessage("Utilisateur supprimé avec succès!");
+            } else {
+                alert.close();
+            }
+        });
+        blockItem.setOnAction(event -> {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Confirmation");
+            alert.setHeaderText("Voulez-vous vraiment désactiver l'utilisateur suivant?");
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                us.disableUser(user);
+                showSuccessMessage("Utilisateur a été désactivé avec succès!");
+            } else {
+                alert.close();
+            }
+            TableUser.refresh();
+        });
+        unblockItem.setOnAction(event -> {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Confirmation");
+            alert.setHeaderText("Voulez-vous vraiment activer l'utilisateur suivant?");
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                us.enableUser(user);
+                showSuccessMessage("Utilisateur a été activé avec succès!");
+                TableUser.refresh();
+            } else {
+                alert.close();
+            }
+        });
+
+        if(user.getActivity().equals("Active"))
+            contextMenu.getItems().addAll(editItem, deleteItem, blockItem);
+        else
+            contextMenu.getItems().addAll(editItem, deleteItem, unblockItem);
+        contextMenu.show(actionButton, Side.BOTTOM, 0, 0);
     }
 
     @FXML
@@ -293,6 +310,26 @@ public class ListUsersController {
             TelCol.setCellValueFactory(new PropertyValueFactory<>("phone_number"));
             CinCol.setCellValueFactory(new PropertyValueFactory<>("cin"));
             RoleCol.setCellValueFactory(new PropertyValueFactory<>("roles"));
+            actionCol.setCellFactory(col -> new TableCell<User, Void>() {
+                private final Button actionButton = new Button("☰");
+
+                {
+                    actionButton.setOnAction(event -> {
+                        User user = getTableView().getItems().get(getIndex());
+                        showMenu(user, actionButton);
+                    });
+                }
+
+                @Override
+                protected void updateItem(Void item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty) {
+                        setGraphic(null);
+                    } else {
+                        setGraphic(actionButton);
+                    }
+                }
+            });
         }catch (Exception e){
             System.err.println(e.getMessage());
         }

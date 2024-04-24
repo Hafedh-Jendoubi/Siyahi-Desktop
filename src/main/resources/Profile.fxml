@@ -2,16 +2,11 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.MenuButton?>
-<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.paint.Color?>
-<?import javafx.scene.paint.LinearGradient?>
-<?import javafx.scene.paint.Stop?>
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
@@ -32,115 +27,131 @@
             </AnchorPane>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #E4E4E4;">
                <children>
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" height="280.0" layoutX="-149.0" layoutY="159.0" rotate="90.0" stroke="TRANSPARENT" strokeType="INSIDE" width="589.0">
-                     <fill>
-                        <LinearGradient endX="1.0" endY="1.0" startX="1.0" startY="1.0">
-                           <stops>
-                              <Stop>
-                                 <color>
-                                    <Color red="0.03869999945163727" green="0.3517400026321411" blue="0.4300000071525574" />
-                                 </color>
-                              </Stop>
-                              <Stop offset="1.0">
-                                 <color>
-                                    <Color red="1.0" green="1.0" blue="1.0" />
-                                 </color>
-                              </Stop>
-                           </stops>
-                        </LinearGradient>
-                     </fill>
-                  </Rectangle>
-                  <MenuButton layoutX="830.0" layoutY="40.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0">
-                     <items>
-                        <MenuItem mnemonicParsing="false" onAction="#Profile" text="Profile" />
-                        <MenuItem fx:id="menuItem" mnemonicParsing="false" onAction="#Logout" text="Déconnexion" />
-                     </items>
-                  </MenuButton>
-                  <Circle fx:id="circle" disable="true" fill="DODGERBLUE" layoutX="850.0" layoutY="60.0" radius="32.0" stroke="BLACK" strokeType="INSIDE" />
-                  <Label layoutX="352.0" layoutY="338.0" text="Telephone:">
-                     <font>
-                        <Font name="Courier New Bold" size="20.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="400.0" layoutY="383.0" text="Email:">
-                     <font>
-                        <Font name="Courier New Bold" size="20.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="email" layoutX="478.0" layoutY="384.0" text="1">
-                     <font>
-                        <Font name="Arial Bold" size="20.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="tel" layoutX="478.0" layoutY="339.0" text="1">
-                     <font>
-                        <Font name="Arial Bold" size="20.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="364.0" layoutY="429.0" text="Addresse:">
-                     <font>
-                        <Font name="Courier New Bold" size="20.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="adress" layoutX="478.0" layoutY="430.0" text="1">
-                     <font>
-                        <Font name="Arial Bold" size="20.0" />
-                     </font>
-                  </Label>
-                  <Circle fx:id="big_circle" disable="true" fill="DODGERBLUE" layoutX="146.0" layoutY="140.0" radius="100.0" stroke="BLACK" strokeType="INSIDE" />
-                  <Label layoutX="546.0" layoutY="290.0" prefHeight="31.0" prefWidth="121.0" text="Contact Info">
-                     <font>
-                        <Font name="Sitka Heading Bold" size="22.0" />
-                     </font>
-                  </Label>
-                  <Button layoutX="68.0" layoutY="282.0" mnemonicParsing="false" onAction="#updateUser" prefHeight="30.0" prefWidth="156.0" style="-fx-background-radius: 20px;" text="Edit Profile" />
-                  <Button layoutX="68.0" layoutY="331.0" mnemonicParsing="false" onAction="#deleteUser" prefHeight="30.0" prefWidth="156.0" style="-fx-background-radius: 20px; -fx-background-color: #fa3025;" text="Supprimer Compte" />
-                  <Label fx:id="first_name" layoutX="478.0" layoutY="95.0" text="1">
-                     <font>
-                        <Font name="Arial Bold" size="20.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="last_name" layoutX="478.0" layoutY="129.0" text="1">
-                     <font>
-                        <Font name="Arial Bold" size="20.0" />
-                     </font>
-                  </Label>
-                  <Separator layoutX="287.0" layoutY="269.0" prefHeight="7.0" prefWidth="650.0" />
-                  <Label layoutX="539.0" layoutY="45.0" prefHeight="31.0" prefWidth="134.0" text="Personal Info">
-                     <font>
-                        <Font name="Sitka Heading Bold" size="22.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="422.0" layoutY="94.0" text="Nom:">
-                     <font>
-                        <Font name="Courier New Bold" size="20.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="386.0" layoutY="129.0" text="Prenom:">
-                     <font>
-                        <Font name="Courier New Bold" size="20.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="399.0" layoutY="163.0" text="Genre:">
-                     <font>
-                        <Font name="Courier New Bold" size="20.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="351.0" layoutY="200.0" text="Carte CIN:">
-                     <font>
-                        <Font name="Courier New Bold" size="20.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="gender" layoutX="478.0" layoutY="164.0" text="1">
-                     <font>
-                        <Font name="Arial Bold" size="20.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="cin" layoutX="478.0" layoutY="201.0" text="1">
-                     <font>
-                        <Font name="Arial Bold" size="20.0" />
-                     </font>
-                  </Label>
+                  <AnchorPane layoutX="286.0" layoutY="-2.0" prefHeight="607.0" prefWidth="654.0" style="-fx-background-color: #3C5B6F;">
+                     <children>
+                        <Label layoutX="260.0" layoutY="30.0" prefHeight="31.0" prefWidth="134.0" text="Account Info" textFill="#dfd0b8">
+                           <font>
+                              <Font name="Sitka Heading Bold" size="22.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="30.0" layoutY="80.0" styleClass="Label" text="Etat:" textFill="WHITE" underline="true">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="activity" layoutX="75.0" layoutY="80.0" text="1">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="256.0" layoutY="200.0" prefHeight="31.0" prefWidth="134.0" text="Personal Info" textFill="#dfd0b8">
+                           <font>
+                              <Font name="Sitka Heading Bold" size="22.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="first_name" layoutX="81.0" layoutY="240.0" text="1">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="last_name" layoutX="111.0" layoutY="270.0" text="1">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="gender" layoutX="94.0" layoutY="300.0" text="1">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="cin" layoutX="125.0" layoutY="329.0" text="1">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="30.0" layoutY="110.0" styleClass="Label" text="Date création:" textFill="WHITE" underline="true">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="30.0" layoutY="140.0" styleClass="Label" text="Rôle:" textFill="WHITE" underline="true">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="30.0" layoutY="240.0" styleClass="Label" text="Nom:" textFill="WHITE" underline="true">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="30.0" layoutY="270.0" styleClass="Label" text="Prénom:" textFill="WHITE" underline="true">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="30.0" layoutY="300.0" styleClass="Label" text="Genre:" textFill="WHITE" underline="true">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="30.0" layoutY="330.0" styleClass="Label" text="Carte CIN:" textFill="WHITE" underline="true">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="30.0" layoutY="430.0" styleClass="Label" text="Téléphone:" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="30.0" layoutY="460.0" styleClass="Label" text="Email:" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="30.0" layoutY="490.0" styleClass="Label" text="Adresse:" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="date_creation" layoutX="155.0" layoutY="109.0" text="1">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="role" layoutX="80.0" layoutY="140.0" text="1">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="263.0" layoutY="400.0" prefHeight="31.0" prefWidth="121.0" text="Contact Info" textFill="#dfd0b8">
+                           <font>
+                              <Font name="Sitka Heading Bold" size="22.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="tel" layoutX="131.0" layoutY="430.0" text="1">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="email" layoutX="89.0" layoutY="460.0" text="1">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="adress" layoutX="111.0" layoutY="490.0" text="1">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <Separator layoutX="70.0" layoutY="382.0" prefHeight="7.0" prefWidth="514.0" />
+                        <Separator layoutX="69.0" layoutY="183.0" prefHeight="7.0" prefWidth="514.0" />
+                     </children>
+                  </AnchorPane>
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#153448" height="280.0" layoutX="-164.0" layoutY="154.0" rotate="90.0" stroke="TRANSPARENT" strokeType="INSIDE" width="620.0" />
+                  <Circle fx:id="big_circle" disable="true" fill="DODGERBLUE" layoutX="146.0" layoutY="145.0" radius="100.0" stroke="BLACK" strokeType="INSIDE" />
+                  <Button layoutX="68.0" layoutY="273.0" mnemonicParsing="false" onAction="#updateUser" prefHeight="30.0" prefWidth="156.0" style="-fx-background-radius: 20px;" text="Edit Profile" />
+                  <Button layoutX="68.0" layoutY="321.0" mnemonicParsing="false" onAction="#deleteUser" prefHeight="30.0" prefWidth="156.0" style="-fx-background-radius: 20px; -fx-background-color: #fa3025;" text="Supprimer Compte" />
                </children>
             </AnchorPane>
          </items>
