@@ -1,5 +1,7 @@
 package tn.esprit.controllers;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -7,15 +9,18 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import tn.esprit.models.Credit;
+import tn.esprit.models.TypeCredit;
 import tn.esprit.services.CreditService;
+import tn.esprit.services.TypeCreditService;
 
 import java.io.IOException;
 import java.sql.Date;
-import java.sql.SQLException;
+import java.util.List;
 
 public class AjouterCredit {
 
@@ -34,20 +39,44 @@ public class AjouterCredit {
     @FXML
     private TextField SoldeTF;
 
-    private final CreditService cs = new CreditService();
+    @FXML
+    private ComboBox<TypeCredit> TypeCreditCB; // ComboBox for selecting credit types
+
+    private final CreditService creditService = new CreditService();
+    private final TypeCreditService typeCreditService = new TypeCreditService();
+
+    @FXML
+    void initialize() {
+        // Load credit types into the ComboBox
+        List<TypeCredit> typeCredits = typeCreditService.getAll();
+        ObservableList<TypeCredit> typeCreditList = FXCollections.observableArrayList(typeCredits);
+        TypeCreditCB.setItems(typeCreditList);
+    }
+
     @FXML
     void AjouterC(ActionEvent event) {
-        try{
-        cs.Insert(new Credit(Integer.parseInt(NbrTF.getText()),DescriptionTF.getText(),ContratTF.getText(),Float.parseFloat(SoldeTF.getText()),Date.valueOf(DateTF.getValue())));
-            showAlert(Alert.AlertType.INFORMATION, "Success", "Leave request added successfully.");
+        try {
+            // Retrieve selected type credit from the ComboBox
+            TypeCredit selectedTypeCredit = TypeCreditCB.getSelectionModel().getSelectedItem();
+            if (selectedTypeCredit == null) {
+                showAlert(Alert.AlertType.ERROR, "Error", "Please select a credit type.");
+                return;
+            }
+
+            Credit credit = new Credit();
+            credit.setNbr_mois_paiement(Integer.parseInt(NbrTF.getText()));
+            credit.setDescription(DescriptionTF.getText());
+            credit.setContrat(ContratTF.getText());
+            credit.setSolde_demande(Float.parseFloat(SoldeTF.getText()));
+            credit.setDate_debut_paiement(Date.valueOf(DateTF.getValue()));
+            credit.setType_credit_id(selectedTypeCredit.getId()); // Set the selected type credit ID
+
+            creditService.Add(credit);
+            showAlert(Alert.AlertType.INFORMATION, "Success", "Credit added successfully.");
             clearFields();
             RetourLV(event);
-
-       // } catch (IllegalArgumentException e) {
-       //     System.out.println("Erreur : " + e.getMessage());
-        }catch (Exception f) {
-            showAlert(Alert.AlertType.ERROR, "Error", f.getMessage());
-
+        } catch (Exception e) {
+            showAlert(Alert.AlertType.ERROR, "Error", e.getMessage());
         }
     }
 
@@ -72,13 +101,13 @@ public class AjouterCredit {
         alert.setContentText(content);
         alert.showAndWait();
     }
+
     private void clearFields() {
         DateTF.setValue(null);
         DescriptionTF.clear();
         NbrTF.clear();
         SoldeTF.clear();
         ContratTF.clear();
+        TypeCreditCB.getSelectionModel().clearSelection(); // Clear the ComboBox selection
     }
-
-
 }

@@ -18,43 +18,28 @@ public class CreditService implements IService<Credit> {
         if (credit.getNbr_mois_paiement() <= 0) {
             throw new IllegalArgumentException("Le nombre de mois de paiement doit être supérieur à zéro.");
         }
-        String req = "INSERT INTO `credit`(`solde_demande`, `date_debut_paiement`, `nbr_mois_paiement`, `description`, `contrat`) VALUES (" + credit.getSolde_demande() + ",'" + credit.getDate_debut_paiement() + "'," + credit.getNbr_mois_paiement() + ",'" + credit.getDescription() + "','" + credit.getContrat() + "')";
+        String req = "INSERT INTO `credit`(`solde_demande`, `date_debut_paiement`, `nbr_mois_paiement`, `description`, `contrat`, `type_credit_id`) VALUES (?, ?, ?, ?, ?, ?)";
         try {
-            Statement st = cnx.createStatement();
-            st.executeUpdate(req);
+            PreparedStatement st = cnx.prepareStatement(req);
+            st.setDouble(1, credit.getSolde_demande());
+            st.setDate(2, new java.sql.Date(credit.getDate_debut_paiement().getTime()));
+            st.setInt(3, credit.getNbr_mois_paiement());
+            st.setString(4, credit.getDescription());
+            st.setString(5, credit.getContrat());
+            st.setInt(6, credit.getType_credit_id()); // Assuming Credit class has a type_credit_id field
+            st.executeUpdate();
             System.out.println("Credit added successfully");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public void Insert(Credit credit) {
-        if (credit.getNbr_mois_paiement() <= 0) {
-            throw new IllegalArgumentException("Le nombre de mois de paiement doit être supérieur à zéro.");
-        }
-
-        String req = "INSERT INTO `credit`(`solde_demande`, `date_debut_paiement`, `nbr_mois_paiement`, `description`, `contrat`) VALUES (?, ?, ?, ?, ?)";
-        try {
-            PreparedStatement st = cnx.prepareStatement(req);
-            st.setDouble(1, credit.getSolde_demande());
-            st.setDate(2, new java.sql.Date(credit.getDate_debut_paiement().getTime()));
-            st.setInt(3, credit.getNbr_mois_paiement());
-            st.setString(4, credit.getDescription());
-            st.setString(5, credit.getContrat());
-            st.executeUpdate();
-            System.out.println("Crédit ajouté avec succès !");
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-
     @Override
     public void Update(Credit credit) {
         if (credit.getNbr_mois_paiement() <= 0) {
             throw new IllegalArgumentException("Le nombre de mois de paiement doit être supérieur à zéro.");
         }
-        String req = "UPDATE `credit` SET `solde_demande`=?, `date_debut_paiement`=?, `nbr_mois_paiement`=?, `description`=?, `contrat`=? WHERE `id`=?";
+        String req = "UPDATE `credit` SET `solde_demande`=?, `date_debut_paiement`=?, `nbr_mois_paiement`=?, `description`=?, `contrat`=?, `type_credit_id`=? WHERE `id`=?";
         try {
             PreparedStatement st = cnx.prepareStatement(req);
             st.setDouble(1, credit.getSolde_demande());
@@ -62,7 +47,8 @@ public class CreditService implements IService<Credit> {
             st.setInt(3, credit.getNbr_mois_paiement());
             st.setString(4, credit.getDescription());
             st.setString(5, credit.getContrat());
-            st.setInt(6, credit.getId()); // Assuming Credit class has an id field
+            st.setInt(6, credit.getType_credit_id()); // Assuming Credit class has a type_credit_id field
+            st.setInt(7, credit.getId()); // Assuming Credit class has an id field
             int rowsUpdated = st.executeUpdate();
             if (rowsUpdated > 0) {
                 System.out.println("Crédit mis à jour avec succès !");
@@ -94,7 +80,7 @@ public class CreditService implements IService<Credit> {
     @Override
     public List<Credit> getAll() {
         List<Credit> credits = new ArrayList<>();
-        String req = "SELECT * FROM Credit";
+        String req = "SELECT c.id, c.solde_demande, c.date_debut_paiement, c.nbr_mois_paiement, c.description, c.contrat, c.type_credit_id ,tc.nom_type_credit  FROM credit c  JOIN type_credit tc ON c.type_credit_id = tc.id";
 
         Statement st = null;
         try {
@@ -108,6 +94,8 @@ public class CreditService implements IService<Credit> {
                 credit.setNbr_mois_paiement(res.getInt("nbr_mois_paiement"));
                 credit.setDescription(res.getString("description"));
                 credit.setContrat(res.getString("contrat"));
+                credit.setType_credit_id(res.getInt("type_credit_id")); // Assuming Credit class has a type_credit_id field
+                credit.setType_credit_nom(res.getString("nom_type_credit")); // Assuming Credit class has a type_credit_nom field
 
                 credits.add(credit);
             }
@@ -134,12 +122,11 @@ public class CreditService implements IService<Credit> {
                 credit.setNbr_mois_paiement(res.getInt("nbr_mois_paiement"));
                 credit.setDescription(res.getString("description"));
                 credit.setContrat(res.getString("contrat"));
+                credit.setType_credit_id(res.getInt("type_credit_id")); // Assuming Credit class has a type_credit_id field
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         return credit;
     }
-
-
 }

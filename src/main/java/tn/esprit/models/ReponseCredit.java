@@ -97,7 +97,7 @@ public class ReponseCredit {
                 "id=" + id +
                 ", nbr_mois_paiement=" + nbr_mois_paiement +
                 ", description='" + description + '\'' +
-                ", solde_a_payer=" + solde_a_payer +
+                ", solde_a_payer=" + solde_a_payer +"TND" +
                 ", date_debut_paiement=" + date_debut_paiement +
                 ", credit_id=" + credit_id +
                 '}';

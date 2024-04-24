@@ -8,7 +8,7 @@
    <children>
       <ListView fx:id="ListCreditLV" layoutX="40.0" layoutY="42.0" prefHeight="301.0" prefWidth="394.0" />
       <Button layoutX="475.0" layoutY="80.0" mnemonicParsing="false" onAction="#AjouterC" prefHeight="26.0" prefWidth="71.0" text="Ajouter" />
-      <Button layoutX="476.0" layoutY="160.0" mnemonicParsing="false" onAction="#ModifierLV" prefHeight="26.0" prefWidth="71.0" text="Modifié" />
+      <Button layoutX="476.0" layoutY="160.0" mnemonicParsing="false" onAction="#ModifierLV" prefHeight="26.0" prefWidth="71.0" text="Modifier" />
       <Button layoutX="476.0" layoutY="239.0" mnemonicParsing="false" onAction="#SupprimerC" text="Supprimer" />
       <Button layoutX="476.0" layoutY="317.0" mnemonicParsing="false" onAction="#AjouterReponseLV" prefHeight="26.0" prefWidth="78.0" text="Traiter" />
    </children>

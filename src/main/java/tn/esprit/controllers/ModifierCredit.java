@@ -1,19 +1,26 @@
 package tn.esprit.controllers;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.TextField;
+import javafx.stage.Stage;
+import tn.esprit.models.Credit;
+import tn.esprit.models.TypeCredit;
+import tn.esprit.services.CreditService;
+import tn.esprit.services.TypeCreditService;
 
-        import javafx.event.ActionEvent;
-        import javafx.fxml.FXML;
-        import javafx.fxml.FXMLLoader;
-        import javafx.scene.Node;
-        import javafx.scene.Parent;
-        import javafx.scene.Scene;
-        import javafx.scene.control.*;
-        import javafx.stage.Stage;
-        import tn.esprit.models.Credit;
-        import tn.esprit.services.CreditService;
-
-        import java.io.IOException;
-        import java.sql.Date;
+import java.io.IOException;
+import java.sql.Date;
+import java.util.List;
 
 public class ModifierCredit {
     @FXML
@@ -26,9 +33,24 @@ public class ModifierCredit {
     private TextField SoldeTFM;
     @FXML
     private TextField ContratTFM;
+    @FXML
+    private ComboBox<TypeCredit> TypeCreditCB; // ComboBox for selecting credit types
 
     private Credit selectedCredit;
     private final CreditService cs = new CreditService();
+    private final TypeCreditService typeCreditService = new TypeCreditService();
+
+    @FXML
+    void initialize() {
+        loadCredits();
+    }
+
+    private void loadCredits() {
+        // Load credit types into the ComboBox
+        List<TypeCredit> typeCredits = typeCreditService.getAll();
+        ObservableList<TypeCredit> typeCreditList = FXCollections.observableArrayList(typeCredits);
+        TypeCreditCB.setItems(typeCreditList);
+    }
     @FXML
     void initData(Credit credit) {
         selectedCredit = credit;
@@ -37,21 +59,27 @@ public class ModifierCredit {
         NbrTFM.setText(String.valueOf(selectedCredit.getNbr_mois_paiement()));
         SoldeTFM.setText(String.valueOf(selectedCredit.getSolde_demande()));
         ContratTFM.setText(selectedCredit.getContrat());
+        TypeCreditCB.setValue(typeCreditService.getOne(selectedCredit.getType_credit_id()));
     }
 
 
-    // Méthode appelée lors de la sauvegarde des modifications
+
+
     @FXML
     void modifierC(ActionEvent event) {
         try {
             selectedCredit.setDescription(DescriptionTFM.getText());
             selectedCredit.setDate_debut_paiement(Date.valueOf(DateTFM.getValue()));
-            selectedCredit.setNbr_mois_paiement(Integer.parseInt(NbrTFM.getText())); // Conversion en entier
-            selectedCredit.setSolde_demande(Float.parseFloat(SoldeTFM.getText())); // Conversion en flottant
+            selectedCredit.setNbr_mois_paiement(Integer.parseInt(NbrTFM.getText()));
+            selectedCredit.setSolde_demande(Float.parseFloat(SoldeTFM.getText()));
             selectedCredit.setContrat(ContratTFM.getText());
 
+            TypeCredit selectedTypeCredit = TypeCreditCB.getSelectionModel().getSelectedItem();
+            if (selectedTypeCredit != null) {
+                selectedCredit.setType_credit_id(selectedTypeCredit.getId());
+            }
+
             cs.Update(selectedCredit);
-            // Afficher un message de succès
             showAlert(Alert.AlertType.INFORMATION, "Modification réussie", null, "Les modifications ont été enregistrées avec succès.");
             RetourMLV(event);
         } catch (Exception e) {
@@ -72,6 +100,7 @@ public class ModifierCredit {
             showAlert(Alert.AlertType.ERROR, "Error", e.getMessage());
         }
     }
+
     private void showAlert(Alert.AlertType alertType, String title, String content) {
         Alert alert = new Alert(alertType);
         alert.setTitle(title);
@@ -79,7 +108,7 @@ public class ModifierCredit {
         alert.setContentText(content);
         alert.showAndWait();
     }
-    // Fonction utilitaire pour afficher une boîte de dialogue d'alerte
+
     private void showAlert(Alert.AlertType alertType, String title, String header, String content) {
         Alert alert = new Alert(alertType);
         alert.setTitle(title);

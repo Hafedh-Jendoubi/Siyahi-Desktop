@@ -9,24 +9,28 @@ public class Credit {
     private String contrat;
     private float solde_demande;
     private Date date_debut_paiement;
+    private int type_credit_id; // Nouvelle propriété pour la jointure avec TypeCredit
+    private String nom_type_credit; // Nouvelle propriété pour le nom du type de crédit
 
     public Credit() {}
 
-    public Credit(int id, int nbr_mois_paiement, String description, String contrat, float solde_demande, Date date_debut_paiement) {
+    public Credit(int id, int nbr_mois_paiement, String description, String contrat, float solde_demande, Date date_debut_paiement, int type_credit_id) {
         this.id = id;
         this.nbr_mois_paiement = nbr_mois_paiement;
         this.setDescription(description);
         this.setContrat(contrat);
         this.setSolde_demande(solde_demande);
         this.setDate_debut_paiement(date_debut_paiement);
+        this.setType_credit_id(type_credit_id);
     }
 
-    public Credit(int nbr_mois_paiement, String description, String contrat, float solde_demande, Date date_debut_paiement) {
+    public Credit(int nbr_mois_paiement, String description, String contrat, float solde_demande, Date date_debut_paiement, int type_credit_id) {
         this.nbr_mois_paiement = nbr_mois_paiement;
         this.setDescription(description);
         this.setContrat(contrat);
         this.setSolde_demande(solde_demande);
         this.setDate_debut_paiement(date_debut_paiement);
+        this.setType_credit_id(type_credit_id);
     }
 
     public int getId() {
@@ -90,6 +94,22 @@ public class Credit {
         this.date_debut_paiement = date_debut_paiement;
     }
 
+    public int getType_credit_id() {
+        return type_credit_id;
+    }
+
+    public void setType_credit_id(int type_credit_id) {
+        this.type_credit_id = type_credit_id;
+    }
+
+    public String getType_credit_nom() {
+        return nom_type_credit;
+    }
+
+    public void setType_credit_nom(String nom_type_credit) {
+        this.nom_type_credit = nom_type_credit;
+    }
+
     @Override
     public String toString() {
         return "Credit{" +
@@ -97,10 +117,10 @@ public class Credit {
                 ", nbr_mois_paiement=" + nbr_mois_paiement +
                 ", description='" + description + '\'' +
                 ", contrat='" + contrat + '\'' +
-                ", solde_demande=" + solde_demande +
+                ", solde_demande=" + solde_demande +"TND" +
                 ", date_debut_paiement=" + date_debut_paiement +
+                ", type_credit_id=" + type_credit_id +
+                ", type_credit_nom='" + nom_type_credit + '\'' +
                 '}';
     }
-
-
 }
