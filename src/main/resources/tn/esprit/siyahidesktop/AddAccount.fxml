@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.siyahidesktop.controllers.AddAccount">
+   <children>
+      <Text layoutX="198.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ajouter Compte">
+         <font>
+            <Font size="29.0" />
+         </font>
+      </Text>
+      <ChoiceBox fx:id="services" layoutX="67.0" layoutY="199.0" prefWidth="150.0" />
+      <Text layoutX="67.0" layoutY="188.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Service:" />
+      <Text layoutX="67.0" layoutY="83.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Utilisateur" />
+      <ComboBox fx:id="userComboBox" layoutX="67.0" layoutY="138.0" prefHeight="25.0" prefWidth="150.0" promptText="Utilisateurs trouvés" />
+      <TextField fx:id="rib" layoutX="217.0" layoutY="230.0" prefHeight="25.0" prefWidth="161.0" promptText="Généré automatiquement" />
+      <Text layoutX="289.0" layoutY="220.0" strokeType="OUTSIDE" strokeWidth="0.0" text="RIB" />
+      <Button fx:id="generate_button" layoutX="268.0" layoutY="261.0" mnemonicParsing="false" onAction="#generate_rib" text="Générer" />
+      <Button fx:id="add_button" layoutX="198.0" layoutY="319.0" mnemonicParsing="false" onAction="#addCompte" prefHeight="25.0" prefWidth="77.0" text="Ajouter" />
+      <Button fx:id="reset_button" layoutX="323.0" layoutY="319.0" mnemonicParsing="false" onAction="#reset" text="Réinitialiser" />
+      <Text layoutX="378.0" layoutY="83.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Solde:" />
+      <TextField fx:id="solde" layoutX="378.0" layoutY="94.0" promptText="Entrer le solde" />
+      <TextField fx:id="userSearchField" layoutX="68.0" layoutY="94.0" promptText="Recherche..." />
+      <Button fx:id="add_button1" layoutX="248.0" layoutY="361.0" mnemonicParsing="false" onAction="#addCompte" prefHeight="25.0" prefWidth="99.0" text="Menu Principal" />
+      <RadioButton fx:id="suggestion_radio_button" layoutX="378.0" layoutY="163.0" mnemonicParsing="false" onAction="#goto_service_proposition" text="Oui" />
+      <Text layoutX="378.0" layoutY="151.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Suggestion d'un service:" />
+   </children>
+</AnchorPane>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.siyahidesktop.controllers.UpdateAccountController">
+    <children>
+        <Text layoutX="148.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mise à jour du Compte">
+            <font>
+                <Font size="24.0" />
+            </font>
+        </Text>
+        <Text layoutX="50.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choisir le Service:" />
+        <ChoiceBox fx:id="services" layoutX="50.0" layoutY="100.0" prefWidth="300.0" />
+
+        <Text layoutX="50.0" layoutY="150.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nouveau Solde:" />
+        <TextField fx:id="solde" layoutX="50.0" layoutY="170.0" prefWidth="300.0" promptText="Entrer le nouveau solde" />
+
+        <Text layoutX="50.0" layoutY="220.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Date d'Expiration:" />
+        <DatePicker fx:id="datePicker" layoutX="50.0" layoutY="240.0" prefWidth="300.0" />
+
+        <Button fx:id="update_button" layoutX="100.0" layoutY="300.0" mnemonicParsing="false" onAction="#updateAccount" prefHeight="30.0" prefWidth="200.0" text="Mettre à jour" />
+        <Button fx:id="back_button" layoutX="100.0" layoutY="350.0" mnemonicParsing="false" onAction="#backToMainMenu" prefHeight="30.0" prefWidth="200.0" text="Retour au Menu Principal" />
+    </children>
+</AnchorPane>
