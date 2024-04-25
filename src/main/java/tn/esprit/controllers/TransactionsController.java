@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+import static tn.esprit.controllers.ProfileController.profileCheck;
 import static tn.esprit.services.UserService.connectedUser;
 
 public class TransactionsController {
@@ -31,6 +32,7 @@ public class TransactionsController {
             Scene ajouterUserScene = new Scene(ajouterUserParent);
             Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
             window.setScene(ajouterUserScene);
+            window.setTitle("Siyahi Bank | Gestion des Transactions");
             window.show();
         } catch (IOException e) {
             e.printStackTrace();
@@ -44,6 +46,7 @@ public class TransactionsController {
             Scene ajouterUserScene = new Scene(ajouterUserParent);
             Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
             window.setScene(ajouterUserScene);
+            window.setTitle("Siyahi Bank | Home Page");
             window.show();
         } catch (IOException e) {
             e.printStackTrace();
@@ -52,8 +55,18 @@ public class TransactionsController {
 
     @FXML
     void Profile(ActionEvent event) {
-        HomePageController controller = new HomePageController();
-        controller.Profile(event);
+        Parent parent = null;
+        try {
+            profileCheck = 1;
+            parent = FXMLLoader.load(getClass().getResource("/ProfileUser.fxml"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        Scene scene = new Scene(parent);
+        Stage window = (Stage) menuItem.getParentPopup().getOwnerWindow();
+        window.setScene(scene);
+        window.setTitle("Siyahi Bank | Profil d'utitlisateur");
+        window.show();
     }
 
     @FXML

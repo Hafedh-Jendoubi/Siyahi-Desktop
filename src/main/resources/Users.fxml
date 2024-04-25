@@ -58,7 +58,7 @@
                               <TableColumn fx:id="actionCol" prefWidth="67.0" text="Action" />
                            </columns>
                         </TableView>
-                        <Button layoutX="350.0" layoutY="26.0" mnemonicParsing="false" onAction="#NavigateToAddUser" prefHeight="30.0" prefWidth="200.0" style="-fx-background-radius: 40px;" text="Ajouter Utilisateur" />
+                        <Button layoutX="350.0" layoutY="26.0" mnemonicParsing="false" onAction="#addUser" prefHeight="30.0" prefWidth="200.0" style="-fx-background-radius: 40px;" text="Ajouter Utilisateur" />
                      </children>
                   </AnchorPane>
                   <Text layoutX="24.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bienvenu à Siyahi Banque" textAlignment="CENTER" AnchorPane.leftAnchor="24.0" AnchorPane.topAnchor="34.52197265625">

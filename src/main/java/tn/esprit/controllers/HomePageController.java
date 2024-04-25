@@ -28,17 +28,22 @@ public class HomePageController {
     private MenuItem menuItem;
 
     @FXML
-    void navigateToUserHomePage(ActionEvent event) {
-
-    }
-
-    @FXML
     void navigateToHomePage(ActionEvent event) {
         try {
-            Parent ajouterUserParent = FXMLLoader.load(getClass().getResource("/AdminHomePage.fxml"));
+            String pathTo = "";
+            String titleTo = "";
+            if(connectedUser.getRoles().equals("Client") || connectedUser.getRoles().equals("Employé(e)")) {
+                pathTo = "/UserHomePage.fxml";
+                titleTo = "Siyahi Bank | HomePage";
+            } else{
+                pathTo = "/AdminHomePage.fxml";
+                titleTo = "Siyahi Bank | Dashboard";
+            }
+            Parent ajouterUserParent = FXMLLoader.load(getClass().getResource(pathTo));
             Scene ajouterUserScene = new Scene(ajouterUserParent);
             Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
             window.setScene(ajouterUserScene);
+            window.setTitle(titleTo);
             window.show();
         } catch (IOException e) {
             e.printStackTrace();
@@ -52,6 +57,7 @@ public class HomePageController {
             Scene ajouterUserScene = new Scene(ajouterUserParent);
             Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
             window.setScene(ajouterUserScene);
+            window.setTitle("Siyahi Bank | Gestion des Utilisateurs");
             window.show();
         } catch (IOException e) {
             e.printStackTrace();
@@ -65,6 +71,7 @@ public class HomePageController {
             Scene ajouterUserScene = new Scene(ajouterUserParent);
             Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
             window.setScene(ajouterUserScene);
+            window.setTitle("Siyahi Bank | Gestion des Transactions");
             window.show();
         } catch (IOException e) {
             e.printStackTrace();

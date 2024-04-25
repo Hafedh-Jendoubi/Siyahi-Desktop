@@ -6,7 +6,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
-import javafx.scene.shape.Path;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import tn.esprit.models.User;
@@ -39,6 +38,8 @@ public class AddUserController {
 
     @FXML
     private TextField prenom;
+
+    public static User userToUpdate = null;
 
     private String picturePath;
 
@@ -79,20 +80,45 @@ public class AddUserController {
             num_tel.setStyle("-fx-border-color: red;");
         }
         if(i == 5) { //Tous les inputs sont valides:
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Confirmation");
-            alert.setHeaderText("Voulez-vous vraiment ajouter l'utilisateur suivant?");
-            Optional<ButtonType> result = alert.showAndWait();
-            if (result.isPresent() && result.get() == ButtonType.OK) {
-                if (genre.getValue().equals("Male"))
-                    us.add(new User(prenom.getText(), nom.getText(), "M", adresse.getText(), Integer.parseInt(num_tel.getText()), Integer.parseInt(cin.getText()), email_input.getText(), picturePath));
-                else
-                    us.add(new User(prenom.getText(), nom.getText(), "F", adresse.getText(), Integer.parseInt(num_tel.getText()), Integer.parseInt(cin.getText()), email_input.getText(), picturePath));
+            if(userToUpdate == null){ // Add
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Confirmation");
+                alert.setHeaderText("Voulez-vous vraiment ajouter l'utilisateur suivant?");
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.isPresent() && result.get() == ButtonType.OK) {
+                    if (genre.getValue().equals("Male"))
+                        us.add(new User(prenom.getText(), nom.getText(), "M", adresse.getText(), Integer.parseInt(num_tel.getText()), Integer.parseInt(cin.getText()), email_input.getText(), picturePath));
+                    else
+                        us.add(new User(prenom.getText(), nom.getText(), "F", adresse.getText(), Integer.parseInt(num_tel.getText()), Integer.parseInt(cin.getText()), email_input.getText(), picturePath));
+                    CancelAddUser(event);
+                } else {
+                    alert.close();
+                }
                 CancelAddUser(event);
-            } else {
-                alert.close();
+            }else{ //update
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Confirmation");
+                alert.setHeaderText("Voulez-vous vraiment modifier l'utilisateur suivant?");
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.isPresent() && result.get() == ButtonType.OK) {
+                    User user = us.getOneByCIN(Integer.parseInt(cin.getText()));
+                    user.setFirst_name(prenom.getText());
+                    user.setLast_name(nom.getText());
+                    if (genre.getValue().equals("Male"))
+                        user.setGender("M");
+                    else
+                        user.setGender("F");
+                    user.setAddress(adresse.getText());
+                    user.setPhone_number(Integer.parseInt(num_tel.getText()));
+                    user.setCin(Integer.parseInt(cin.getText()));
+                    user.setImage(picturePath);
+                    us.update(user);
+                    CancelAddUser(event);
+                } else {
+                    alert.close();
+                }
+                CancelAddUser(event);
             }
-            CancelAddUser(event);
         }
     }
 
@@ -100,7 +126,7 @@ public class AddUserController {
     void browseImage(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Select Image File");
-        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("*.png", "*.jpg", "*.jpeg"));
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Chose File...","*.png", "*.jpg", "*.jpeg"));
 
         Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
         File selectedFile = fileChooser.showOpenDialog(window);
@@ -113,13 +139,14 @@ public class AddUserController {
                 java.nio.file.Path destinationPath1 = Paths.get(destinationFolderPath1, selectedFile.getName());
                 java.nio.file.Path destinationPath2 = Paths.get(destinationFolderPath2, selectedFile.getName());
 
-                Files.copy(sourcePath, destinationPath1);
-                Files.copy(sourcePath, destinationPath2);
-
                 //Just to retreive the Picture Name in order to upload it to the Database
                 String pictureName = destinationPath1.toString();
                 String resultName = pictureName.replaceFirst(".*\\\\uploads\\\\user\\\\", "");
+                System.out.println("resultName: " + resultName);
                 setPicturePath(resultName);
+
+                Files.copy(sourcePath, destinationPath1);
+                Files.copy(sourcePath, destinationPath2);
             } catch (IOException e) {
                 System.err.println("Error transferring image: " + e.getMessage());
             }
@@ -134,8 +161,19 @@ public class AddUserController {
 
     @FXML
     void initialize() {
-        ObservableList<String> gender = FXCollections.observableArrayList("Male", "Femelle");
-        genre.setValue("Male");
-        genre.setItems(gender);
+        if(userToUpdate == null){
+            ObservableList<String> gender = FXCollections.observableArrayList("Male", "Femelle");
+            genre.setValue("Male");
+            genre.setItems(gender);
+        }else{
+            nom.setText(userToUpdate.getFirst_name());
+            prenom.setText(userToUpdate.getLast_name());
+            genre.setValue(userToUpdate.getGender());
+            adresse.setText(userToUpdate.getAddress());
+            email_input.setText(userToUpdate.getEmail()); email_input.setEditable(false); email_input.setStyle("-fx-opacity: 0.5;");
+            num_tel.setText(String.valueOf(userToUpdate.getPhone_number()));
+            cin.setText(String.valueOf(userToUpdate.getCin())); cin.setEditable(false); cin.setStyle("-fx-opacity: 0.5;");
+            picturePath = userToUpdate.getImage();
+        }
     }
 }

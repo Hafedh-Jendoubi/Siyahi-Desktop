@@ -59,10 +59,20 @@ public class ProfileController {
     @FXML
     private void navigateToHomePage(ActionEvent event) {
         try {
-            Parent ajouterUserParent = FXMLLoader.load(getClass().getResource("/AdminHomePage.fxml"));
+            String pathTo = "";
+            String nameTo = "";
+            if(connectedUser.getRoles().equals("Client") || connectedUser.getRoles().equals("Employé(e)")) {
+                pathTo = "/UserHomePage.fxml";
+                nameTo = "Siyahi Bank | Home Page";
+            } else{
+                pathTo = "/AdminHomePage.fxml";
+                nameTo = "Siyahi Bank | Dashboard";
+            }
+            Parent ajouterUserParent = FXMLLoader.load(getClass().getResource(pathTo));
             Scene ajouterUserScene = new Scene(ajouterUserParent);
             Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
             window.setScene(ajouterUserScene);
+            window.setTitle(nameTo);
             window.show();
         } catch (IOException e) {
             e.printStackTrace();
@@ -76,6 +86,7 @@ public class ProfileController {
             Scene ajouterUserScene = new Scene(ajouterUserParent);
             Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
             window.setScene(ajouterUserScene);
+            window.setTitle("Siyahi Bank | Gestion des Utilisateurs");
             window.show();
         } catch (IOException e) {
             e.printStackTrace();
@@ -89,6 +100,7 @@ public class ProfileController {
             Scene ajouterUserScene = new Scene(ajouterUserParent);
             Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
             window.setScene(ajouterUserScene);
+            window.setTitle("Siyahi Bank | Gestion des Transactions");
             window.show();
         } catch (IOException e) {
             e.printStackTrace();
@@ -97,19 +109,22 @@ public class ProfileController {
 
     @FXML
     private void updateUser(ActionEvent event) {
-        //Will add update user here
+
     }
 
     private void setUserValues(User user){
-        if (user.getActivity().equals("Active")) {
-            activity.setText("[Activé]");
-            activity.setStyle("-fx-text-fill: green;");
-        } else {
-            activity.setText("[Blocké]");
-            activity.setStyle("-fx-text-fill: red;");
+        if(connectedUser.getRoles().equals("Admin") || connectedUser.getRoles().equals("Super Admin")){
+            if (user.getActivity().equals("Active")) {
+                activity.setText("[Activé]");
+                activity.setStyle("-fx-text-fill: green;");
+            } else {
+                activity.setText("[Bloqué]");
+                activity.setStyle("-fx-text-fill: red;");
+            }
+            date_creation.setText(user.getDate_creation_c().toString());
+            role.setText(user.getRoles());
         }
-        date_creation.setText(user.getDate_creation_c().toString());
-        role.setText(user.getRoles());
+
         first_name.setText(user.getFirst_name());
         last_name.setText(user.getLast_name());
         gender.setText(user.getGender());

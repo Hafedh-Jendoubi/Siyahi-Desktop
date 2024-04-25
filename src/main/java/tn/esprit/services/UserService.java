@@ -11,7 +11,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import java.security.SecureRandom;
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
@@ -28,7 +31,7 @@ public class UserService implements IService<User> {
         return passwordEncoder.encode(password);
     }
 
-    private String generateRandomString() {
+    public String generateRandomString() {
         int length = 8;
         String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
         SecureRandom random = new SecureRandom();
@@ -66,7 +69,6 @@ public class UserService implements IService<User> {
             }else{
                 ps.setString(11, user.getImage());
             }
-
             ps.setString(12, user.getOld_email());
             ps.setString(13, "T");
 
@@ -129,12 +131,7 @@ public class UserService implements IService<User> {
 
         try {
             Statement st = cnx.createStatement();
-            int rowsUpdated = st.executeUpdate(req);
-            if (rowsUpdated > 0) {
-                System.out.println("User updated successfully");
-            } else {
-                System.out.println("Failed to update user");
-            }
+            st.executeUpdate(req);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -246,7 +243,7 @@ public class UserService implements IService<User> {
     }
 
     public User getOneByEMAIL(String email) {
-        User user = new User();
+        User user = null;
         try {
             String req = "SELECT * FROM `user` WHERE `email`=?";
             PreparedStatement ps = cnx.prepareStatement(req);
@@ -273,7 +270,24 @@ public class UserService implements IService<User> {
                 result = rs.getInt(1);
             }
         } catch (SQLException ex) {
-            System.out.println("Failed to get user: " + ex.getMessage());
+            System.out.println("Failed to get RIB: " + ex.getMessage());
+        }
+
+        return result;
+    }
+
+    public int getOneByToken(String token) {
+        int result = -1;
+        try {
+            String req = "SELECT `user_id` FROM `reset_password_request` WHERE `selector`=?";
+            PreparedStatement ps = cnx.prepareStatement(req);
+            ps.setString(1, token);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                result = rs.getInt(1);
+            }
+        } catch (SQLException ex) {
+            System.out.println("Failed to get Token: " + ex.getMessage());
         }
 
         return result;
@@ -314,45 +328,68 @@ public class UserService implements IService<User> {
         return connectedUser;
     }
 
-    public void resetPassword(String email) {
-        User user = getOneByEMAIL(email);
-        if(user.getEmail() == null){
-            System.out.println("User n'existe pas");
-        }else{
-            /* --------- Mailing -----------*/
-            String to = user.getEmail();
-            String from = "no-reply@siyahi.tn";
-            String host = "smtp.mailtrap.io";
-            Properties props = new Properties();
-            props.put("mail.smtp.auth", "true");
-            props.put("mail.smtp.starttls.enable", "true");
-            props.put("mail.smtp.host", host);
-            props.put("mail.smtp.port", "587");
-            Session session = Session.getInstance(props, new jakarta.mail.Authenticator() {
-                protected PasswordAuthentication getPasswordAuthentication() {
-                    return new PasswordAuthentication(username, password);
-                }
+    public void RequestResetPassword(User user) {
+        String token = generateRandomString();
+        /* Query */
+        String req = "INSERT INTO `reset_password_request`(`user_id`, `selector`, `hashed_token`, `requested_at`, `expires_at`) VALUES (?, ?, ?, ?, ?)";
+        try {
+            PreparedStatement ps = cnx.prepareStatement(req);
+            ps.setInt(1, user.getId());
+            ps.setString(2, token);
+            ps.setString(3, hashPassword(token));
+            ps.setTimestamp(4, new Timestamp(System.currentTimeMillis()));
+            ps.setTimestamp(5, new Timestamp(System.currentTimeMillis() + 60 * 60 * 1000));
+            ps.executeUpdate();
+        } catch (SQLException e){System.err.println(e);}
+
+        /* Mailing */
+        String to = user.getEmail();
+        String from = "no-reply@siyahi.tn";
+        String host = "smtp.mailtrap.io";
+        Properties props = new Properties();
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.host", host);
+        props.put("mail.smtp.port", "587");
+        Session session = Session.getInstance(props, new jakarta.mail.Authenticator() {
+                protected PasswordAuthentication getPasswordAuthentication() {return new PasswordAuthentication(username, password);}
             });
-            try {
-                Message message = new MimeMessage(session);
-                message.setFrom(new InternetAddress(from));
-                message.setRecipient(Message.RecipientType.TO, new InternetAddress(to));
-                message.setSubject("Reset Password");
-                message.setContent("<center><img src=\"https://i.imgur.com/u6bBjNg.png\"></center>\n" +
-                        "\n" +
-                        "<h1>Hello!</h1>\n" +
-                        "\n" +
-                        "<p>To reset your password, please visit the following link</p>\n" +
-                        "\n" +
-                        "<a href=\"http://127.0.0.1:8000/reset-password/\">Click here</a>\n" +
-                        "\n" +
-                        "<p>This link will expire in 1 hour.</p>\n" +
-                        "\n" +
-                        "<p>Cheers!</p>", "text/html");
-                Transport.send(message);
-            } catch (MessagingException e) {
-                throw new RuntimeException(e);
-            }
+        try {
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(from));
+            message.setRecipient(Message.RecipientType.TO, new InternetAddress(to));
+            message.setSubject("Reset Password");
+            message.setContent("<center><img src=\"https://i.imgur.com/u6bBjNg.png\"></center>\n" +
+                    "\n" +
+                    "<h1>Hello!</h1>\n" +
+                    "\n" +
+                    "<p>To reset your password, please type the following Token in Siyahi Bank Desktop Application.</p>\n" +
+                    "\n" +
+                    "<p>Token: " + token +"</p>\n" +
+                    "\n" +
+                    "<p>This token will expire in 1 hour.</p>\n" +
+                    "\n" +
+                    "<p>Cheers!</p>", "text/html");
+            Transport.send(message);
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void resetPassword(int user_id, String pass){
+        String req = "DELETE FROM `reset_password_request` WHERE `user_id` = ?";
+        String req2 = "UPDATE `user` SET `password`= ? WHERE `id` = ?";
+        try{
+            PreparedStatement ps1 = cnx.prepareStatement(req);
+            ps1.setInt(1, user_id);
+            ps1.executeUpdate();
+
+            PreparedStatement ps2 = cnx.prepareStatement(req2);
+            ps2.setString(1, hashPassword(pass));
+            ps2.setInt(2, user_id);
+            ps2.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 

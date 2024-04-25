@@ -7,6 +7,6 @@ import java.sql.Date;
 
 public class testMain {
     public static void main(String[] args) {
-        //Here to test new features has been added without vues :D
+
     }
 }
