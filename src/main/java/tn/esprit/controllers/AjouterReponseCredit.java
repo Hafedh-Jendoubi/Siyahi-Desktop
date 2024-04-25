@@ -70,21 +70,7 @@ public class AjouterReponseCredit {
         ReferenceCredit.valueProperty().addListener((observable, oldValue, newValue) -> {
             // Vérifie s'il ya une nouvelle valeur selectionnée'
             if (newValue != null) {
-                // Met à jour la date de confirmation avec la date de début de paiement du crédit sélectionné
-                DateConfirm.setValue(newValue.getDate_debut_paiement().toLocalDate());
-                // Met à jour le champ de nombre de mois de confirmation avec le nombre de mois de paiement du crédit sélectionné
-                nbrconfirmTF.setText(String.valueOf(newValue.getNbr_mois_paiement()));
-
-                // obtenir le type de crédit du crédit sélectionné d'après typeCreditService
-                TypeCredit typeCredit = typeCreditService.getOne(newValue.getType_credit_id());
-                // Calculee taux % associé au type de crédit s'il existe.
-                float tauxCreditDirect = typeCredit != null ? typeCredit.getTauxCreditDirect() : 0;
-                // Calcule du soldeàpayer d'après le soldedemandé(jointure1)et du tauxCréditDirect(jointure2)
-                float soldeDemande = newValue.getSolde_demande();
-                float soldeAPayer = (soldeDemande * (100 + tauxCreditDirect)) / 100;
-
-                // Met à jour le solde à payer dans le champ correspondant avec deux décimales
-                SoldeàpTF.setText(String.format("%.2f", soldeAPayer));
+                updateFields(newValue);
             } else {
                 // Réinitialise les champs si aucune valeur n'est sélectionnée
                 DateConfirm.setValue(null);
@@ -93,6 +79,25 @@ public class AjouterReponseCredit {
             }
         });
     }
+
+    private void updateFields(Credit selectedCredit) {
+        // Met à jour la date de confirmation avec la date de début de paiement du crédit sélectionné
+        DateConfirm.setValue(selectedCredit.getDate_debut_paiement().toLocalDate());
+        // Met à jour le champ de nombre de mois de confirmation avec le nombre de mois de paiement du crédit sélectionné
+        nbrconfirmTF.setText(String.valueOf(selectedCredit.getNbr_mois_paiement()));
+
+        // obtenir le type de crédit du crédit sélectionné d'après typeCreditService
+        TypeCredit typeCredit = typeCreditService.getOne(selectedCredit.getType_credit_id());
+        // Calculee taux % associé au type de crédit s'il existe.
+        float tauxCreditDirect = typeCredit != null ? typeCredit.getTauxCreditDirect() : 0;
+        // Calcule du soldeàpayer d'après le soldedemandé(jointure1)et du tauxCréditDirect(jointure2)
+        float soldeDemande = selectedCredit.getSolde_demande();
+        float soldeAPayer = (soldeDemande * (100 + tauxCreditDirect)) / 100;
+
+        // Met à jour le solde à payer dans le champ correspondant avec deux décimales
+        SoldeàpTF.setText(String.format("%.2f", soldeAPayer));
+    }
+
 
     private void loadCredits() {
         List<Credit> credits = creditService.getAll();
