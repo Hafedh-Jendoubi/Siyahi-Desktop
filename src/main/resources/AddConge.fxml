@@ -7,8 +7,10 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
+<?import javafx.scene.image.Image?>
 
 <AnchorPane prefHeight="551.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.controllers.AddCongeController">
    <children>
@@ -25,12 +27,17 @@
          </items>
       </ComboBox>
 
-      <Button layoutX="76.0" layoutY="312.0" mnemonicParsing="false" onAction="#ajouterC" prefHeight="25.0" prefWidth="103.0" text="Confirmer" AnchorPane.leftAnchor="76.0" />
+      <Button layoutX="62.0" layoutY="325.0" mnemonicParsing="false" onAction="#ajouterC" prefHeight="25.0" prefWidth="103.0" text="Confirmer" AnchorPane.leftAnchor="62.0" />
 
       <TextField fx:id="descriptionTF" layoutX="53.0" layoutY="182.0" promptText="Description" />
-      <TextField fx:id="justification" layoutX="53.0" layoutY="224.0" promptText="justification" />
-      <Button layoutX="227.0" layoutY="312.0" mnemonicParsing="false" onAction="#retourLV" text="Retour à la liste de congé" />
+      <CheckBox fx:id="status" layoutX="42.0" layoutY="534.0" text="Status" />
+      <Button layoutX="220.0" layoutY="325.0" mnemonicParsing="false" onAction="#retourLV" text="Retour à la liste de congé" />
       <Text layoutX="189.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ajouter un congé " />
+      <Button fx:id="uploadButton" layoutX="220.0" layoutY="224.0" mnemonicParsing="false" onAction="#uploadImage" text="Upload Justification" />
+      <ImageView fx:id="justification" fitHeight="76.0" fitWidth="150.0" layoutX="53.0" layoutY="224.0" pickOnBounds="true" preserveRatio="true" >
+      <image>
 
+      </image>
+   </ImageView>
    </children>
 </AnchorPane>

@@ -9,6 +9,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -23,6 +24,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.time.ZonedDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class calendrierController implements Initializable {
     ZonedDateTime dateFocus;
@@ -37,7 +39,7 @@ public class calendrierController implements Initializable {
     @FXML
     private FlowPane calendar;
     private CongeService congeService = new CongeService();
-
+    private Map<Integer, Map<Integer, Map<Integer, Boolean>>> occupiedDates = new HashMap<>();
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         dateFocus = ZonedDateTime.now();
@@ -62,14 +64,31 @@ public class calendrierController implements Initializable {
     private void drawCalendar(){
         year.setText(String.valueOf(dateFocus.getYear()));
         month.setText(String.valueOf(dateFocus.getMonth()));
-
+        occupiedDates.clear();
         double calendarWidth = calendar.getPrefWidth();
         double calendarHeight = calendar.getPrefHeight();
         double strokeWidth = 1;
         double spacingH = calendar.getHgap();
         double spacingV = calendar.getVgap();
         Map<Integer, List<Conge>> calendarActivityMap = getCalendarActivitiesMonth(dateFocus);
+        for (Map.Entry<Integer, List<Conge>> entry : calendarActivityMap.entrySet()) {
+            int dayOfMonth = entry.getKey();
+            List<Conge> activities = entry.getValue();
 
+            // Check if the day is already occupied
+            if (isDayOccupied(dayOfMonth)) {
+                // Alert user about the conflict
+                showAlert("Alert", "La case du calendrier est déjà occupée pour ce jour.");
+                continue;
+            }
+
+            // Add the day to occupiedDates map
+            occupiedDates.putIfAbsent(dateFocus.getYear(), new HashMap<>());
+            occupiedDates.get(dateFocus.getYear()).putIfAbsent(dateFocus.getMonthValue(), new HashMap<>());
+            occupiedDates.get(dateFocus.getYear()).get(dateFocus.getMonthValue()).put(dayOfMonth, true);
+
+            // Your existing code to create calendar activity
+        }
         int monthMaxDate = dateFocus.getMonth().maxLength();
         //Check for leap year
         if(dateFocus.getYear() % 4 != 0 && monthMaxDate == 29){
@@ -99,6 +118,7 @@ public class calendrierController implements Initializable {
                         double textTranslationY = - (rectangleHeight / 2) * 0.75;
                         date.setTranslateY(textTranslationY);
                         stackPane.getChildren().add(date);
+                        List<Conge> calendarActivities1 = calendarActivityMap.get(currentDate);
 
                         List<Conge> calendarActivities = calendarActivityMap.get(currentDate);
                         if(calendarActivities != null){
@@ -111,8 +131,15 @@ public class calendrierController implements Initializable {
                 }
                 calendar.getChildren().add(stackPane);
             }
+
         }
     }
+    private boolean isDayOccupied(int dayOfMonth) {
+        return occupiedDates.containsKey(dateFocus.getYear()) &&
+                occupiedDates.get(dateFocus.getYear()).containsKey(dateFocus.getMonthValue()) &&
+                occupiedDates.get(dateFocus.getYear()).get(dateFocus.getMonthValue()).containsKey(dayOfMonth);
+    }
+
 
     private void createCalendarActivity(List<Conge> calendarActivities, double rectangleHeight, double rectangleWidth, StackPane stackPane) {
         VBox calendarActivityBox = new VBox();
@@ -187,14 +214,24 @@ public class calendrierController implements Initializable {
                 for (Map.Entry<Integer, List<Conge>> entry : monthMap.entrySet()) {
                     int day = entry.getKey();
                     List<Conge> activities = entry.getValue();
-                    filteredActivities.put(day, activities);
+                    // Filtrer les activités en fonction du statut
+                    List<Conge> filteredActivitiesForDay = activities.stream()
+                            .filter(Conge::isStatus)
+                            .collect(Collectors.toList());
+                    filteredActivities.put(day, filteredActivitiesForDay);
                 }
             }
         }
 
         return filteredActivities;
     }
+    private void showAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
 
-}
+}}
 
 

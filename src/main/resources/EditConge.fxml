@@ -7,6 +7,8 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
 
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.controllers.editCongeController">
     <children>
         <DatePicker fx:id="datedebutTF" layoutX="52.0" layoutY="66.0" promptText="Date_Debut" />
@@ -16,7 +18,12 @@
         <Button layoutX="227.0" layoutY="323.0" mnemonicParsing="false" onAction="#modifierC" prefHeight="25.0" prefWidth="103.0" text="Modifier" AnchorPane.leftAnchor="227.0" />
         <CheckBox fx:id="statusCB" layoutX="53.0" layoutY="305.0" text="Status" />
         <TextField fx:id="descriptionTF" layoutX="53.0" layoutY="216.0" promptText="Description" />
-        <TextField fx:id="justificationTF" layoutX="53.0" layoutY="266.0" promptText="justification" />
+        <Button fx:id="uploadButton" layoutX="220.0" layoutY="224.0" mnemonicParsing="false" onAction="#uploadImage" text="Upload Justification" />
+        <ImageView fx:id="justification" fitHeight="76.0" fitWidth="150.0" layoutX="53.0" layoutY="224.0" pickOnBounds="true" preserveRatio="true" >
+            <image>
+
+            </image>
+        </ImageView>
       <Text layoutX="241.0" layoutY="43.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Modifier un congé" />
     </children>
 

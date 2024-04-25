@@ -8,12 +8,22 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import javafx.event.ActionEvent;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import tn.esprit.models.Conge;
 import tn.esprit.services.CongeService;
-
+import java.io.File;
+import java.net.MalformedURLException;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.sql.Date;
+import java.time.LocalDate;
+
+import javafx.scene.control.Alert;
 
 public class AddCongeController {
     @FXML
@@ -30,11 +40,43 @@ public class AddCongeController {
     @FXML
     private CheckBox status;
     @FXML
-    private TextField justification;
+    private ImageView justification;
 
     private final CongeService cs = new CongeService();
+private String imagePath;
+    @FXML
 
+    void uploadImage(ActionEvent event) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Choisir une image");
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Images", ".png", ".jpg", "*.gif")
+        );
+        File selectedFile = fileChooser.showOpenDialog(null);
+        if (selectedFile != null) {
 
+            // Définir le répertoire cible dans les ressources
+            String targetDirectory = "src/main/resources/Images/";
+
+            try {
+                // Créer le répertoire cible s'il n'existe pas
+                File directory = new File(targetDirectory);
+                if (!directory.exists()) {
+                    directory.mkdirs();
+                }
+
+                // Copier le fichier sélectionné vers le répertoire cible
+                Path sourcePath = selectedFile.toPath();
+                Path targetPath = new File(targetDirectory + selectedFile.getName()).toPath();
+                Files.copy(sourcePath, targetPath, StandardCopyOption.REPLACE_EXISTING);
+                Image image = new Image(selectedFile.toURI().toURL().toExternalForm());
+                justification.setImage(image);
+                // Mettre à jour le chemin de l'image avec le chemin relatif du fichier dans les ressources
+                imagePath = targetPath.toString().replace("\\", "/").replace("src/main/resources/", "");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }}
     @FXML
     void ajouterC(ActionEvent event) {
         // Check if any of the required fields are empty
@@ -44,16 +86,22 @@ public class AddCongeController {
         }
 
         try {
+
             // Extract data from input fields
             Date dateDebut = Date.valueOf(datedebutTF.getValue());
             Date dateFin = Date.valueOf(datefinTF.getValue());
             String description = descriptionTF.getText();
             String typeConge = type_congeTF.getValue();
-            String justificationText = justification.getText();
+            String relativeImagePath = "Images/" + new File(imagePath).getName();
             boolean stat = status.isSelected();
+            LocalDate today = LocalDate.now();
+            if (dateDebut.toLocalDate().isBefore(today)) {
+                showAlert(AlertType.ERROR, "Error", "la date de debut de congé doit être superieur à aujourd'huit.");
+                return;
+            }
 
             // Create a Conge object
-            Conge conge = new Conge(description, dateDebut, dateFin, typeConge, justificationText, stat);
+            Conge conge = new Conge(description, dateDebut, dateFin, typeConge, relativeImagePath, stat);
 
             // Call CongeService to add the leave request
             cs.add(conge);
@@ -83,20 +131,18 @@ public class AddCongeController {
         datefinTF.setValue(null);
         descriptionTF.clear();
         datefinTF.setValue(null);
-        justification.clear();
+
         status.setSelected(false);
     }
     @FXML
     void retourLV(ActionEvent event) {
         try {
-            Parent retour = FXMLLoader.load(getClass().getResource("/ListConge.fxml"));
-            Scene listSecene = new Scene(retour);
-            Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-            window.setScene(listSecene);
-            window.setHeight(400); window.setMaxHeight(400); window.setMinHeight(400);
-            window.setWidth(606); window.setMaxWidth(600); window.setMinWidth(600);
-            window.setTitle("Siyahi Bank | liste des   congés ");
-            window.show();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ListConge.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+            stage.show();
         } catch (IOException e) {
             showAlert(Alert.AlertType.ERROR, "Error", e.getMessage());
         }

@@ -1,11 +1,14 @@
 package tn.esprit.controllers;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 import tn.esprit.models.Conge;
 import tn.esprit.services.CongeService;
 
@@ -16,7 +19,7 @@ import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.sql.Date;
 
-public class editCongeController {
+public class modifierCongeController {
     @FXML
     private TextField descriptionTF;
     @FXML
@@ -66,7 +69,7 @@ public class editCongeController {
                 e.printStackTrace();
             }
         }}
-    public void initData(Conge congé) {
+    public void initData1(Conge congé) {
         this.selectedConge = congé;
         // Afficher les données du congé dans les champs de la vue de modification
         descriptionTF.setText(congé.getDescription());
@@ -79,14 +82,14 @@ public class editCongeController {
 
     // Méthode appelée lors de la sauvegarde des modifications
     @FXML
-    void modifierC() {
+    void editc() {
         // Mettre à jour les données du congé sélectionné avec les nouvelles valeurs des champs
         selectedConge.setDescription(descriptionTF.getText());
         selectedConge.setDate_Debut(Date.valueOf(datedebutTF.getValue()));
         selectedConge.setDate_Fin(Date.valueOf(datefinTF.getValue()));
         selectedConge.setType_conge(type_congeTF.getText());
         selectedConge.setJustification(imagePath);
-        selectedConge.setStatus(statusCB.isSelected());
+
 
 
         // Call CongeService to add the leave request
@@ -106,3 +109,4 @@ public class editCongeController {
         alert.showAndWait();
     }
 }
+
