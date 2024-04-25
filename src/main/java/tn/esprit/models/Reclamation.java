@@ -1,34 +1,44 @@
 package tn.esprit.models;
 
+import tn.esprit.models.ObjetReclamation;
+
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Reclamation {
 
-    //attribut
     private int id;
-    private String object;
+    private ObjetReclamation object;
     private String description;
     private Timestamp date_creation;
     private String auteur;
     private String email;
     private boolean status;
 
-    //const
+    // Liste d'objets suggérés
+    private static List<ObjetReclamation> objetsSuggérés = new ArrayList<>();
 
+    static {
+        // Ajoutez ici les objets suggérés, par exemple :
+        objetsSuggérés.add(new ObjetReclamation("Frais Bancaires Inattendus"));
+        objetsSuggérés.add(new ObjetReclamation("Blocage de Carte Bancaire"));
+        objetsSuggérés.add(new ObjetReclamation("Virement Non Reçu"));
+    }
 
     public Reclamation() {
     }
 
-    public Reclamation(String object, String description, Timestamp date_creation, String auteur, String email, boolean status) {
+    public Reclamation(ObjetReclamation object, String description, Timestamp date_creation, String auteur, String email, boolean status) {
         setObject(object);
         setDescription(description);
-        setAuteur(auteur); // Appeler la méthode setAuteur() pour valider et définir l'auteur
-        setEmail(email); // Appeler la méthode setEmail() pour valider et définir l'email
+        setAuteur(auteur);
+        setEmail(email);
         this.date_creation = date_creation;
         this.status = status;
     }
 
-    public Reclamation(int id, String object, String description, Timestamp date_creation, String auteur, String email, boolean status) {
+    public Reclamation(int id, ObjetReclamation object, String description, Timestamp date_creation, String auteur, String email, boolean status) {
         this.id = id;
         this.object = object;
         this.description = description;
@@ -38,7 +48,8 @@ public class Reclamation {
         this.status = status;
     }
 
-    //getter setters
+    public Reclamation(String nom, String description, Timestamp dateCreation, String auteur, String email, boolean status) {
+    }
 
     public int getId() {
         return id;
@@ -48,17 +59,13 @@ public class Reclamation {
         this.id = id;
     }
 
-    public String getObject() {
+    public ObjetReclamation getObject() {
         return object;
     }
 
-    public void setObject(String object) {
-        // Validation : Vérifier que l'objet n'est pas vide
-        if (object != null && !object.trim().isEmpty()) {
-            this.object = object;
-        } else {
-            throw new IllegalArgumentException("L'objet de la réclamation ne peut pas être vide.");
-        }
+    public void setObject(ObjetReclamation object) {
+        // Vous pouvez ajouter une validation ici si nécessaire
+        this.object = object;
     }
 
     public String getDescription() {
@@ -73,6 +80,7 @@ public class Reclamation {
             throw new IllegalArgumentException("La description de la réclamation ne peut pas être vide.");
         }
     }
+
     public Timestamp getDate_creation() {
         return date_creation;
     }
@@ -81,7 +89,7 @@ public class Reclamation {
         this.date_creation = date_creation;
     }
 
-    public String getauteur() {
+    public String getAuteur() {
         return auteur;
     }
 
@@ -93,6 +101,7 @@ public class Reclamation {
             throw new IllegalArgumentException("L'auteur de la réclamation ne peut pas être vide.");
         }
     }
+
     public String getEmail() {
         return email;
     }
@@ -114,7 +123,10 @@ public class Reclamation {
         this.status = status;
     }
 
-    //display
+    // Méthode pour obtenir la liste des objets suggérés
+    public static List<ObjetReclamation> getObjetsSuggérés() {
+        return objetsSuggérés;
+    }
 
     @Override
     public String toString() {
@@ -126,7 +138,6 @@ public class Reclamation {
                 ", auteur='" + auteur + '\'' +
                 ", status=" + status +
                 ", email='" + email + '\'' +
-
                 '}';
     }
 }

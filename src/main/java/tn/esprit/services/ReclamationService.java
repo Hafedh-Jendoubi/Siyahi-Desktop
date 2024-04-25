@@ -1,6 +1,7 @@
 package tn.esprit.services;
 
 import tn.esprit.interfaces.IService;
+import tn.esprit.models.ObjetReclamation;
 import tn.esprit.models.Reclamation;
 import tn.esprit.util.MaConnexion;
 
@@ -24,12 +25,14 @@ public class ReclamationService implements IService<Reclamation> {
 
         try {
             PreparedStatement ps = cnx.prepareStatement(req);
+            ObjetReclamation objReclamation = reclamation.getObject();
 
 
-            ps.setString(1, reclamation.getObject());
+
+            ps.setString(1, objReclamation.getNom());
             ps.setString(2, reclamation.getDescription());
             ps.setTimestamp(3, reclamation.getDate_creation());
-            ps.setString(4, reclamation.getauteur());
+            ps.setString(4, reclamation.getAuteur());
             ps.setString(5, reclamation.getEmail());
 
 
@@ -50,11 +53,13 @@ public class ReclamationService implements IService<Reclamation> {
 
             try {
                 PreparedStatement ps = cnx.prepareStatement(req);
+                ObjetReclamation objReclamation = reclamation.getObject();
 
-                ps.setString(1, reclamation.getObject());
+
+                ps.setString(1, objReclamation.getNom());
                 ps.setString(2, reclamation.getDescription());
                 ps.setTimestamp(3, reclamation.getDate_creation());
-                ps.setString(4, reclamation.getauteur());
+                ps.setString(4, reclamation.getAuteur());
                 ps.setString(5, reclamation.getEmail());
                 ps.setInt(6, reclamation.getId());
 
@@ -93,6 +98,16 @@ public class ReclamationService implements IService<Reclamation> {
         }
 
     }
+    // Méthode pour obtenir l'objet Reclamation à partir de son nom
+    private ObjetReclamation getObjectReclamationByName(String objectName) {
+        List<ObjetReclamation> objetsSuggérés = Reclamation.getObjetsSuggérés();
+        for (ObjetReclamation obj : objetsSuggérés) {
+            if (obj.getNom().equals(objectName)) {
+                return obj;
+            }
+        }
+        return null;
+    }
 
     @Override
     public List<Reclamation> getAll() {
@@ -106,14 +121,17 @@ public class ReclamationService implements IService<Reclamation> {
 
             while (rs.next()) {
                 int id = rs.getInt("id");
-                String object = rs.getString("Object");
+                String objectName = rs.getString("Object");
                 String description = rs.getString("Description");
                 Timestamp dateCreation = rs.getTimestamp("Date_Creation");
                 String auteur = rs.getString("auteur");
                 String email = rs.getString("Email");
                 boolean status = rs.getBoolean("status");
 
-                Reclamation reclamation = new Reclamation(id, object, description, dateCreation, auteur, email, status);
+                // Obtenez l'objet Reclamation à partir de son nom
+                ObjetReclamation objReclamation = getObjectReclamationByName(objectName);
+
+                Reclamation reclamation = new Reclamation(id,objReclamation, description, dateCreation, auteur, email, status);
                 reclamations.add(reclamation);
             }
 

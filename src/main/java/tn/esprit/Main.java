@@ -1,5 +1,6 @@
 package tn.esprit;
 
+import tn.esprit.models.ObjetReclamation;
 import tn.esprit.models.Reclamation;
 import tn.esprit.models.ReponseReclamation;
 import tn.esprit.services.ReclamationService;
@@ -20,9 +21,11 @@ public class Main {
 
         MaConnexion mac =  MaConnexion.getInstance();
         //********************test add:
-        /*ReclamationService rs=new ReclamationService();
-        Reclamation reclamation = new Reclamation("aa", "Description de la réclamation", timestamp, "Auteur de la réclamation", "valide@mail.com",true);
-         rs.add(reclamation);*/
+        ReclamationService rs=new ReclamationService();
+        ObjetReclamation objetReclamation = new ObjetReclamation("Frais Bancaires Inattendus");
+
+        Reclamation reclamation = new Reclamation(objetReclamation, "Description de la réclamation", timestamp, "Auteur de la réclamation", "valide@mail.com",true);
+         rs.add(reclamation);
 
         //************************test update
 
