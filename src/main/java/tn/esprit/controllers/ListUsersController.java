@@ -46,11 +46,6 @@ public class ListUsersController {
     private final ObservableList<User> dataList = FXCollections.observableList(us.getAll());
 
     @FXML
-    private TextField email;
-
-    @FXML
-    private PasswordField password;
-    @FXML
     private TableColumn<User, String> ActiviteCol;
 
     @FXML
@@ -75,21 +70,6 @@ public class ListUsersController {
     private TableColumn<User, Integer> TelCol;
 
     @FXML
-    private Button send;
-
-    @FXML
-    private Label pass_label;
-
-    @FXML
-    private Hyperlink forgotpasshl;
-
-    @FXML
-    private Button cancel_send;
-
-    @FXML
-    private Button login_but;
-
-    @FXML
     private TableView<User> TableUser = new TableView<>(dataList);
 
     @FXML
@@ -105,7 +85,7 @@ public class ListUsersController {
     private TableColumn<User, Void> actionCol;
 
     @FXML
-    void navigateToHomePage(ActionEvent event) {
+    public void navigateToHomePage(ActionEvent event) {
         try {
             Parent acceuil = FXMLLoader.load(getClass().getResource("/AdminHomePage.fxml"));
             Scene ajouterUserScene = new Scene(acceuil);
@@ -121,7 +101,7 @@ public class ListUsersController {
     }
 
     @FXML
-    void navigateToUserSection(ActionEvent event) {
+    public void navigateToUserSection(ActionEvent event) {
         try {
             Parent users_section = FXMLLoader.load(getClass().getResource("/Users.fxml"));
             Scene ajouterUserScene = new Scene(users_section);
@@ -136,7 +116,7 @@ public class ListUsersController {
         }
     }
 
-    void NavigateToAddUser(ActionEvent event) {
+    public void NavigateToAddUser(ActionEvent event) {
         try {
             Parent users_section = FXMLLoader.load(getClass().getResource("/AddUser.fxml"));
             Scene users_sectionSecene = new Scene(users_section);
@@ -155,7 +135,7 @@ public class ListUsersController {
     }
 
     @FXML
-    void NavigateToUserAuth(ActionEvent event) {
+    public void NavigateToUserAuth(ActionEvent event) {
         Stage window_toClose = (Stage) menuItem.getParentPopup().getOwnerWindow();
         window_toClose.close();
         Parent users_section = null;
@@ -174,111 +154,7 @@ public class ListUsersController {
     }
 
     @FXML
-    void authentification(ActionEvent event) {
-        try {
-            if(us.authentification(email.getText(), password.getText()) != null) { //Login Success
-                User user = us.getOneByEMAIL(email.getText());
-                if(user.getActivity().equals("F")){ //Compte desactivé
-                    Alert alert = showFailedMessage("Votre compte a été désactivé.");
-                    ButtonType confirmButton = new ButtonType("Ok");
-                    alert.getButtonTypes().setAll(confirmButton);
-                    Optional<ButtonType> result = alert.showAndWait();
-                    if (result.isPresent() && result.get() == confirmButton) {
-                        alert.close();
-                    }
-                }else { //Compte activé
-                    if(user.getRoles().equals("[\"ROLE_USER\"]") || user.getRoles().equals("[\"ROLE_STAFF\"]")){
-                        try {
-                            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/UserHomePage.fxml"));
-                            Parent root = fxmlLoader.load();
-                            Stage stage = (Stage) email.getScene().getWindow();
-                            stage.setWidth(1300); stage.setMaxWidth(1300); stage.setMinWidth(1300);
-                            stage.setHeight(600); stage.setMaxHeight(600); stage.setMinHeight(600);
-                            email.getScene().setRoot(root);
-                            stage.setTitle("Siyahi Bank | Home Page");
-                            stage.show();
-                        } catch (IOException ex) {
-                            System.err.println(ex.getMessage());
-                        }
-                    }else{
-                        try {
-                            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/AdminHomePage.fxml"));
-                            Parent root = fxmlLoader.load();
-                            Stage stage = (Stage) email.getScene().getWindow();
-                            stage.setWidth(1300); stage.setMaxWidth(1300); stage.setMinWidth(1300);
-                            stage.setHeight(600); stage.setMaxHeight(600); stage.setMinHeight(600);
-                            email.getScene().setRoot(root);
-                            stage.setTitle("Siyahi Bank | Dashboard");
-                            stage.show();
-                        } catch (IOException ex) {
-                            System.err.println(ex.getMessage());
-                        }
-                    }
-                }
-            } else { //Login Failure.
-                Alert alert = showFailedMessage("Veuillez vérifier vos identifiants.");
-                ButtonType confirmButton = new ButtonType("Ok");
-                alert.getButtonTypes().setAll(confirmButton);
-                Optional<ButtonType> result = alert.showAndWait();
-                if (result.isPresent() && result.get() == confirmButton) {
-                    alert.close();
-                }
-            }
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-    @FXML
-    void ForgotPassword(ActionEvent event) {
-        password.setStyle("-fx-opacity: 0;");
-        forgotpasshl.setStyle("-fx-opacity: 0;");
-        login_but.setStyle("-fx-opacity: 0;");
-        pass_label.setStyle("-fx-opacity: 0;");
-        send.setStyle("-fx-opacity: 1;");
-        cancel_send.setStyle("-fx-opacity: 1;");
-        Stage stage = (Stage) email.getScene().getWindow();
-        stage.setTitle("Siyahi Bank | Récupérer mot de passe");
-    }
-
-    @FXML
-    void resetPass(ActionEvent event) {
-        user = us.getOneByEMAIL(email.getText());
-        if(user == null){
-            showFailedMessage("Email n'existe pas! Vérifiez vos credentials.").show();
-        }else{
-            us.RequestResetPassword(user);
-            email.setText("");
-            Parent users_section = null;
-            try {
-                users_section = FXMLLoader.load(getClass().getResource("/resetPass.fxml"));
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            Scene users_sectionSecene = new Scene(users_section);
-            Stage window = new Stage();
-            window.setScene(users_sectionSecene);
-            window.setHeight(400); window.setMaxHeight(400); window.setMinHeight(400);
-            window.setWidth(600); window.setMaxWidth(600); window.setMinWidth(600);
-            window.setTitle("Siyahi Bank | Token Verification");
-            window.show();
-        }
-    }
-
-    @FXML
-    void getBack(ActionEvent event) {
-        password.setStyle("-fx-opacity: 1;");
-        forgotpasshl.setStyle("-fx-opacity: 1;");
-        login_but.setStyle("-fx-opacity: 1;");
-        pass_label.setStyle("-fx-opacity: 1;");
-        send.setStyle("-fx-opacity: 0;");
-        cancel_send.setStyle("-fx-opacity: 0;");
-        Stage stage = (Stage) email.getScene().getWindow();
-        stage.setTitle("Siyahi Bank | Connexion");
-    }
-
-    @FXML
-    void Logout(ActionEvent event){
+    public void Logout(ActionEvent event){
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirmation");
         alert.setHeaderText("Voulez-vous vraiment déconnecter?");
@@ -291,7 +167,7 @@ public class ListUsersController {
     }
 
     @FXML
-    void Profile(ActionEvent event) {
+    public void Profile(ActionEvent event) {
         Parent parent = null;
         try {
             profileCheck = 1;
@@ -306,7 +182,7 @@ public class ListUsersController {
         window.show();
     }
 
-    private Alert showFailedMessage(String message) {
+    public Alert showFailedMessage(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Erreur de connexion");
         alert.setHeaderText("Une erreur de connexion est survenue.");
@@ -315,7 +191,7 @@ public class ListUsersController {
         return alert;
     }
 
-    private void showSuccessMessage(String message) {
+    public void showSuccessMessage(String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Succès");
         alert.setHeaderText(null);
@@ -324,13 +200,13 @@ public class ListUsersController {
     }
 
     @FXML
-    void addUser(ActionEvent event){
+    public void addUser(ActionEvent event){
         userToUpdate = null;
         NavigateToAddUser(event);
     }
 
     @FXML
-    void viewUser(MouseEvent event) {
+    public void viewUser(MouseEvent event) {
         profileCheck = 2;
         if (event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 2) {
             User selectedUser = TableUser.getSelectionModel().getSelectedItem();
@@ -407,9 +283,6 @@ public class ListUsersController {
 
     @FXML
     void initialize() {
-        send.setStyle("-fx-opacity: 0;");
-        cancel_send.setStyle("-fx-opacity: 0;");
-
         //Filling up the TableView
         try {
             ActiviteCol.setCellValueFactory(new PropertyValueFactory<>("activity"));

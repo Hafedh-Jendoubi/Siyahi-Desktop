@@ -118,8 +118,8 @@ public class UserService implements IService<User> {
                 "`email`='" + user.getEmail() +
                 "',`roles`='" + user.getRoles() +
                 "',`password`='" + hashPassword(user.getPassword()) +
-                "',`first_name`='" + user.getFirst_name() +
-                "',`last_name`='" + user.getLast_name() +
+                "',`first_name`='" + user.getLast_name() +
+                "',`last_name`='" + user.getFirst_name() +
                 "',`gender`='" + user.getGender() +
                 "',`address`='" + user.getAddress() +
                 "',`phone_number`='" + user.getPhone_number() +

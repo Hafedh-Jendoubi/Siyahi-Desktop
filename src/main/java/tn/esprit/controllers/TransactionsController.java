@@ -14,6 +14,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Optional;
 
 import static tn.esprit.controllers.ProfileController.profileCheck;
 import static tn.esprit.services.UserService.connectedUser;
@@ -71,8 +72,29 @@ public class TransactionsController {
 
     @FXML
     void Logout(ActionEvent event) {
-        HomePageController controller = new HomePageController();
-        controller.Logout(event);
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmation");
+        alert.setHeaderText("Voulez-vous vraiment déconnecter?");
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            Stage window_toClose = (Stage) menuItem.getParentPopup().getOwnerWindow();
+            window_toClose.close();
+            Parent users_section = null;
+            try {
+                users_section = FXMLLoader.load(getClass().getResource("/UserAuth.fxml"));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            Scene users_sectionSecene = new Scene(users_section);
+            Stage window = new Stage();
+            window.setScene(users_sectionSecene);
+            window.setHeight(400); window.setMaxHeight(400); window.setMinHeight(400);
+            window.setWidth(600); window.setMaxWidth(600); window.setMinWidth(600);
+            window.setTitle("Siyahi Bank | Connexion");
+            window.show();
+        } else {
+            alert.close();
+        }
     }
 
     @FXML

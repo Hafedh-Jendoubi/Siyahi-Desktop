@@ -2,115 +2,159 @@ package tn.esprit.controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.TextField;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
+import tn.esprit.Main;
+import tn.esprit.models.User;
 import tn.esprit.services.UserService;
 
+import java.io.IOException;
 import java.util.Optional;
 
+import static tn.esprit.controllers.ProfileController.user;
+
 public class AuthentificationController {
+    ListUsersController controller = new ListUsersController();
 
     @FXML
     private ImageView Image;
 
     @FXML
-    private Button confirmBut;
+    private TextField email;
 
     @FXML
-    private TextField newPass;
+    private PasswordField password;
 
     @FXML
-    private Text newPassLabel;
+    private Button send;
 
     @FXML
-    private TextField repeatPass;
+    private Label pass_label;
 
     @FXML
-    private Text repeatPassField;
+    private Hyperlink forgotpasshl;
 
     @FXML
-    private TextField tokenField;
+    private Button cancel_send;
 
     @FXML
-    private AnchorPane tokenLabel;
-
-    @FXML
-    private Button verifyBut;
-
-    @FXML
-    private Text typeTokenLabel;
+    private Button login_but;
 
     UserService us = new UserService();
 
     @FXML
-    void goOnReset(ActionEvent event) {
-        if(!newPass.getText().equals(repeatPass.getText())){
-            repeatPass.setStyle("-fx-border-color: red;");
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("ERROR");
-            alert.setHeaderText("Votre mot de pass n'est pas identique! Vérifiez.");
-            Optional<ButtonType> result = alert.showAndWait();
-            if (result.isPresent() && result.get() == ButtonType.OK) {
-                alert.close();
-            }else{
-                alert.close();
+    public void authentification(ActionEvent event) {
+        try {
+            if(us.authentification(email.getText(), password.getText()) != null) { //Login Success
+                User user = us.getOneByEMAIL(email.getText());
+                if(user.getActivity().equals("F")){ //Compte desactivé
+                    Alert alert = controller.showFailedMessage("Votre compte a été désactivé.");
+                    ButtonType confirmButton = new ButtonType("Ok");
+                    alert.getButtonTypes().setAll(confirmButton);
+                    Optional<ButtonType> result = alert.showAndWait();
+                    if (result.isPresent() && result.get() == confirmButton) {
+                        alert.close();
+                    }
+                }else { //Compte activé
+                    if(user.getRoles().equals("[\"ROLE_USER\"]") || user.getRoles().equals("[\"ROLE_STAFF\"]")){
+                        try {
+                            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/UserHomePage.fxml"));
+                            Parent root = fxmlLoader.load();
+                            Stage stage = (Stage) email.getScene().getWindow();
+                            stage.setWidth(1300); stage.setMaxWidth(1300); stage.setMinWidth(1300);
+                            stage.setHeight(600); stage.setMaxHeight(600); stage.setMinHeight(600);
+                            email.getScene().setRoot(root);
+                            stage.setTitle("Siyahi Bank | Home Page");
+                            stage.show();
+                        } catch (IOException ex) {
+                            System.err.println(ex.getMessage());
+                        }
+                    }else{
+                        try {
+                            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/AdminHomePage.fxml"));
+                            Parent root = fxmlLoader.load();
+                            Stage stage = (Stage) email.getScene().getWindow();
+                            stage.setWidth(1300); stage.setMaxWidth(1300); stage.setMinWidth(1300);
+                            stage.setHeight(600); stage.setMaxHeight(600); stage.setMinHeight(600);
+                            email.getScene().setRoot(root);
+                            stage.setTitle("Siyahi Bank | Dashboard");
+                            stage.show();
+                        } catch (IOException ex) {
+                            System.err.println(ex.getMessage());
+                        }
+                    }
+                }
+            } else { //Login Failure.
+                Alert alert = controller.showFailedMessage("Veuillez vérifier vos identifiants.");
+                ButtonType confirmButton = new ButtonType("Ok");
+                alert.getButtonTypes().setAll(confirmButton);
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.isPresent() && result.get() == confirmButton) {
+                    alert.close();
+                }
             }
-        }else{
-            int id = us.getOneByToken(tokenField.getText());
-            repeatPass.setStyle("-fx-border-color: transparent;");
-            us.resetPassword(id, repeatPass.getText());
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Information");
-            alert.setHeaderText("Votre mot de pass a été modifé");
-            Optional<ButtonType> result = alert.showAndWait();
-            if (result.isPresent() && result.get() == ButtonType.OK) {
-                alert.close();
-            }else{
-                alert.close();
-            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
     }
 
     @FXML
-    void verify(ActionEvent event) {
-        int id = us.getOneByToken(tokenField.getText());
-        if(id == -1){
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Warning");
-            alert.setHeaderText("Verifiez votre Token inséré");
-            Optional<ButtonType> result = alert.showAndWait();
-            if (result.isPresent() && result.get() == ButtonType.OK) {
-                alert.close();
-            }else{
-                alert.close();
-            }
+    public void ForgotPassword(ActionEvent event) {
+        password.setStyle("-fx-opacity: 0;");
+        forgotpasshl.setStyle("-fx-opacity: 0;");
+        login_but.setStyle("-fx-opacity: 0;");
+        pass_label.setStyle("-fx-opacity: 0;");
+        send.setStyle("-fx-opacity: 1;");
+        cancel_send.setStyle("-fx-opacity: 1;");
+        Stage stage = (Stage) email.getScene().getWindow();
+        stage.setTitle("Siyahi Bank | Récupérer mot de passe");
+    }
+
+    @FXML
+    public void resetPass(ActionEvent event) {
+        user = us.getOneByEMAIL(email.getText());
+        if(user == null){
+            controller.showFailedMessage("Email n'existe pas! Vérifiez vos credentials.").show();
         }else{
-            typeTokenLabel.setOpacity(0);
-            tokenField.setOpacity(0);
-            verifyBut.setOpacity(0);
-            newPassLabel.setOpacity(1);
-            repeatPassField.setOpacity(1);
-            repeatPass.setOpacity(1);
-            repeatPassField.setOpacity(1);
-            newPass.setOpacity(1);
-            newPassLabel.setOpacity(1);
-            confirmBut.setOpacity(1);
+            us.RequestResetPassword(user);
+            Parent users_section = null;
+            try {
+                users_section = FXMLLoader.load(getClass().getResource("/resetPass.fxml"));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            Scene users_sectionSecene = new Scene(users_section);
+            Stage window = new Stage();
+            window.setScene(users_sectionSecene);
+            window.setHeight(400); window.setMaxHeight(400); window.setMinHeight(400);
+            window.setWidth(600); window.setMaxWidth(600); window.setMinWidth(600);
+            window.setTitle("Siyahi Bank | Token Verification");
+            getBack(event);
+            window.show();
         }
+    }
+
+    @FXML
+    public void getBack(ActionEvent event) {
+        password.setStyle("-fx-opacity: 1;");
+        forgotpasshl.setStyle("-fx-opacity: 1;");
+        login_but.setStyle("-fx-opacity: 1;");
+        pass_label.setStyle("-fx-opacity: 1;");
+        send.setStyle("-fx-opacity: 0;");
+        cancel_send.setStyle("-fx-opacity: 0;");
+        Stage stage = (Stage) email.getScene().getWindow();
+        stage.setTitle("Siyahi Bank | Connexion");
     }
 
     @FXML
     void initialize(){
-        newPassLabel.setOpacity(0);
-        repeatPassField.setOpacity(0);
-        repeatPass.setOpacity(0);
-        repeatPassField.setOpacity(0);
-        newPass.setOpacity(0);
-        newPassLabel.setOpacity(0);
-        confirmBut.setOpacity(0);
+        send.setOpacity(0);
+        cancel_send.setOpacity(0);
     }
 }

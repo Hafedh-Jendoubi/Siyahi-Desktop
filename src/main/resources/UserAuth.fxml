@@ -11,7 +11,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@css/stylesheet.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.controllers.ListUsersController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@css/stylesheet.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.controllers.AuthentificationController">
    <children>
       <AnchorPane layoutY="-15.0" prefHeight="419.0" prefWidth="282.0" style="-fx-background-color: #6e749c;">
          <children>

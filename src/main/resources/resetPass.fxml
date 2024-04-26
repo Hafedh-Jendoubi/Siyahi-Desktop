@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="tokenLabel" prefHeight="400.0" prefWidth="600.0" stylesheets="@css/stylesheet.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.controllers.AuthentificationController">
+<AnchorPane fx:id="tokenLabel" prefHeight="400.0" prefWidth="600.0" stylesheets="@css/stylesheet.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.controllers.ResetPasswordController">
    <children>
       <TextField fx:id="tokenField" layoutX="300.0" layoutY="186.0" prefHeight="25.0" prefWidth="282.0" />
       <AnchorPane layoutY="-15.0" prefHeight="419.0" prefWidth="282.0" style="-fx-background-color: #6e749c;">

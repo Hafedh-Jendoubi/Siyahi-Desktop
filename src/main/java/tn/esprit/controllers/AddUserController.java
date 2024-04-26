@@ -142,7 +142,6 @@ public class AddUserController {
                 //Just to retreive the Picture Name in order to upload it to the Database
                 String pictureName = destinationPath1.toString();
                 String resultName = pictureName.replaceFirst(".*\\\\uploads\\\\user\\\\", "");
-                System.out.println("resultName: " + resultName);
                 setPicturePath(resultName);
 
                 Files.copy(sourcePath, destinationPath1);

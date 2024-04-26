@@ -136,7 +136,7 @@ public class ProfileController {
         //Setting the user picture
         String imageName = user.getImage();
         String imagePath = "/uploads/user/" + imageName;
-        Image image = new Image(Objects.requireNonNull(getClass().getResource(imagePath)).toExternalForm());
+        Image image = new Image((getClass().getResource(imagePath)).toExternalForm());
         big_circle.setFill(new ImagePattern(image));
     }
 
