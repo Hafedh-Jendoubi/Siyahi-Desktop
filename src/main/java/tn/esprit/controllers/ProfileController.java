@@ -14,7 +14,6 @@ import javafx.stage.Stage;
 import tn.esprit.models.User;
 
 import java.io.IOException;
-import java.util.Objects;
 
 import static tn.esprit.services.UserService.connectedUser;
 

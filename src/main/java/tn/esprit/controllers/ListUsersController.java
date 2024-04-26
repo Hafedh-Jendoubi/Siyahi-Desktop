@@ -1,6 +1,5 @@
 package tn.esprit.controllers;
 
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -14,7 +13,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -24,21 +22,16 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
-import tn.esprit.Main;
 import tn.esprit.models.User;
 import tn.esprit.services.UserService;
 
-import java.awt.*;
 import java.io.IOException;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.Optional;
 
 import static tn.esprit.controllers.AddUserController.userToUpdate;
 import static tn.esprit.controllers.ProfileController.profileCheck;
 import static tn.esprit.services.UserService.connectedUser;
 import static tn.esprit.controllers.ProfileController.user;
-import static tn.esprit.controllers.AddUserController.userToUpdate;
 
 public class ListUsersController {
     private UserService us = new UserService();
