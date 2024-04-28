@@ -150,7 +150,6 @@
                   </AnchorPane>
                   <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#153448" height="280.0" layoutX="-164.0" layoutY="154.0" rotate="90.0" stroke="TRANSPARENT" strokeType="INSIDE" width="620.0" />
                   <Circle fx:id="big_circle" disable="true" fill="DODGERBLUE" layoutX="146.0" layoutY="145.0" radius="100.0" stroke="BLACK" strokeType="INSIDE" />
-                  <Button layoutX="68.0" layoutY="273.0" mnemonicParsing="false" onAction="#updateUser" prefHeight="30.0" prefWidth="156.0" style="-fx-background-radius: 20px;" text="Edit Profile" />
                </children>
             </AnchorPane>
          </items>

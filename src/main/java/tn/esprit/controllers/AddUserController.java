@@ -189,11 +189,13 @@ public class AddUserController {
         }else{
             nom.setText(userToUpdate.getFirst_name());
             prenom.setText(userToUpdate.getLast_name());
+            ObservableList<String> gender = FXCollections.observableArrayList("Male", "Femelle");
+            genre.setItems(gender);
             genre.setValue(userToUpdate.getGender());
             adresse.setText(userToUpdate.getAddress());
-            email_input.setText(userToUpdate.getEmail()); email_input.setEditable(false); email_input.setStyle("-fx-opacity: 0.5;");
+            email_input.setText(userToUpdate.getEmail());
             num_tel.setText(String.valueOf(userToUpdate.getPhone_number()));
-            cin.setText(String.valueOf(userToUpdate.getCin())); cin.setEditable(false); cin.setStyle("-fx-opacity: 0.5;");
+            cin.setText(String.valueOf(userToUpdate.getCin()));
             picturePath = userToUpdate.getImage();
         }
     }

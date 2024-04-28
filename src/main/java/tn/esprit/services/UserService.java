@@ -61,7 +61,7 @@ public class UserService implements IService<User> {
             ps.setInt(8, user.getPhone_number());
             ps.setInt(9, user.getCin());
             ps.setTimestamp(10, new Timestamp(System.currentTimeMillis()));
-            if(user.getImage() == null){ //Employee has not imported a User Profile Picture
+            if(user.getImage() == null){ //Employee has not imported a User Profile Picture for Client
                 if(user.getGender().equals("M"))
                     ps.setString(11, "7f9183c93cb4803aefc8262447c4efc9.png");
                 else
