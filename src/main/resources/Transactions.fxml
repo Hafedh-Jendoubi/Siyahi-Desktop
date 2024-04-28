@@ -5,6 +5,9 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -33,12 +36,21 @@
             </AnchorPane>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="598.0" prefWidth="952.0" style="-fx-background-color: #E4E4E4;">
                <children>
-                  <MenuButton layoutX="830.0" layoutY="40.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="39.0">
-                     <items>
-                        <MenuItem mnemonicParsing="false" onAction="#Profile" text="Profile" />
-                        <MenuItem fx:id="menuItem" mnemonicParsing="false" onAction="#Logout" text="Déconnexion" />
-                     </items>
-                  </MenuButton>
+                  <AnchorPane layoutX="25.0" layoutY="95.0" prefHeight="481.0" prefWidth="887.0" style="-fx-background-color: #E4E4E4; -fx-border-radius: 15px; -fx-border-width: 1px;">
+                     <children>
+                        <TextField fx:id="filterField" layoutX="144.0" layoutY="78.0" prefHeight="26.0" prefWidth="314.0" promptText="Rechercher Transaction..." style="-fx-background-radius: 50px;" />
+                        <TableView fx:id="TableTrans" layoutX="144.0" layoutY="126.0" prefHeight="280.0" prefWidth="600.0" style="-fx-background-color: grey;">
+                          <columns>
+                            <TableColumn fx:id="numCol" prefWidth="141.0" text="Numéro de Transaction" />
+                            <TableColumn fx:id="RIBSentCol" minWidth="0.0" prefWidth="115.0" text="Envoie de RIB" />
+                              <TableColumn fx:id="RIBRecCol" prefWidth="115.0" text="Reçu par RIB" />
+                              <TableColumn fx:id="SoldeCol" prefWidth="93.0" text="Montant" />
+                              <TableColumn fx:id="DateCol" prefWidth="134.0" text="Date de Transaction" />
+                          </columns>
+                        </TableView>
+                        <Button layoutX="544.0" layoutY="76.0" mnemonicParsing="false" onAction="#NavigationToAddTransaction" prefHeight="30.0" prefWidth="200.0" style="-fx-background-radius: 40px;" text="Ajouter Transaction" />
+                     </children>
+                  </AnchorPane>
                   <Text layoutX="24.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bienvenu à Siyahi Banque" textAlignment="CENTER" AnchorPane.leftAnchor="24.0" AnchorPane.topAnchor="34.52197265625">
                      <font>
                         <Font name="Courier New Bold" size="27.0" />
@@ -60,9 +72,13 @@
                         </LinearGradient>
                      </fill>
                   </Text>
+                  <MenuButton layoutX="831.0" layoutY="40.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="39.0">
+                     <items>
+                        <MenuItem mnemonicParsing="false" onAction="#Profile" text="Profile" />
+                        <MenuItem fx:id="menuItem" mnemonicParsing="false" onAction="#Logout" text="Déconnexion" />
+                     </items>
+                  </MenuButton>
                   <Circle fx:id="circle" disable="true" fill="DODGERBLUE" layoutX="850.0" layoutY="60.0" radius="32.0" stroke="BLACK" strokeType="INSIDE" />
-                  <Button layoutX="158.0" layoutY="259.0" mnemonicParsing="false" onAction="#NavigationToAddTransaction" prefHeight="40.0" prefWidth="165.0" text="Transferer Cash" />
-                  <Button layoutX="356.0" layoutY="259.0" mnemonicParsing="false" onAction="#ListTransactions" prefHeight="40.0" prefWidth="165.0" text="Voir List Transactions" />
                </children>
             </AnchorPane>
          </items>

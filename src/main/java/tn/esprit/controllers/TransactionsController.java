@@ -1,5 +1,9 @@
 package tn.esprit.controllers;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -7,10 +11,15 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
+import tn.esprit.models.Transaction;
+import tn.esprit.models.User;
+import tn.esprit.services.TransactionService;
+import tn.esprit.services.UserService;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -19,11 +28,36 @@ import static tn.esprit.controllers.ProfileController.profileCheck;
 import static tn.esprit.services.UserService.connectedUser;
 
 public class TransactionsController {
+    private TransactionService ts = new TransactionService();
+
+    private final ObservableList<Transaction> dataList = FXCollections.observableList(ts.getAll());
+
+    @FXML
+    private TableColumn<Transaction, String> DateCol;
+
+    @FXML
+    private TableColumn<Transaction, Long> RIBRecCol;
+
+    @FXML
+    private TableColumn<Transaction, Long> RIBSentCol;
+
+    @FXML
+    private TableColumn<Transaction, String> SoldeCol;
+
     @FXML
     private Circle circle;
 
     @FXML
+    private TextField filterField;
+
+    @FXML
     private MenuItem menuItem;
+
+    @FXML
+    private TableColumn<Transaction, Integer> numCol;
+
+    @FXML
+    private TableView<Transaction> TableTrans = new TableView<>(dataList);
 
     @FXML
     void navigateToTransactions(ActionEvent event) {
@@ -58,7 +92,10 @@ public class TransactionsController {
         Parent parent = null;
         try {
             profileCheck = 1;
-            parent = FXMLLoader.load(getClass().getResource("/ProfileUser.fxml"));
+            if(connectedUser.getRoles().equals("Client") || connectedUser.getRoles().equals("Employé(e)"))
+                parent = FXMLLoader.load(getClass().getResource("/ProfileUser.fxml"));
+            else
+                parent = FXMLLoader.load(getClass().getResource("/ProfileAdmin.fxml"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -98,27 +135,45 @@ public class TransactionsController {
 
     @FXML
     void NavigationToAddTransaction(ActionEvent event) {
-        try {
-            Parent users_section = FXMLLoader.load(getClass().getResource("/AddTransaction.fxml"));
-            Scene users_sectionSecene = new Scene(users_section);
-            Stage window = new Stage();
-            window.setScene(users_sectionSecene);
-            window.setMaxHeight(550); window.setMinHeight(550);
-            window.setMaxWidth(400); window.setMinWidth(400);
-            window.setTitle("Siyahi Bank | Transferer Argent");
-            window.show();
-        } catch (IOException e) {
-            System.err.println(e.getMessage());
+        TransactionService ts = new TransactionService();
+        if(ts.getOwnerOfRIBs(connectedUser.getId()).isEmpty()){
+            ListUsersController controller = new ListUsersController();
+            Alert alert = controller.showFailedMessage("Vous devez avoir un compte pour transferer.");
+            ButtonType confirmButton = new ButtonType("Ok");
+            alert.getButtonTypes().setAll(confirmButton);
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.isPresent() && result.get() == confirmButton) {
+                alert.close();
+            }
+        }else{
+            try {
+                Parent users_section = FXMLLoader.load(getClass().getResource("/AddTransaction.fxml"));
+                Scene users_sectionSecene = new Scene(users_section);
+                Stage window = new Stage();
+                window.setScene(users_sectionSecene);
+                window.setMaxHeight(550); window.setMinHeight(550);
+                window.setMaxWidth(400); window.setMinWidth(400);
+                window.setTitle("Siyahi Bank | Transferer Argent");
+                window.show();
+            } catch (IOException e) {
+                System.err.println(e.getMessage());
+            }
         }
     }
 
     @FXML
-    void ListTransactions(ActionEvent event) {
-
-    }
-
-    @FXML
     void initialize() {
+        //Filling up the TableView
+        numCol.setCellValueFactory(new PropertyValueFactory<>("id"));
+        RIBSentCol.setCellValueFactory(new PropertyValueFactory<>("ribUserSent"));
+        RIBRecCol.setCellValueFactory(new PropertyValueFactory<>("ribUserReceived"));
+        SoldeCol.setCellValueFactory(new PropertyValueFactory<>("cash"));
+        DateCol.setCellValueFactory(new PropertyValueFactory<>("date"));
+
+        numCol.setStyle("-fx-alignment: CENTER;");
+        SoldeCol.setStyle("-fx-alignment: CENTER;");
+        DateCol.setStyle("-fx-alignment: CENTER;");
+
         try {
             String imageName = connectedUser.getImage();
             String imagePath = "/uploads/user/" + imageName;
@@ -127,5 +182,30 @@ public class TransactionsController {
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
+
+        //Search Filter
+        FilteredList<Transaction> filteredData = new FilteredList<>(dataList, b -> true);
+        filterField.setText("");
+        filterField.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(User -> {
+                if(newValue == null || newValue.isEmpty()){
+                    return true;
+                }
+
+                String lowerCaseFilter = newValue.toLowerCase();
+
+                if(String.valueOf(User.getRibUserReceived()).toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                }else if(String.valueOf(User.getRibUserSent()).toLowerCase().contains(lowerCaseFilter)){
+                    return true;
+                }else if(String.valueOf(User.getCash()).toLowerCase().contains(lowerCaseFilter)){
+                    return true;
+                }else
+                    return false;
+            });
+        });
+        SortedList<Transaction> sortedData = new SortedList<>(filteredData);
+        sortedData.comparatorProperty().bind(TableTrans.comparatorProperty());
+        TableTrans.setItems(sortedData);
     }
 }

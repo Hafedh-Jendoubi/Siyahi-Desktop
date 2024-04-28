@@ -329,16 +329,20 @@ public class UserService implements IService<User> {
     }
 
     public void DoubleFactorAuth(User user, String code){
-        String req = "INSERT INTO `reset_password_request`(`user_id`, `selector`, `hashed_token`, `requested_at`, `expires_at`) VALUES (?, ?, ?, ?, ?)";
-        try {
-            PreparedStatement ps = cnx.prepareStatement(req);
-            ps.setInt(1, user.getId());
-            ps.setString(2, code);
-            ps.setString(3, hashPassword(code));
-            ps.setTimestamp(4, new Timestamp(System.currentTimeMillis()));
-            ps.setTimestamp(5, new Timestamp(System.currentTimeMillis() + 60 * 60 * 1000));
-            ps.executeUpdate();
-        } catch (SQLException e){System.err.println(e);}
+        if(getOneByToken(code) == -1) {
+            String req = "INSERT INTO `reset_password_request`(`user_id`, `selector`, `hashed_token`, `requested_at`, `expires_at`) VALUES (?, ?, ?, ?, ?)";
+            try {
+                PreparedStatement ps = cnx.prepareStatement(req);
+                ps.setInt(1, user.getId());
+                ps.setString(2, code);
+                ps.setString(3, hashPassword(code));
+                ps.setTimestamp(4, new Timestamp(System.currentTimeMillis()));
+                ps.setTimestamp(5, new Timestamp(System.currentTimeMillis() + 60 * 60 * 1000));
+                ps.executeUpdate();
+            } catch (SQLException e) {
+                System.err.println(e);
+            }
+        }
     }
 
     public void DoubleFactorAuthOK(User user){

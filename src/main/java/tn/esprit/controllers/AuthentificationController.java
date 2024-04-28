@@ -12,12 +12,17 @@ import tn.esprit.Main;
 import tn.esprit.models.User;
 import tn.esprit.services.UserService;
 
+/*import com.twilio.rest.api.v2010.account.Message;
+import com.twilio.Twilio;*/
+
 import java.io.IOException;
 import java.util.Optional;
 
 import static tn.esprit.controllers.ProfileController.user;
 
 public class AuthentificationController {
+    /*public static final String ACCOUNT_SID = "AC25a8f5d86d539901682583652f62154b";
+    public static final String AUTH_TOKEN = "e9ff5c1445cd614a355a97771a8c9dfa";*/
     ListUsersController controller = new ListUsersController();
 
     @FXML
@@ -62,9 +67,9 @@ public class AuthentificationController {
                 }else { //Compte activé
                     String codeSent = us.generateRandomString();
                     us.DoubleFactorAuth(user, codeSent);
-                    /* ---- To implement SMS ----- */
-                    /*          sendSMS()          */
-                    /* --------------------------- */
+                    /* ------ SMS API ------
+                        sendSMS(user, code);
+                       --------------------- */
                     Alert alert = new Alert(Alert.AlertType.NONE);
                     alert.setTitle("2FA Code");
                     alert.setHeaderText("Veuillez insérer votre 2FA Code:");
@@ -76,8 +81,7 @@ public class AuthentificationController {
                     Optional<ButtonType> result = alert.showAndWait();
                     if (result.isPresent() && result.get() == confirmButton) { //2FA Code wrong
                         String code = textField.getText();
-                        int id = us.getOneByToken(code);
-                        if(id == -1){
+                        if(us.getOneByToken(code) == -1){
                             Alert alertWar = new Alert(Alert.AlertType.WARNING);
                             alertWar.setTitle("Warning");
                             alertWar.setHeaderText("Verifiez votre Token inséré");

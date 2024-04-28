@@ -85,9 +85,9 @@ public class TransactionService implements IService<Transaction> {
             while (res.next()){
                 Transaction transaction = new Transaction();
                 transaction.setId(res.getInt(1));
-                transaction.setRibUserSent(res.getInt(2));
-                transaction.setRibUserReceived(res.getInt(3));
-                transaction.setCash(res.getFloat(4));
+                transaction.setRibUserSent(res.getLong(2));
+                transaction.setRibUserReceived(res.getLong(3));
+                transaction.setCash(res.getDouble(4));
                 transaction.setDate(res.getDate(5));
                 transactions.add(transaction);
             }
@@ -116,5 +116,22 @@ public class TransactionService implements IService<Transaction> {
             System.out.println("Failed to get transaction: " + ex.getMessage());
         }
         return transaction;
+    }
+
+    public List<Long> getOwnerOfRIBs(int id) {
+        List<Long> ListRIB = new ArrayList<>();
+        try {
+            String req = "SELECT `rib` FROM `compte_client` WHERE `user_id`=?";
+            PreparedStatement ps = cnx.prepareStatement(req);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                ListRIB.add(rs.getLong(1));
+            }
+        } catch (SQLException ex) {
+            System.out.println("Failed to get RIB: " + ex.getMessage());
+        }
+
+        return ListRIB;
     }
 }

@@ -6,6 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import tn.esprit.models.User;
@@ -39,6 +40,21 @@ public class AddUserController {
     @FXML
     private TextField prenom;
 
+    @FXML
+    private Text err1;
+
+    @FXML
+    private Text err2;
+
+    @FXML
+    private Text err3;
+
+    @FXML
+    private Text err4;
+
+    @FXML
+    private Text err5;
+
     public static User userToUpdate = null;
 
     private String picturePath;
@@ -54,30 +70,30 @@ public class AddUserController {
         //Controle de saisie
         int i = 0;
         UserService us = new UserService();
-        if (prenom.getText().matches("[a-zA-Z]{4,14}")) {
-            prenom.setStyle("-fx-border-color: transparent;"); i++;
+        if (prenom.getText().matches("[a-zA-Z]{2,14}")) {
+            prenom.setStyle("-fx-border-color: transparent;"); i++; err1.setOpacity(0);
         } else {
-            prenom.setStyle("-fx-border-color: red;");
+            prenom.setStyle("-fx-border-color: red;"); err1.setOpacity(1); err1.setText("• Obligatoire 2 et 14 chiffres.");
         }
-        if (nom.getText().matches("[a-zA-Z]{4,19}")) {
-            nom.setStyle("-fx-border-color: transparent;"); i++;
+        if (nom.getText().matches("[a-zA-Z]{2,19}")) {
+            nom.setStyle("-fx-border-color: transparent;"); i++; err2.setOpacity(0);
         } else {
-            nom.setStyle("-fx-border-color: red;");
+            nom.setStyle("-fx-border-color: red;"); err2.setOpacity(1); err2.setText("• Obligatoire 2 et 19 chiffres");
         }
         if (email_input.getText().matches("[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}")) {
-            email_input.setStyle("-fx-border-color: transparent;"); i++;
+            email_input.setStyle("-fx-border-color: transparent;"); i++; err3.setOpacity(0);
         } else {
-            email_input.setStyle("-fx-border-color: red;");
+            email_input.setStyle("-fx-border-color: red;"); err3.setOpacity(1); err3.setText("• John.Smith@example.com");
         }
         if (cin.getText().matches("\\d{8}")) {
-            cin.setStyle("-fx-border-color: transparent;"); i++;
+            cin.setStyle("-fx-border-color: transparent;"); i++; err5.setOpacity(0);
         } else {
-            cin.setStyle("-fx-border-color: red;");
+            cin.setStyle("-fx-border-color: red;"); err5.setOpacity(1); err5.setText("• Obligatoire 8 chiffres.");
         }
         if (num_tel.getText().matches("\\d{8}")) {
-            num_tel.setStyle("-fx-border-color: transparent;"); i++;
+            num_tel.setStyle("-fx-border-color: transparent;"); i++; err4.setOpacity(0);
         } else {
-            num_tel.setStyle("-fx-border-color: red;");
+            num_tel.setStyle("-fx-border-color: red;"); err4.setOpacity(1); err4.setText("• Obligatoire 8 chiffres.");
         }
         if(i == 5) { //Tous les inputs sont valides:
             if(userToUpdate == null){ // Add
@@ -160,6 +176,12 @@ public class AddUserController {
 
     @FXML
     void initialize() {
+        err1.setOpacity(0);
+        err2.setOpacity(0);
+        err3.setOpacity(0);
+        err4.setOpacity(0);
+        err5.setOpacity(0);
+
         if(userToUpdate == null){
             ObservableList<String> gender = FXCollections.observableArrayList("Male", "Femelle");
             genre.setValue("Male");
