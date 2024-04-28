@@ -22,6 +22,7 @@ import tn.esprit.services.TransactionService;
 import tn.esprit.services.UserService;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 
 import static tn.esprit.controllers.ProfileController.profileCheck;
@@ -30,7 +31,7 @@ import static tn.esprit.services.UserService.connectedUser;
 public class TransactionsController {
     private TransactionService ts = new TransactionService();
 
-    private final ObservableList<Transaction> dataList = FXCollections.observableList(ts.getAll());
+    private final ObservableList<Transaction> dataList = FXCollections.observableList(ts.getOwnerOfTransactions(ts.getOwnerOfRIBs(connectedUser.getId())));
 
     @FXML
     private TableColumn<Transaction, String> DateCol;
@@ -163,6 +164,7 @@ public class TransactionsController {
 
     @FXML
     void initialize() {
+        TableTrans.setPlaceholder(new Label("Vous n'avez aucune transaction à afficher."));
         //Filling up the TableView
         numCol.setCellValueFactory(new PropertyValueFactory<>("id"));
         RIBSentCol.setCellValueFactory(new PropertyValueFactory<>("ribUserSent"));

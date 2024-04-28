@@ -134,4 +134,34 @@ public class TransactionService implements IService<Transaction> {
 
         return ListRIB;
     }
+
+    public List<Transaction> getOwnerOfTransactions(List<Long> RIBs) {
+        List<Transaction> ListTransaction = new ArrayList<>();
+        if(!RIBs.isEmpty()){
+            try {
+                String req = "SELECT * FROM `transaction` WHERE `ribSent` IN (";
+                for (int i = 0; i < RIBs.size(); i++) {
+                    if (i > 0) {
+                        req += ",";
+                    }
+                    req += "?";
+                }
+                req += ")";
+                PreparedStatement ps = cnx.prepareStatement(req);
+                for (int i = 0; i < RIBs.size(); i++) {
+                    ps.setLong(i + 1, RIBs.get(i));
+                }
+                ResultSet rs = ps.executeQuery();
+                while (rs.next()) {
+                    Transaction transaction = new Transaction(rs.getLong(2), rs.getLong(3), rs.getDouble(4), rs.getDate(5));
+                    transaction.setId(rs.getInt(1));
+                    ListTransaction.add(transaction);
+                }
+            } catch (SQLException ex) {
+                System.out.println("Failed to get transactions: " + ex.getMessage());
+            }
+        }
+
+        return ListTransaction;
+    }
 }

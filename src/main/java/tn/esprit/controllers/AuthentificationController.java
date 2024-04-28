@@ -65,61 +65,31 @@ public class AuthentificationController {
                         alert.close();
                     }
                 }else { //Compte activé
-                    String codeSent = us.generateRandomString();
-                    us.DoubleFactorAuth(user, codeSent);
-                    /* ------ SMS API ------
-                        sendSMS(user, code);
-                       --------------------- */
-                    Alert alert = new Alert(Alert.AlertType.NONE);
-                    alert.setTitle("2FA Code");
-                    alert.setHeaderText("Veuillez insérer votre 2FA Code:");
-                    TextField textField = new TextField();
-                    textField.setPromptText("Entrez le code ici");
-                    alert.getDialogPane().setContent(textField);
-                    ButtonType confirmButton = new ButtonType("Confirmer", ButtonBar.ButtonData.OK_DONE);
-                    alert.getButtonTypes().setAll(confirmButton);
-                    Optional<ButtonType> result = alert.showAndWait();
-                    if (result.isPresent() && result.get() == confirmButton) { //2FA Code wrong
-                        String code = textField.getText();
-                        if(us.getOneByToken(code) == -1){
-                            Alert alertWar = new Alert(Alert.AlertType.WARNING);
-                            alertWar.setTitle("Warning");
-                            alertWar.setHeaderText("Verifiez votre Token inséré");
-                            Optional<ButtonType> SecResult = alertWar.showAndWait();
-                            if (SecResult.isPresent() && SecResult.get() == ButtonType.OK) {
-                                alertWar.close();
-                            }else{
-                                alertWar.close();
-                            }
-                        }else{ //2FA Code is right!
-                            us.DoubleFactorAuthOK(user);
-                            if(user.getRoles().equals("[\"ROLE_USER\"]") || user.getRoles().equals("[\"ROLE_STAFF\"]")){ //Regular User Login
-                                try {
-                                    FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/UserHomePage.fxml"));
-                                    Parent root = fxmlLoader.load();
-                                    Stage stage = (Stage) email.getScene().getWindow();
-                                    stage.setWidth(1300); stage.setMaxWidth(1300); stage.setMinWidth(1300);
-                                    stage.setHeight(600); stage.setMaxHeight(600); stage.setMinHeight(600);
-                                    email.getScene().setRoot(root);
-                                    stage.setTitle("Siyahi Bank | Home Page");
-                                    stage.show();
-                                } catch (IOException ex) {
-                                    System.err.println(ex.getMessage());
-                                }
-                            }else{ //Admin+ Login
-                                try {
-                                    FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/AdminHomePage.fxml"));
-                                    Parent root = fxmlLoader.load();
-                                    Stage stage = (Stage) email.getScene().getWindow();
-                                    stage.setWidth(1300); stage.setMaxWidth(1300); stage.setMinWidth(1300);
-                                    stage.setHeight(600); stage.setMaxHeight(600); stage.setMinHeight(600);
-                                    email.getScene().setRoot(root);
-                                    stage.setTitle("Siyahi Bank | Dashboard");
-                                    stage.show();
-                                } catch (IOException ex) {
-                                    System.err.println(ex.getMessage());
-                                }
-                            }
+                    if(user.getRoles().equals("[\"ROLE_USER\"]") || user.getRoles().equals("[\"ROLE_STAFF\"]")){
+                        try {
+                            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/UserHomePage.fxml"));
+                            Parent root = fxmlLoader.load();
+                            Stage stage = (Stage) email.getScene().getWindow();
+                            stage.setWidth(1300); stage.setMaxWidth(1300); stage.setMinWidth(1300);
+                            stage.setHeight(600); stage.setMaxHeight(600); stage.setMinHeight(600);
+                            email.getScene().setRoot(root);
+                            stage.setTitle("Siyahi Bank | Home Page");
+                            stage.show();
+                        } catch (IOException ex) {
+                            System.err.println(ex.getMessage());
+                        }
+                    }else{
+                        try {
+                            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/AdminHomePage.fxml"));
+                            Parent root = fxmlLoader.load();
+                            Stage stage = (Stage) email.getScene().getWindow();
+                            stage.setWidth(1300); stage.setMaxWidth(1300); stage.setMinWidth(1300);
+                            stage.setHeight(600); stage.setMaxHeight(600); stage.setMinHeight(600);
+                            email.getScene().setRoot(root);
+                            stage.setTitle("Siyahi Bank | Dashboard");
+                            stage.show();
+                        } catch (IOException ex) {
+                            System.err.println(ex.getMessage());
                         }
                     }
                 }

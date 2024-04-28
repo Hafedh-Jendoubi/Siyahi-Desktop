@@ -117,7 +117,7 @@ public class UserService implements IService<User> {
         String req = "UPDATE `user` SET " +
                 "`email`='" + user.getEmail() +
                 "',`roles`='" + user.getRoles() +
-                "',`password`='" + hashPassword(user.getPassword()) +
+                "',`password`='" + user.getPassword() +
                 "',`first_name`='" + user.getLast_name() +
                 "',`last_name`='" + user.getFirst_name() +
                 "',`gender`='" + user.getGender() +

@@ -57,7 +57,7 @@ public class ProfileController {
     public static User user;
 
     @FXML
-    private void navigateToHomePage(ActionEvent event) {
+    public void navigateToHomePage(ActionEvent event) {
         try {
             String pathTo = "";
             String nameTo = "";
@@ -109,7 +109,16 @@ public class ProfileController {
 
     @FXML
     private void updateUser(ActionEvent event) {
-
+        try {
+            Parent ajouterUserParent = FXMLLoader.load(getClass().getResource("/EditProfileUser.fxml"));
+            Scene ajouterUserScene = new Scene(ajouterUserParent);
+            Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+            window.setScene(ajouterUserScene);
+            window.setTitle("Siyahi Bank | Edit Profile");
+            window.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void setUserValues(User user){
