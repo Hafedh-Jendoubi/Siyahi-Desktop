@@ -12,6 +12,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
+import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import tn.esprit.models.User;
@@ -55,6 +56,18 @@ public class EditProfileUserController {
     @FXML
     private TextField telField;
 
+    @FXML
+    private Text err1;
+
+    @FXML
+    private Text err2;
+
+    @FXML
+    private Text err3;
+
+    @FXML
+    private Text err4;
+
     UserService us = new UserService();
 
     private String picturePath;
@@ -67,9 +80,7 @@ public class EditProfileUserController {
     ProfileController controller = new ProfileController();
 
     @FXML
-    private void navigateToHomePage(ActionEvent event) {
-        controller.navigateToHomePage(event);
-    }
+    private void navigateToHomePage(ActionEvent event) { controller.navigateToHomePage(event); }
 
 
     @FXML
@@ -108,31 +119,60 @@ public class EditProfileUserController {
 
     @FXML
     void save(ActionEvent event) {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Confirmation");
-        alert.setHeaderText("Voulez-vous vraiment modifier votre profile?");
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.isPresent() && result.get() == ButtonType.OK) {
-            User user = us.getOneByID(connectedUser.getId());
-            user.setFirst_name(nomField.getText());
-            user.setLast_name(prenomField.getText());
-            if (genreField.getValue().equals("Male"))
-                user.setGender("M");
-            else
-                user.setGender("F");
-            user.setAddress(adrField.getText());
-            user.setPhone_number(Integer.parseInt(telField.getText()));
-            user.setCin(Integer.parseInt(cinField.getText()));
-            user.setImage(picturePath);
-            us.update(user);
-            if(user.getGender().equals("M"))
-                user.setGender("Male");
-            else
-                user.setGender("Femelle");
-            connectedUser = user;
-            cancel(event);
+        //Controle de saisie
+        int i = 0;
+        UserService us = new UserService();
+        if (prenomField.getText().matches("[a-zA-Z]{2,14}")) {
+            prenomField.setStyle("-fx-border-color: transparent; -fx-background-color: grey;"); i++; err1.setOpacity(0);
         } else {
-            alert.close();
+            prenomField.setStyle("-fx-border-color: red; -fx-background-color: grey;"); err1.setOpacity(1); err1.setText("• Obligatoire 2 et 14 chiffres.");
+        }
+        if (nomField.getText().matches("[a-zA-Z]{2,19}")) {
+            nomField.setStyle("-fx-border-color: transparent; -fx-background-color: grey;"); i++; err2.setOpacity(0);
+        } else {
+            nomField.setStyle("-fx-border-color: red; -fx-background-color: grey;"); err2.setOpacity(1); err2.setText("• Obligatoire 2 et 19 chiffres");
+        }
+        if (cinField.getText().matches("\\d{8}")) {
+            cinField.setStyle("-fx-border-color: transparent; -fx-background-color: grey;"); i++; err3.setOpacity(0);
+        } else {
+            cinField.setStyle("-fx-border-color: red; -fx-background-color: grey;"); err3.setOpacity(1); err3.setText("• Obligatoire 8 chiffres.");
+        }
+        if (telField.getText().matches("\\d{8}")) {
+            telField.setStyle("-fx-border-color: transparent; -fx-background-color: grey;"); i++; err4.setOpacity(0);
+        } else {
+            telField.setStyle("-fx-border-color: red; -fx-background-color: grey;"); err4.setOpacity(1); err4.setText("• Obligatoire 8 chiffres.");
+        }
+        if(i == 4) { //Tous les inputs sont valides:
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Confirmation");
+            alert.setHeaderText("Voulez-vous vraiment modifier votre profile?");
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                User user = us.getOneByID(connectedUser.getId());
+                user.setFirst_name(nomField.getText());
+                user.setLast_name(prenomField.getText());
+                if (genreField.getValue().equals("Male"))
+                    user.setGender("M");
+                else
+                    user.setGender("F");
+                user.setAddress(adrField.getText());
+                user.setPhone_number(Integer.parseInt(telField.getText()));
+                user.setCin(Integer.parseInt(cinField.getText()));
+                user.setImage(picturePath);
+                us.update(user);
+                if(user.getGender().equals("M"))
+                    user.setGender("Male");
+                else
+                    user.setGender("Femelle");
+                if(user.getRoles().equals("[\"ROLE_USER\"]"))
+                    user.setRoles("Client");
+                else
+                    user.setRoles("Employé(e)");
+                connectedUser = user;
+                cancel(event);
+            } else {
+                alert.close();
+            }
         }
     }
 
@@ -154,6 +194,10 @@ public class EditProfileUserController {
 
     @FXML
     void initialize() {
+        err1.setOpacity(0);
+        err2.setOpacity(0);
+        err3.setOpacity(0);
+        err4.setOpacity(0);
         picturePath = connectedUser.getImage();
 
         nomField.setText(connectedUser.getFirst_name());
