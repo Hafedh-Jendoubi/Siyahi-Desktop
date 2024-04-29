@@ -1,20 +1,27 @@
 package tn.esprit.controllers;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.chart.*;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
+import tn.esprit.services.UserService;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 
 import static tn.esprit.services.UserService.connectedUser;
@@ -26,6 +33,13 @@ public class HomePageController {
 
     @FXML
     private MenuItem menuItem;
+
+    @FXML
+    private BorderPane borderPane;
+
+    @FXML
+    private BorderPane borderPane1;
+
 
     @FXML
     void navigateToHomePage(ActionEvent event) {
@@ -133,6 +147,49 @@ public class HomePageController {
             circle.setFill(new ImagePattern(image));
         } catch (Exception e) {
             System.err.println(e.getMessage());
+        }
+
+        //Statistics for Admin+ Home Page
+        if(connectedUser.getRoles().equals("Admin") || connectedUser.getRoles().equals("Super Admin")){
+            /* --------------------- Bar Chart ------------------------ */
+            CategoryAxis xAxis = new CategoryAxis();
+            xAxis.setLabel("Type of User");
+            NumberAxis yAxis = new NumberAxis();
+            yAxis.setLabel("Quantity");
+
+            BarChart barChart = new BarChart(xAxis, yAxis);
+
+            XYChart.Series data = new XYChart.Series();
+            data.setName("New Employees Data");
+
+            UserService us = new UserService();
+            List<Integer> result = us.getUserEmploye();
+
+            if(connectedUser.getRoles().equals("Super Admin"))
+                data.getData().add(new XYChart.Data<>("Admins", result.get(2)));
+            data.getData().add(new XYChart.Data<>("Employés", result.get(1)));
+            data.getData().add(new XYChart.Data<>("Clients", result.get(0)));
+            barChart.getData().add(data);
+            barChart.setLegendVisible(false);
+
+            borderPane.setCenter(barChart);
+
+            /* --------------------- Pie Chart ------------------------ */
+            ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(
+                new PieChart.Data("Employés", result.get(1)),
+                new PieChart.Data("Clients", result.get(0))
+            );
+            if(connectedUser.getRoles().equals("Super Admin"))
+                pieChartData.add(new PieChart.Data("Admins", result.get(2)));
+
+            PieChart pieChart = new PieChart(pieChartData);
+            pieChart.setTitle("Nombres des users");
+            pieChart.setClockwise(true);
+            pieChart.setLabelLineLength(50);
+            pieChart.setLabelsVisible(true);
+            pieChart.setStartAngle(180);
+
+            borderPane1.setCenter(pieChart);
         }
     }
 }

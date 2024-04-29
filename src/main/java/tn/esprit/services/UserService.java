@@ -293,6 +293,42 @@ public class UserService implements IService<User> {
         return result;
     }
 
+    public List<Integer> getUserEmploye() {
+        int nb_client = 0, nb_staff = 0, nb_admin = 0;
+        List<Integer> result = new ArrayList<>();
+        try {
+            String req1 = "SELECT * FROM `user` WHERE `roles`=?";
+            PreparedStatement ps1 = cnx.prepareStatement(req1);
+            ps1.setString(1, "[\"ROLE_USER\"]");
+            ResultSet rs1 = ps1.executeQuery();
+            while (rs1.next()) {
+                nb_client++;
+            }
+
+            String req2 = "SELECT * FROM `user` WHERE `roles`=?";
+            PreparedStatement ps2 = cnx.prepareStatement(req2);
+            ps2.setString(1, "[\"ROLE_STAFF\"]");
+            ResultSet rs2 = ps2.executeQuery();
+            while (rs2.next()) {
+                nb_staff++;
+            }
+
+            String req3 = "SELECT * FROM `user` WHERE `roles`=?";
+            PreparedStatement ps3 = cnx.prepareStatement(req3);
+            ps3.setString(1, "[\"ROLE_ADMIN\"]");
+            ResultSet rs3 = ps3.executeQuery();
+            while (rs3.next()) {
+                nb_admin++;
+            }
+
+            result.add(nb_client); result.add(nb_staff); result.add(nb_admin);
+        } catch (SQLException ex) {
+            System.out.println("Failed to get Token: " + ex.getMessage());
+        }
+
+        return result;
+    }
+
     public User authentification(String email, String password){
         boolean result = false;
         User user = getOneByEMAIL(email);

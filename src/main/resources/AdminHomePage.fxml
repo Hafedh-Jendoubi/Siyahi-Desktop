@@ -8,6 +8,7 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.paint.LinearGradient?>
 <?import javafx.scene.paint.Stop?>
@@ -58,12 +59,9 @@
                       <MenuItem fx:id="menuItem" mnemonicParsing="false" onAction="#Logout" text="Déconnexion" />
                     </items>
                   </MenuButton>
-                  <Text layoutX="34.0" layoutY="333.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Admin Home Page" wrappingWidth="800.0">
-                     <font>
-                        <Font size="96.0" />
-                     </font>
-                  </Text>
                   <Circle fx:id="circle" disable="true" fill="DODGERBLUE" layoutX="850.0" layoutY="60.0" radius="32.0" stroke="BLACK" strokeType="INSIDE" />
+                  <BorderPane fx:id="borderPane" layoutX="39.0" layoutY="118.0" prefHeight="400.0" prefWidth="400.0" />
+                  <BorderPane fx:id="borderPane1" layoutX="482.0" layoutY="118.0" prefHeight="400.0" prefWidth="400.0" />
                </children>
             </AnchorPane>
          </items>
