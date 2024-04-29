@@ -7,25 +7,29 @@ public class ReponseCredit {
     private int nbr_mois_paiement;
     private String description;
     private float solde_a_payer;
+    private float auto_financement;
+
     private Date date_debut_paiement;
     private int credit_id; // Champ pour la référence au crédit
 
     public ReponseCredit() {
     }
 
-    public ReponseCredit(int id, int nbr_mois_paiement, String description, float solde_a_payer, Date date_debut_paiement, int credit_id) {
+    public ReponseCredit(int id, int nbr_mois_paiement, String description, float solde_a_payer,float auto_financement, Date date_debut_paiement, int credit_id) {
         this.id = id;
         this.setNbr_mois_paiement(nbr_mois_paiement);
         this.setDescription(description);
         this.setSolde_a_payer(solde_a_payer);
+        this.setauto_financement(auto_financement);
         this.setDate_debut_paiement(date_debut_paiement);
         this.setCredit_id(credit_id);
     }
 
-    public ReponseCredit(int nbr_mois_paiement, String description, float solde_a_payer, Date date_debut_paiement, int credit_id) {
+    public ReponseCredit(int nbr_mois_paiement, String description, float solde_a_payer,float auto_financement, Date date_debut_paiement, int credit_id) {
         this.setNbr_mois_paiement(nbr_mois_paiement);
         this.setDescription(description);
         this.setSolde_a_payer(solde_a_payer);
+        this.setauto_financement(auto_financement);
         this.setDate_debut_paiement(date_debut_paiement);
         this.setCredit_id(credit_id);
     }
@@ -70,6 +74,14 @@ public class ReponseCredit {
         }
         this.solde_a_payer = solde_a_payer;
     }
+    public float getauto_financement() {
+        return auto_financement;
+    }
+
+    public void setauto_financement(float auto_financement) {
+
+        this.auto_financement = auto_financement;
+    }
 
     public Date getDate_debut_paiement() {
         return date_debut_paiement;
@@ -98,6 +110,7 @@ public class ReponseCredit {
                 ", nbr_mois_paiement=" + nbr_mois_paiement +
                 ", description='" + description + '\'' +
                 ", solde_a_payer=" + solde_a_payer +"TND" +
+                ", auto_financement=" + auto_financement +"TND" +
                 ", date_debut_paiement=" + date_debut_paiement +
                 ", credit_id=" + credit_id +
                 '}';

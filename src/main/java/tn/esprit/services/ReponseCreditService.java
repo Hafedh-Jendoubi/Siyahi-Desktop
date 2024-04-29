@@ -14,14 +14,15 @@ public class ReponseCreditService {
         if (reponseCredit.getNbr_mois_paiement() <= 0) {
             throw new IllegalArgumentException("Le nombre de mois de paiement doit être supérieur à zéro.");
         }
-        String req = "INSERT INTO `reponse_credit`(`nbr_mois_paiement`, `description`, `solde_a_payer`, `date_debut_paiement`, `credit_id`) VALUES (?, ?, ?, ?, ?)";
+        String req = "INSERT INTO `reponse_credit`(`nbr_mois_paiement`, `description`, `solde_a_payer`, `auto_financement`, `date_debut_paiement`, `credit_id`) VALUES (?, ?, ?, ?, ?, ?)";
         try {
             PreparedStatement st = cnx.prepareStatement(req);
             st.setInt(1, reponseCredit.getNbr_mois_paiement());
             st.setString(2, reponseCredit.getDescription());
             st.setFloat(3, reponseCredit.getSolde_a_payer());
-            st.setDate(4, new java.sql.Date(reponseCredit.getDate_debut_paiement().getTime()));
-            st.setInt(5, reponseCredit.getCredit_id());
+            st.setFloat(4, reponseCredit.getauto_financement());
+            st.setDate(5, new java.sql.Date(reponseCredit.getDate_debut_paiement().getTime()));
+            st.setInt(6, reponseCredit.getCredit_id());
             st.executeUpdate();
             System.out.println("Réponse de crédit ajoutée avec succès !");
         } catch (SQLException e) {
@@ -33,15 +34,16 @@ public class ReponseCreditService {
         if (reponseCredit.getNbr_mois_paiement() <= 0) {
             throw new IllegalArgumentException("Le nombre de mois de paiement doit être supérieur à zéro.");
         }
-        String req = "UPDATE `reponse_credit` SET `nbr_mois_paiement`=?, `description`=?, `solde_a_payer`=?, `date_debut_paiement`=?, `credit_id`=? WHERE `id`=?";
+        String req = "UPDATE `reponse_credit` SET `nbr_mois_paiement`=?, `description`=?, `solde_a_payer`=?, `auto_financement`=?, `date_debut_paiement`=?, `credit_id`=? WHERE `id`=?";
         try {
             PreparedStatement st = cnx.prepareStatement(req);
             st.setInt(1, reponseCredit.getNbr_mois_paiement());
             st.setString(2, reponseCredit.getDescription());
             st.setFloat(3, reponseCredit.getSolde_a_payer());
-            st.setDate(4, new java.sql.Date(reponseCredit.getDate_debut_paiement().getTime()));
-            st.setInt(5, reponseCredit.getCredit_id());
-            st.setInt(6, reponseCredit.getId());
+            st.setFloat(4, reponseCredit.getauto_financement());
+            st.setDate(5, new java.sql.Date(reponseCredit.getDate_debut_paiement().getTime()));
+            st.setInt(6, reponseCredit.getCredit_id());
+            st.setInt(7, reponseCredit.getId());
             int rowsUpdated = st.executeUpdate();
             if (rowsUpdated > 0) {
                 System.out.println("Réponse de crédit mise à jour avec succès !");
@@ -82,6 +84,7 @@ public class ReponseCreditService {
                 reponseCredit.setNbr_mois_paiement(res.getInt("nbr_mois_paiement"));
                 reponseCredit.setDescription(res.getString("description"));
                 reponseCredit.setSolde_a_payer(res.getFloat("solde_a_payer"));
+                reponseCredit.setauto_financement(res.getFloat("auto_financement"));
                 reponseCredit.setDate_debut_paiement(res.getDate("date_debut_paiement"));
                 reponseCredit.setCredit_id(res.getInt("credit_id"));
                 reponseCredits.add(reponseCredit);
@@ -106,6 +109,7 @@ public class ReponseCreditService {
                 reponseCredit.setNbr_mois_paiement(res.getInt("nbr_mois_paiement"));
                 reponseCredit.setDescription(res.getString("description"));
                 reponseCredit.setSolde_a_payer(res.getFloat("solde_a_payer"));
+                reponseCredit.setauto_financement(res.getFloat("auto_financement"));
                 reponseCredit.setDate_debut_paiement(res.getDate("date_debut_paiement"));
                 reponseCredit.setCredit_id(res.getInt("credit_id"));
             }
@@ -114,6 +118,7 @@ public class ReponseCreditService {
         }
         return reponseCredit;
     }
+
     public boolean isTraite(int creditId) {
         String req = "SELECT * FROM reponse_credit WHERE credit_id = ?";
         try {
@@ -125,6 +130,4 @@ public class ReponseCreditService {
             throw new RuntimeException(e);
         }
     }
-
-
 }

@@ -38,6 +38,9 @@ public class AjouterReponseCredit {
     private TextField SoldeàpTF;
 
     @FXML
+    private TextField autoFinancementTF;
+
+    @FXML
     private TextField nbrconfirmTF;
 
     @FXML
@@ -66,19 +69,35 @@ public class AjouterReponseCredit {
     public void initialize() {
         loadCredits(); // Charger les crédits dans la ComboBox
 
-        // Listner pour détecter les changements de sélection dans la liste deroulante
+        // Listner pour détecter les changements de sélection dans la liste déroulante
         ReferenceCredit.valueProperty().addListener((observable, oldValue, newValue) -> {
-            // Vérifie s'il ya une nouvelle valeur selectionnée'
+            // Vérifie s'il y a une nouvelle valeur sélectionnée
             if (newValue != null) {
                 updateFields(newValue);
+                updateAutoFinancement(newValue);
             } else {
                 // Réinitialise les champs si aucune valeur n'est sélectionnée
                 DateConfirm.setValue(null);
                 nbrconfirmTF.clear();
                 SoldeàpTF.clear();
+                autoFinancementTF.clear();
             }
         });
     }
+
+    private void updateAutoFinancement(Credit selectedCredit) {
+        // Vérifie si le type de crédit est différent de "Crédit consommation"
+        if (!"Credit consommation".equalsIgnoreCase(selectedCredit.getType_credit_nom())) {
+            // Calcul de l'auto-financement comme 20% du solde à payer
+            float soldeAPayer = Float.parseFloat(SoldeàpTF.getText().replace(",", "."));
+            float autoFinancement = soldeAPayer * 0.20f; // 20% du solde à payer
+            autoFinancementTF.setText(String.format("%.2f", autoFinancement));
+        } else {
+            // Si c'est un crédit consommation, l'auto-financement est toujours 0
+            autoFinancementTF.setText("0.00");
+        }
+    }
+
 
     private void updateFields(Credit selectedCredit) {
         // Met à jour la date de confirmation avec la date de début de paiement du crédit sélectionné
@@ -121,6 +140,7 @@ public class AjouterReponseCredit {
                     Integer.parseInt(nbrconfirmTF.getText()),
                     DescriptionconfirmTF.getText(),
                     Float.parseFloat(SoldeàpTF.getText().replace(",", ".")),
+                    Float.parseFloat(autoFinancementTF.getText().replace(",", ".")),
                     Date.valueOf(DateConfirm.getValue()),
                     selectedCredit.getId()
             );
@@ -173,6 +193,7 @@ public class AjouterReponseCredit {
         DescriptionconfirmTF.clear();
         nbrconfirmTF.clear();
         SoldeàpTF.clear();
+        autoFinancementTF.clear();
         ReferenceCredit.getSelectionModel().clearSelection();
     }
 }

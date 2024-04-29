@@ -10,10 +10,11 @@
     <children>
         <ComboBox fx:id="ReferenceCredit" layoutX="47.0" layoutY="20.0" prefWidth="150.0" promptText="Sélectionner un crédit à modifier" />
         <TextField fx:id="SoldeàpTFM" layoutX="49.0" layoutY="105.0" promptText="Solde à payer" />
+        <TextField fx:id="autoFinancementTFM" layoutX="49.0" layoutY="161.0" promptText="Auto-financement" />
         <TextField fx:id="nbrconfirmTFM" layoutX="49.0" layoutY="216.0" promptText="Nbr de mois de paiement" />
         <TextField fx:id="DescriptionconfirmTFM" layoutX="49.0" layoutY="272.0" promptText="Description" />
-        <DatePicker fx:id="DateConfirmM" layoutX="49.0" layoutY="161.0" promptText="Date debut paiement" />
-        <Button layoutX="224.0" layoutY="327.0" mnemonicParsing="false" onAction="#ModifierRC" prefHeight="26.0" prefWidth="94.0" text="Modifier" />
+        <DatePicker fx:id="DateConfirmM" layoutX="49.0" layoutY="328.0" promptText="Date debut paiement" />
+        <Button layoutX="224.0" layoutY="328.0" mnemonicParsing="false" onAction="#ModifierRC" prefHeight="26.0" prefWidth="94.0" text="Modifier" />
         <Button layoutX="356.0" layoutY="328.0" mnemonicParsing="false" onAction="#RetourReponseMLV" prefHeight="26.0" prefWidth="190.0" text="Retourner à la liste des reponses" />
     </children>
 </AnchorPane>

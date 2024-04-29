@@ -32,6 +32,9 @@ public class ModifierReponseCredit {
     @FXML
     private TextField SoldeàpTFM;
     @FXML
+    private TextField autoFinancementTFM;
+
+    @FXML
     private ComboBox<Credit> ReferenceCredit;
 
     private ReponseCredit selectedReponseCredit;
@@ -56,6 +59,7 @@ public class ModifierReponseCredit {
         DateConfirmM.setValue(selectedReponseCredit.getDate_debut_paiement().toLocalDate());
         nbrconfirmTFM.setText(String.valueOf(selectedReponseCredit.getNbr_mois_paiement()));
         SoldeàpTFM.setText(String.valueOf(selectedReponseCredit.getSolde_a_payer()));
+        autoFinancementTFM.setText(String.valueOf(selectedReponseCredit.getauto_financement()));
         ReferenceCredit.setValue(creditService.getOne(selectedReponseCredit.getCredit_id()));
     }
 
@@ -72,6 +76,7 @@ public class ModifierReponseCredit {
             selectedReponseCredit.setDate_debut_paiement(Date.valueOf(DateConfirmM.getValue()));
             selectedReponseCredit.setNbr_mois_paiement(Integer.parseInt(nbrconfirmTFM.getText()));
             selectedReponseCredit.setSolde_a_payer(Float.parseFloat(SoldeàpTFM.getText()));
+            selectedReponseCredit.setauto_financement(Float.parseFloat(autoFinancementTFM.getText()));
             selectedReponseCredit.setCredit_id(selectedCredit.getId());
 
             rcs.Update(selectedReponseCredit);

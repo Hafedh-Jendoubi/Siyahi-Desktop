@@ -13,4 +13,3 @@
       <Button layoutX="493.0" layoutY="324.0" mnemonicParsing="false" onAction="#VoirCreditsLV" prefHeight="44.0" prefWidth="78.0" text="Voir la liste des credits" wrapText="true" />
    </children>
 </AnchorPane>
-
