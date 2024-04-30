@@ -1,0 +1,33 @@
+.root {
+    -fx-background-color: #f5f5f5; /* Couleur de fond */
+}
+
+.listViewConge {
+    -fx-background-color: #ffffff; /* Couleur de fond de la liste */
+    -fx-border-color: #cccccc; /* Couleur de la bordure de la liste */
+    -fx-border-width: 1px; /* Largeur de la bordure de la liste */
+}
+
+/* Bouton par défaut */
+.button {
+    -fx-background-color: #007bff; /* Couleur de fond du bouton */
+    -fx-text-fill: white; /* Couleur du texte du bouton */
+    -fx-background-radius: 5px; /* Rayon de coin */
+}
+/* Effet au survol */
+.button:hover {
+    -fx-background-color: #0056b3; /* Couleur de fond des boutons au survol */
+}
+
+/* Effet au clic */
+.button:pressed {
+    -fx-background-color: #004080; /* Couleur de fond des boutons lorsqu'ils sont enfoncés */
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.4) , 2,0,0,1 ); /* Effet d'ombre */
+}
+.root {
+    -fx-background-image: url('uploads/b.jpg'); /* Chemin vers votre image de fond */
+    -fx-background-size: cover; /* Redimensionne l'image pour remplir tout le conteneur */
+    -fx-background-repeat: no-repeat; /* Empêche la répétition de l'image */
+    -fx-background-position: center; /* Centre l'image */
+}
+

@@ -60,8 +60,8 @@ public class listCongeController {
             Scene editScene = new Scene(edit);
             Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
             window.setScene(editScene);
-            window.setHeight(400); window.setMaxHeight(400); window.setMinHeight(400);
-            window.setWidth(606); window.setMaxWidth(600); window.setMinWidth(600);
+            window.setHeight(515); window.setMaxHeight(515); window.setMinHeight(515);
+            window.setWidth(530); window.setMaxWidth(530); window.setMinWidth(530);
             window.setTitle("Siyahi Bank | Modifier un congé");
             window.show();
         } catch (IOException e) {
@@ -116,8 +116,8 @@ public class listCongeController {
             Scene ajoutSecene = new Scene(ajout);
             Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
             window.setScene(ajoutSecene);
-            window.setHeight(400); window.setMaxHeight(400); window.setMinHeight(400);
-            window.setWidth(606); window.setMaxWidth(600); window.setMinWidth(600);
+            window.setHeight(515); window.setMaxHeight(515); window.setMinHeight(515);
+            window.setWidth(600); window.setMaxWidth(600); window.setMinWidth(600);
             window.setTitle("Siyahi Bank | Ajouter un congé");
             window.show();
         } catch (IOException e) {
@@ -164,8 +164,8 @@ public class listCongeController {
             Scene editScene = new Scene(edit);
             Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
             window.setScene(editScene);
-            window.setHeight(400); window.setMaxHeight(400); window.setMinHeight(400);
-            window.setWidth(606); window.setMaxWidth(600); window.setMinWidth(600);
+            window.setHeight(515); window.setMaxHeight(515); window.setMinHeight(515);
+            window.setWidth(600); window.setMaxWidth(600); window.setMinWidth(600);
             window.setTitle("Siyahi Bank | Reponse à un congé");
             window.show();
         } catch (IOException e) {

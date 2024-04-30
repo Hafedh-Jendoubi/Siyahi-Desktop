@@ -140,9 +140,13 @@ private String imagePath;
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/ListConge.fxml"));
             Parent root = loader.load();
             Scene scene = new Scene(root);
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(scene);
-            stage.show();
+            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+
+            window.setHeight(515); window.setMaxHeight(515); window.setMinHeight(515);
+            window.setWidth(600); window.setMaxWidth(600); window.setMinWidth(600);
+            window.setScene(scene);
+            window.show();
         } catch (IOException e) {
             showAlert(Alert.AlertType.ERROR, "Error", e.getMessage());
         }
