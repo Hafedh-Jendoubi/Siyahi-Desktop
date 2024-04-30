@@ -3,25 +3,37 @@ package tn.esprit.controllers;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import tn.esprit.Main;
 import tn.esprit.models.User;
-import tn.esprit.services.UserService;
+import tn.esprit.services.UserService;;
 
-/*import com.twilio.rest.api.v2010.account.Message;
-import com.twilio.Twilio;*/
-
+import java.io.File;
 import java.io.IOException;
 import java.util.Optional;
+
+/*
+--------- Needed for Tesseract OCR API -------------
+import net.sourceforge.tess4j.Tesseract;
+import net.sourceforge.tess4j.TesseractException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+--------- Needed for Twilio API -------------
+import com.twilio.Twilio;
+import com.twilio.rest.api.v2010.account.Message
+----------------------------------------------------
+;*/
 
 import static tn.esprit.controllers.ProfileController.user;
 
 public class AuthentificationController {
-    /*public static final String ACCOUNT_SID = "AC25a8f5d86d539901682583652f62154b";
+/*    public static final String ACCOUNT_SID = "AC25a8f5d86d539901682583652f62154b";
     public static final String AUTH_TOKEN = "e9ff5c1445cd614a355a97771a8c9dfa";*/
     ListUsersController controller = new ListUsersController();
 
@@ -56,68 +68,121 @@ public class AuthentificationController {
         try {
             if(us.authentification(email.getText(), password.getText()) != null) { //Login Success
                 User user = us.getOneByEMAIL(email.getText());
-                if(user.getActivity().equals("F")){ //Compte desactivé
-                    Alert alert = controller.showFailedMessage("Votre compte a été désactivé.");
-                    ButtonType confirmButton = new ButtonType("Ok");
-                    alert.getButtonTypes().setAll(confirmButton);
+                if(user.getVerified() == 0){ //Verifying a new account
+                    Alert alert = controller.showFailedMessage("Votre compte est inactif, importer votre cin pour verifier!");
+                    ButtonType importButton = new ButtonType("Importer Fichier");
+                    new ButtonType("Close");
+                    alert.getButtonTypes().setAll(importButton);
                     Optional<ButtonType> result = alert.showAndWait();
-                    if (result.isPresent() && result.get() == confirmButton) {
+                    if (result.isPresent() && result.get() == importButton) {
+                        FileChooser fileChooser = new FileChooser();
+                        fileChooser.setTitle("Select Image File");
+                        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Chose File...","*.png", "*.jpg", "*.jpeg"));
+
+                        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+                        File selectedFile = fileChooser.showOpenDialog(window);
+                        /*Tesseract tesseract = new Tesseract();
+                        try{
+                            tesseract.setDatapath("D:\\Users\\hafeu\\Desktop\\Tess4J\\tessdata");
+                            String text = tesseract.doOCR(selectedFile);
+
+                            Pattern pattern = Pattern.compile("\\b\\d{8}\\b");
+                            Matcher matcher = pattern.matcher(text);
+
+                            if (matcher.find()) {
+                                System.out.println(matcher.group());
+                                if(Integer.parseInt(matcher.group()) == user.getCin()) {
+                                    us.verifyUser(user);
+                                    System.out.println("User has been verified, log in again!");
+                                }
+                            } else {
+                                System.out.println("Number not found in OCR result.");
+                            }
+                        } catch (TesseractException e) {
+                            e.printStackTrace();
+                        }*/
+                    }else{
                         alert.close();
                     }
-                }else { //Compte activé
-                    String codeSent = us.generateRandomString();
-                    us.DoubleFactorAuth(user, codeSent);
-                    /* ------ SMS API ------
-                        sendSMS(user, code);
-                       --------------------- */
-                    Alert alert = new Alert(Alert.AlertType.NONE);
-                    alert.setTitle("2FA Code");
-                    alert.setHeaderText("Veuillez insérer votre 2FA Code:");
-                    TextField textField = new TextField();
-                    textField.setPromptText("Entrez le code ici");
-                    alert.getDialogPane().setContent(textField);
-                    ButtonType confirmButton = new ButtonType("Confirmer", ButtonBar.ButtonData.OK_DONE);
-                    alert.getButtonTypes().setAll(confirmButton);
-                    Optional<ButtonType> result = alert.showAndWait();
-                    if (result.isPresent() && result.get() == confirmButton) { //2FA Code wrong
-                        String code = textField.getText();
-                        if(us.getOneByToken(code) == -1){
-                            Alert alertWar = new Alert(Alert.AlertType.WARNING);
-                            alertWar.setTitle("Warning");
-                            alertWar.setHeaderText("Verifiez votre Token inséré");
-                            Optional<ButtonType> SecResult = alertWar.showAndWait();
-                            if (SecResult.isPresent() && SecResult.get() == ButtonType.OK) {
-                                alertWar.close();
-                            }else{
-                                alertWar.close();
-                            }
-                        }else{ //2FA Code is right!
-                            us.DoubleFactorAuthOK(user);
-                            if(user.getRoles().equals("[\"ROLE_USER\"]") || user.getRoles().equals("[\"ROLE_STAFF\"]")){ //Regular User Login
-                                try {
-                                    FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/UserHomePage.fxml"));
-                                    Parent root = fxmlLoader.load();
-                                    Stage stage = (Stage) email.getScene().getWindow();
-                                    stage.setWidth(1300); stage.setMaxWidth(1300); stage.setMinWidth(1300);
-                                    stage.setHeight(600); stage.setMaxHeight(600); stage.setMinHeight(600);
-                                    email.getScene().setRoot(root);
-                                    stage.setTitle("Siyahi Bank | Home Page");
-                                    stage.show();
-                                } catch (IOException ex) {
-                                    System.err.println(ex.getMessage());
+                }else{
+                    if (user.getActivity().equals("F")) { //Compte desactivé
+                        Alert alert = controller.showFailedMessage("Votre compte a été désactivé.");
+                        ButtonType confirmButton = new ButtonType("Ok");
+                        alert.getButtonTypes().setAll(confirmButton);
+                        Optional<ButtonType> result = alert.showAndWait();
+                        if (result.isPresent() && result.get() == confirmButton) {
+                            alert.close();
+                        }
+                    } else { //Compte activé
+                        String codeSent = us.generateRandomString();
+                        us.DoubleFactorAuth(user, codeSent);
+
+                    /*Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
+                    Message message = Message.creator(
+                                        new com.twilio.type.PhoneNumber("+21652896806"),
+                                    new com.twilio.type.PhoneNumber("+13342698284"),
+                                    "Where's Wallace?")
+                            .create();
+
+                    System.out.println(message.getSid());*/
+
+                        Alert alert = new Alert(Alert.AlertType.NONE);
+                        alert.setTitle("2FA Code");
+                        alert.setHeaderText("Veuillez insérer votre 2FA Code:");
+                        TextField textField = new TextField();
+                        textField.setPromptText("Entrez le code ici");
+                        alert.getDialogPane().setContent(textField);
+                        ButtonType confirmButton = new ButtonType("Confirmer", ButtonBar.ButtonData.OK_DONE);
+                        alert.getButtonTypes().setAll(confirmButton);
+                        Optional<ButtonType> result = alert.showAndWait();
+                        if (result.isPresent() && result.get() == confirmButton) { //2FA Code wrong
+                            String code = textField.getText();
+                            if (us.getOneByToken(code) == -1) {
+                                Alert alertWar = new Alert(Alert.AlertType.WARNING);
+                                alertWar.setTitle("Warning");
+                                alertWar.setHeaderText("Verifiez votre Token inséré");
+                                Optional<ButtonType> SecResult = alertWar.showAndWait();
+                                if (SecResult.isPresent() && SecResult.get() == ButtonType.OK) {
+                                    alertWar.close();
+                                } else {
+                                    alertWar.close();
                                 }
-                            }else{ //Admin+ Login
-                                try {
-                                    FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/AdminHomePage.fxml"));
-                                    Parent root = fxmlLoader.load();
-                                    Stage stage = (Stage) email.getScene().getWindow();
-                                    stage.setWidth(1300); stage.setMaxWidth(1300); stage.setMinWidth(1300);
-                                    stage.setHeight(600); stage.setMaxHeight(600); stage.setMinHeight(600);
-                                    email.getScene().setRoot(root);
-                                    stage.setTitle("Siyahi Bank | Dashboard");
-                                    stage.show();
-                                } catch (IOException ex) {
-                                    System.err.println(ex.getMessage());
+                            } else { //2FA Code is right!
+                                us.DoubleFactorAuthOK(user);
+                                if (user.getRoles().equals("[\"ROLE_USER\"]") || user.getRoles().equals("[\"ROLE_STAFF\"]")) { //Regular User Login
+                                    try {
+                                        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/UserHomePage.fxml"));
+                                        Parent root = fxmlLoader.load();
+                                        Stage stage = (Stage) email.getScene().getWindow();
+                                        stage.setWidth(1300);
+                                        stage.setMaxWidth(1300);
+                                        stage.setMinWidth(1300);
+                                        stage.setHeight(600);
+                                        stage.setMaxHeight(600);
+                                        stage.setMinHeight(600);
+                                        email.getScene().setRoot(root);
+                                        stage.setTitle("Siyahi Bank | Home Page");
+                                        stage.show();
+                                    } catch (IOException ex) {
+                                        System.err.println(ex.getMessage());
+                                    }
+                                } else { //Admin+ Login
+                                    try {
+                                        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/AdminHomePage.fxml"));
+                                        Parent root = fxmlLoader.load();
+                                        Stage stage = (Stage) email.getScene().getWindow();
+                                        stage.setWidth(1300);
+                                        stage.setMaxWidth(1300);
+                                        stage.setMinWidth(1300);
+                                        stage.setHeight(600);
+                                        stage.setMaxHeight(600);
+                                        stage.setMinHeight(600);
+                                        email.getScene().setRoot(root);
+                                        stage.setTitle("Siyahi Bank | Dashboard");
+                                        stage.show();
+                                    } catch (IOException ex) {
+                                        System.err.println(ex.getMessage());
+                                    }
                                 }
                             }
                         }

@@ -46,7 +46,7 @@ public class UserService implements IService<User> {
 
     @Override
     public void add(User user) {
-        String req = "INSERT INTO `user`(`email`, `roles`, `password`, `first_name`, `last_name`, `gender`, `address`, `phone_number`, `cin`, `created_at`, `image`, `old_email`, `activity`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String req = "INSERT INTO `user`(`email`, `roles`, `password`, `first_name`, `last_name`, `gender`, `address`, `phone_number`, `cin`, `created_at`, `image`, `old_email`, `activity`, `verified`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try {
             PreparedStatement ps = cnx.prepareStatement(req);
             String pass = generateRandomString();
@@ -71,6 +71,7 @@ public class UserService implements IService<User> {
             }
             ps.setString(12, user.getOld_email());
             ps.setString(13, "T");
+            ps.setInt(14, 0);
 
             /* --------- Mailing -----------*/
             String to = user.getOld_email();
@@ -101,7 +102,7 @@ public class UserService implements IService<User> {
                         "<p>Email: " + email + "</p>\n" +
                         "<p>Password: " + pass +"</p>\n" +
                         "\n" +
-                        "<p>Cheers!</p>", "text/html");
+                        "<h2 style=\"color: red;\">You must activate your account by verifying the CIN by your CIN image</h2>", "text/html");
                 Transport.send(message);
             } catch (MessagingException e) {
                 throw new RuntimeException(e);
@@ -127,6 +128,7 @@ public class UserService implements IService<User> {
                 "',`image`='" + user.getImage() +
                 "',`old_email`='" + user.getOld_email() +
                 "',`activity`='" + user.getActivity() +
+                "',`verified`='" + user.getVerified() +
                 "' WHERE `id`=" + user.getId();
 
         try {
@@ -473,6 +475,19 @@ public class UserService implements IService<User> {
     public void disableUser(User user){
         String req = "UPDATE `user` SET " +
                 "`activity`= 'F'" +
+                " WHERE `id`= " + user.getId();
+
+        try {
+            Statement st = cnx.createStatement();
+            st.executeUpdate(req);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void verifyUser(User user){
+        String req = "UPDATE `user` SET " +
+                "`verified`= 1" +
                 " WHERE `id`= " + user.getId();
 
         try {
