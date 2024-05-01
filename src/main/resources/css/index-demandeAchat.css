@@ -1,0 +1,63 @@
+/* CSS */
+.root {
+    -fx-font-family: Arial;
+}
+
+/* Style pour le fond */
+.background {
+    -fx-background-color: #f2f2f2;
+}
+
+/* Style pour les conteneurs principaux */
+.container {
+    -fx-background-color: #fff;
+    -fx-border-radius: 5px;
+    -fx-padding: 10px;
+    -fx-spacing: 10px;
+}
+
+/* Style pour les labels */
+.label {
+    -fx-font-weight: bold;
+}
+
+/* Style pour les boutons */
+.button {
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 8px 16px;
+    -fx-border-radius: 5px;
+}
+
+/* Style pour le tableau */
+.table-view {
+    -fx-background-color: #f2f2f2;
+}
+
+/* Style pour les éléments de formulaire */
+.form-element {
+    -fx-spacing: 5px;
+}
+
+/* Style pour les champs de texte */
+.text-field {
+    -fx-pref-width: 200px;
+    -fx-padding: 5px;
+}
+
+/* Style pour les ChoiceBox */
+.choice-box {
+    -fx-pref-width: 150px;
+    -fx-padding: 5px;
+}
+
+/* Style pour le bouton de recherche */
+.search-button {
+    -fx-padding: 5px 10px;
+}
+
+/* Style pour le bouton de génération PDF */
+.pdf-button {
+    -fx-background-color: #2196F3;
+}

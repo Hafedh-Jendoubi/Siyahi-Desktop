@@ -19,7 +19,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.IndexDemandeAchatController">
+<AnchorPane  stylesheets="@css/index-demandeAchat.css" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.IndexDemandeAchatController">
     <children>
         <SplitPane dividerPositions="0.23430493273542602" layoutX="97.0" orientation="VERTICAL" prefHeight="680.0" prefWidth="1118.0">
             <items>
