@@ -12,7 +12,7 @@ public class MainFx extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-        FXMLLoader loader=new FXMLLoader(getClass().getResource("/ChatServerGUI.fxml"));
+        FXMLLoader loader=new FXMLLoader(getClass().getResource("/Home.fxml"));
         Parent root = loader.load();
         primaryStage.setTitle("reclamation");
         primaryStage.setScene(new Scene(root, 600, 400));

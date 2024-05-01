@@ -17,6 +17,22 @@ public class ReclamationService implements IService<Reclamation> {
 
     //act
 
+    // ...
+
+    private static ReclamationService instance;
+    public ReclamationService() {
+        // Private constructor to prevent direct instantiation
+    }
+
+    public static ReclamationService getInstance() {
+        if (instance == null) {
+            instance = new ReclamationService();
+        }
+        return instance;
+    }
+
+
+
     @Override
     public void add(Reclamation reclamation) {
         String req = "INSERT INTO reclamation (Object, Description, Date_Creation, auteur,Email) VALUES (?, ?, ?, ?,?)";

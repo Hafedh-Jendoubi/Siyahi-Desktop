@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane minHeight="400.0" minWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.Controllers.ReclamationHomeController">
+
+    <stylesheets>
+        <URL value="@styles.css" />
+    </stylesheets>
+
+    <VBox alignment="CENTER" spacing="10" styleClass="navbar" />
+
+    <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="250.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+        <image>
+            <Image url="@images/reclamation_icon.png" />
+        </image>
+    </ImageView>
+     <Button layoutX="88.0" layoutY="351.0" onAction="#navigateToAdd" prefHeight="25.0" prefWidth="196.0" text=" Add Or Follow Reclamation" />
+     <Button layoutX="360.0" layoutY="351.0" onAction="#navigateToReclamations" prefHeight="25.0" prefWidth="143.0" text="Online Service" />
+    <Button onAction="#navigateToReclamations" prefHeight="25.0" prefWidth="200.0" text="Voir les Réclamations" />
+
+    <Text layoutX="9.0" layoutY="197.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Complaint Center team will help you get back on track, quickly. We are here to help you complete the insurance claims process as quickly and simply as possible. Whatever happens, we help you get back on the right foot, quickly." textAlignment="CENTER" wrappingWidth="582.13671875" styleClass="text1" />
+    <Text layoutX="256.0" layoutY="160.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Reclamation Center" textAlignment="CENTER" styleClass="text2" />
+
+
+
+</AnchorPane>

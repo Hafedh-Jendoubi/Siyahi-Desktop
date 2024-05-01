@@ -51,6 +51,12 @@ public class Reclamation {
     public Reclamation(String nom, String description, Timestamp dateCreation, String auteur, String email, boolean status) {
     }
 
+    public Reclamation(int id, String objet, String description, String dateCreation, String auteur, String email) {
+    }
+
+    public Reclamation(int id, String objet, String description, Timestamp dateCreation, String auteur, String email) {
+    }
+
     public int getId() {
         return id;
     }

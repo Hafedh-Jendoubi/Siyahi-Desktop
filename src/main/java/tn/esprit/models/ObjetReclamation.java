@@ -2,7 +2,7 @@ package tn.esprit.models;
 
 public class ObjetReclamation {
 
-    private String nom;
+    public String nom;
 
     public ObjetReclamation(String nom) {
         this.nom = nom;

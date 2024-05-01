@@ -9,10 +9,11 @@
             fx:controller="tn.esprit.Controllers.EditReclamationController"
             prefHeight="400.0" prefWidth="600.0">
 
-    <VBox alignment="CENTER" spacing="10">
+    <VBox alignment="CENTER" spacing="10" padding="20">
         <padding>
             <Insets top="20" right="20" bottom="20" left="20"/>
         </padding>
+
         <Label text="Modifier Réclamation" style="-fx-font-size: 20px;"/>
 
         <ComboBox fx:id="reclamationComboBox" promptText="Sélectionnez une réclamation"/>
@@ -22,5 +23,6 @@
         <TextField fx:id="emailField" promptText="Email"/>
 
         <Button text="Enregistrer" onAction="#modifierReclamation"/>
+
     </VBox>
 </AnchorPane>
