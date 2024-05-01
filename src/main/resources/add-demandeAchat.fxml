@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<AnchorPane prefHeight="290.0" prefWidth="458.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.AddDemandeAchatController">
+    <children>
+        <GridPane layoutX="64.0" layoutY="45.0" prefHeight="175.0" prefWidth="350.0">
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            </rowConstraints>
+            <children>
+                <Label text="User ID:" />
+                <Label text="Achat ID:" GridPane.rowIndex="1" />
+                <Label text="Nom:" GridPane.rowIndex="2" />
+                <Label text="Prénom:" GridPane.rowIndex="3" />
+                <Label text="Date Demande:" GridPane.rowIndex="4" />
+                <Label text="Numéro de Téléphone:" GridPane.rowIndex="5" />
+                <Label text="Type Paiement:" GridPane.rowIndex="6" />
+                <Label text="CIN:" GridPane.rowIndex="7" />
+                <Label text="Adresse:" GridPane.rowIndex="8" />
+
+                <TextField fx:id="userIdTextField" prefHeight="39.0" prefWidth="176.0" GridPane.columnIndex="1" />
+                <ComboBox fx:id="comboBox" GridPane.columnIndex="1" GridPane.rowIndex="1" prefHeight="10.0" prefWidth="146.0"/>
+                <TextField fx:id="nomTextField" GridPane.columnIndex="1" GridPane.rowIndex="2" prefHeight="10.0" prefWidth="146.0"/>
+                <TextField fx:id="prenomTextField" GridPane.columnIndex="1" GridPane.rowIndex="3" prefHeight="10.0" prefWidth="146.0"/>
+                <!-- Utilisation d'un Label pour afficher la date actuelle -->
+                <Label fx:id="dateDemandeLabel" GridPane.columnIndex="1" GridPane.rowIndex="4" prefHeight="10.0" prefWidth="146.0"/>
+                <TextField fx:id="numTelTextField" GridPane.columnIndex="1" GridPane.rowIndex="5" prefHeight="10.0" prefWidth="146.0"/>
+                <TextField fx:id="typePaiementTextField" GridPane.columnIndex="1" GridPane.rowIndex="6" prefHeight="10.0" prefWidth="146.0"/>
+                <TextField fx:id="cinTextField" GridPane.columnIndex="1" GridPane.rowIndex="7" prefHeight="10.0" prefWidth="146.0"/>
+                <TextField fx:id="adresseTextField" prefHeight="10.0" prefWidth="146.0" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+            </children>
+        </GridPane>
+        <Button layoutX="209.0" layoutY="236.0" mnemonicParsing="false" onAction="#handleSave" text="Save" />
+
+        <Label layoutX="180.0" layoutY="10.0" prefHeight="18.0" prefWidth="47.0" text="CREATE" />
+    </children>
+</AnchorPane>
