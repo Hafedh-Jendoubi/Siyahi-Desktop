@@ -3,10 +3,12 @@ package View;
 import Entity.Demande_achat;
 import Service.Demande_achatService;
 import Service.IService;
+import com.mysql.cj.exceptions.DeadlockTimeoutRollbackMarker;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -22,15 +24,25 @@ import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import javafx.scene.control.Alert;
 import java.io.IOException;
 import java.io.IOException;
+import java.util.Comparator;
+
 import org.controlsfx.control.Notifications;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.image.Image;
 import javafx.scene.image.Image;
-
+import java.util.List;
+import java.util.Comparator;
+import javafx.scene.control.cell.PropertyValueFactory;
+import java.sql.SQLException;
+import java.io.IOException;
 public class IndexDemandeAchatController {
+    @FXML
+    private ChoiceBox<String> colonneChoiceBox;
 
+    @FXML
+    private ChoiceBox<String> ordreChoiceBox;
     @FXML
     private TableColumn<Demande_achat, Integer> idColumn;
 
@@ -51,6 +63,12 @@ public class IndexDemandeAchatController {
 
     @FXML
     private TableColumn<Demande_achat, String> numTelColumn;
+
+    @FXML
+    private TextField searchField;
+
+    @FXML
+    private TableView <Demande_achat> tableView;
 
     @FXML
     private TableColumn<Demande_achat, String> typePaiementColumn;
@@ -99,7 +117,11 @@ public class IndexDemandeAchatController {
 
     @FXML
     private TableView<Demande_achat> DemandeAchatTable;
+    private final Demande_achatService rec;
 
+    {
+        rec = new Demande_achatService();
+    }
     private IService<Demande_achat> demandeAchatService = new Demande_achatService();
     private ObservableList<Demande_achat> demandeAchatList = FXCollections.observableArrayList();
 
@@ -410,6 +432,86 @@ public class IndexDemandeAchatController {
         alert.setContentText(statistiques);
         alert.showAndWait();
     }
+    @FXML
+    public void search(ActionEvent actionEvent) {
+        String searchText = searchField.getText().trim();
 
+        if (!searchText.isEmpty()) {
+            List<Demande_achat> searchResults = null;
+            try {
+                searchResults = rec.chercher(searchText);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
+            // Convert the list to observable list
+            ObservableList<Demande_achat> observableList = FXCollections.observableArrayList(searchResults);
+
+            // Define the cell value factories for each column
+            nomColumn.setCellValueFactory(new PropertyValueFactory<>("nom"));
+            prenomColumn.setCellValueFactory(new PropertyValueFactory<>("prenom"));
+            typePaiementColumn.setCellValueFactory(new PropertyValueFactory<>("type_paiement"));
+            cinColumn.setCellValueFactory(new PropertyValueFactory<>("cin"));
+
+
+
+            // Set the items to the table
+            tableView.setItems(observableList);
+
+            // Create a sorted list to sort the table based on the selected column and order
+            SortedList<Demande_achat> sortedList = new SortedList<>(observableList);
+
+            // Set the comparator based on the selected column and order
+            Comparator<Demande_achat> comparator = getComparatorFromChoiceBox(colonneChoiceBox, ordreChoiceBox);
+            sortedList.setComparator(comparator);
+
+            // Bind the sorted list to the table
+            tableView.setItems(sortedList);
+        } else {
+            showAlert("Input Error", "Please enter a search term.");
+        }
+
+    }
+    private Comparator<Demande_achat> getComparatorFromChoiceBox(ChoiceBox<String> colonneChoiceBox, ChoiceBox<String> ordreChoiceBox) {
+        String selectedColumn = colonneChoiceBox.getValue();
+        String selectedOrder = ordreChoiceBox.getValue();
+
+        Comparator<Demande_achat> comparator = null;
+
+        switch (selectedColumn) {
+            case "Nom":
+                comparator = Comparator.comparing(Demande_achat::getNom);
+                break;
+            case "Prenom":
+                comparator = Comparator.comparing(Demande_achat::getPrenom);
+                break;
+            case "Type Paiement":
+                comparator = Comparator.comparing(Demande_achat::getType_paiement);
+                break;
+            case "Cin":
+                comparator = Comparator.comparing(Demande_achat::getCin);
+                break;
+
+            default:
+                break;
+        }
+
+        if (comparator != null && selectedOrder != null && selectedOrder.equals("DESC")) {
+            comparator = comparator.reversed();
+        }
+
+        return comparator;
+    }
+    private void showAlert(String title, String content) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
+    @FXML
+    void trier(ActionEvent event) {
+        tableView.getItems().sort(getComparatorFromChoiceBox(colonneChoiceBox, ordreChoiceBox));
+    }
 }
 

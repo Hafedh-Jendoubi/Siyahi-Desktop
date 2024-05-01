@@ -7,6 +7,7 @@ module com.example.azizkh {
     requires org.kordamp.bootstrapfx.core;
     requires java.sql;
     requires org.apache.pdfbox;
+    requires mysql.connector.java;
 
     opens View to javafx.fxml;
     exports App;

@@ -5,9 +5,12 @@ import Entity.Demande_achat;
 import Utils.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.sql.Connection;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class Demande_achatService implements IService<Demande_achat>{
@@ -41,6 +44,30 @@ public class Demande_achatService implements IService<Demande_achat>{
         }
     }
 
+    public List<Demande_achat> chercher(String searchText) throws SQLException {
+        List<Demande_achat> results = new ArrayList<>();
+
+        String query = "SELECT * FROM demande_achat WHERE nom LIKE ? OR prenom LIKE ? OR type_paiement LIKE ? OR cin LIKE ? ORDER BY nom, prenom, type_paiement, cin";
+        try (PreparedStatement st = conn.prepareStatement(query)) {
+            for (int i = 1; i <= 4; i++) {
+                st.setString(i, "%" + searchText + "%");
+            }
+
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                Demande_achat ev = new Demande_achat();
+                ev.setId(rs.getInt("id"));
+                ev.setNom(rs.getString("nom"));
+                ev.setPrenom(rs.getString("prenom"));
+                ev.setType_paiement(rs.getString("type_paiement"));
+                ev.setCin(rs.getInt("cin"));
+
+                results.add(ev);
+            }
+        }
+
+        return results;
+    }
 
     public void update(Demande_achat demandeAchat) {
         String requete = "UPDATE demande_achat SET user_id=?, achat_id=?, nom=?, prenom=?, date_demande=?, num_tel=?, type_paiement=?, cin=?, adresse=?, etatdemande=? WHERE id=?";
