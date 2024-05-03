@@ -4,13 +4,14 @@
 <?import javafx.collections.FXCollections?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -19,13 +20,13 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane  stylesheets="@css/index-demandeAchat.css" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.IndexDemandeAchatController">
+<AnchorPane prefHeight="600.0" prefWidth="600.0" style="-fx-background-color: #c6f2ff;" stylesheets="@css/index-demandeAchat.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.IndexDemandeAchatController">
     <children>
         <SplitPane dividerPositions="0.23430493273542602" layoutX="97.0" orientation="VERTICAL" prefHeight="680.0" prefWidth="1118.0">
             <items>
                 <StackPane prefHeight="300.0" style="-fx-background-color: #f2f2f2;">
                     <children>
-                        <AnchorPane prefHeight="219.0" prefWidth="894.0" style="-fx-background-color: white; -fx-background-radius: 10px; -fx-border-color: #c0c0c0; -fx-border-width: 1px;">
+                        <AnchorPane prefHeight="219.0" prefWidth="894.0" style="-fx-background-color: #c6f2ff; -fx-background-radius: 10px; -fx-border-color: #c0c0c0; -fx-border-width: 1px;">
                             <padding>
                                 <Insets bottom="10" left="10" right="10" top="10" />
                             </padding>
@@ -49,12 +50,11 @@
                         </AnchorPane>
                     </children>
                 </StackPane>
-                <AnchorPane prefHeight="563.0" prefWidth="1116.0" style="-fx-background-color: #f2f2f2;">
+                <AnchorPane prefHeight="563.0" prefWidth="1116.0" style="-fx-background-color: #c6f2ff;">
                     <children>
-                        <ButtonBar prefHeight="0.0" prefWidth="1319.0" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
-                        <Pane layoutX="82.0" layoutY="43.0" prefHeight="473.0" prefWidth="1034.0" style="-fx-background-color: #fff; -fx-border-radius: 3px;">
+                        <Pane layoutX="82.0" layoutY="43.0" prefHeight="473.0" prefWidth="1034.0" style="-fx-background-color: #c6f2ff; -fx-border-radius: 3px;">
                             <children>
-                                <GridPane fx:id="DemandeAchatDetails" layoutX="28.0" layoutY="66.0" prefHeight="372.0" prefWidth="960.0" style="-fx-background-color: #fff;">
+                                <GridPane fx:id="DemandeAchatDetails" layoutX="28.0" layoutY="66.0" prefHeight="372.0" prefWidth="960.0" style="-fx-background-color: #c6f2ff;">
                                     <children>
                                         <Label text="Details:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
                                         <Label text="ID" GridPane.columnIndex="0" GridPane.rowIndex="1" />
@@ -99,6 +99,11 @@
                                         <RowConstraints />
                                     </rowConstraints>
                                 </GridPane>
+                        <ImageView fitHeight="322.0" fitWidth="330.0" layoutX="346.0" layoutY="40.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@LOGOpng.png" />
+                           </image>
+                        </ImageView>
                                 <VBox alignment="CENTER" spacing="10" xmlns:fx="http://javafx.com/fxml" />
                                 <Button layoutX="664.0" layoutY="32.0" onAction="#generatePDF" text="Générer PDF" />
                                 <Button layoutX="784.0" layoutY="32.0" mnemonicParsing="false" onAction="#createDemandeAchat" text="Create" />
@@ -107,31 +112,31 @@
                                  <!-- Autres éléments de votre interface utilisateur -->
 
                                  <!-- Bouton pour voir les statistiques -->
-                                 <Button layoutX="549.0" layoutY="32.0" onAction="#handleVoirStatistiques" text="Voir Statistiques" />
-                                <Button layoutX="154.0" layoutY="14.0" onAction="#trier" text="Trier" />
-                                <ChoiceBox fx:id="ordreChoiceBox" layoutX="206.0" layoutY="16.0">
-                                    <items>
-                                        <FXCollections fx:factory="observableArrayList">
-                                            <String fx:value="ASC" />
-                                            <String fx:value="DESC" />
-                                        </FXCollections>
-                                    </items>
-                                </ChoiceBox>
-                                <Button layoutX="276.0" layoutY="13.0" onAction="#search" text="Search" />
-                                <TextField fx:id="searchField" layoutX="213.0" layoutY="45.0" promptText="Search..." />
-                                <ChoiceBox fx:id="colonneChoiceBox" layoutX="396.0" layoutY="49.0">
-                                    <items>
-                                        <FXCollections fx:factory="observableArrayList">
-                                            <String fx:value="Nom" />
-                                            <String fx:value="nom" />
-                                            <String fx:value="prenom" />
-                                            <String fx:value="Type_paiement" />
-                                            <String fx:value="cin" />
-                                        </FXCollections>
-                                    </items>
-                                </ChoiceBox>
+                                 <Button layoutX="524.0" layoutY="32.0" onAction="#handleVoirStatistiques" text="Voir Statistiques" />
                             </children>
                         </Pane>
+                          <Button layoutX="200.0" layoutY="-1.0" onAction="#trier" text="Trier" />
+                          <Button layoutX="831.0" onAction="#search" text="Search" />
+                          <ChoiceBox fx:id="ordreChoiceBox" layoutX="276.0" layoutY="-2.0">
+                              <items>
+                                  <FXCollections fx:factory="observableArrayList">
+                                      <String fx:value="ASC" />
+                                      <String fx:value="DESC" />
+                                  </FXCollections>
+                              </items>
+                          </ChoiceBox>
+                          <ChoiceBox fx:id="colonneChoiceBox" layoutX="449.0" layoutY="-2.0">
+                              <items>
+                                  <FXCollections fx:factory="observableArrayList">
+                                      <String fx:value="Nom" />
+                                      <String fx:value="nom" />
+                                      <String fx:value="prenom" />
+                                      <String fx:value="Type_paiement" />
+                                      <String fx:value="cin" />
+                                  </FXCollections>
+                              </items>
+                          </ChoiceBox>
+                          <TextField fx:id="searchField" layoutX="615.0" layoutY="3.0" promptText="Search..." />
                     </children>
                 </AnchorPane>
 

@@ -13,7 +13,7 @@ public class HelloApplication extends Application {
 
 
         //----------------------------------------------------
-         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("/index-demandeAchat.fxml"));
+          FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("/index-demandeAchat.fxml"));
         //  FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("/index-achat.fxml"));
         //----------------------------------------------------
 

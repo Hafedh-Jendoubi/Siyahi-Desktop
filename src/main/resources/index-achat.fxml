@@ -15,19 +15,19 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.IndexAchatController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #c6f2ff;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.IndexAchatController">
    <children>
-      <BorderPane layoutX="82.0" layoutY="16.0" prefHeight="663.0" prefWidth="1194.0" />
+      <BorderPane layoutX="82.0" layoutY="16.0" prefHeight="663.0" prefWidth="1194.0" style="-fx-background-color: #c6f2ff;" />
       <SplitPane dividerPositions="0.23430493273542602" layoutX="97.0" orientation="VERTICAL" prefHeight="680.0" prefWidth="1118.0">
          <items>
             <StackPane prefHeight="300.0" style="-fx-background-color: #f2f2f2;">
                <children>
-                  <AnchorPane prefHeight="219.0" prefWidth="894.0" style="-fx-background-color: white; -fx-background-radius: 10px; -fx-border-color: #c0c0c0; -fx-border-width: 1px;">
+                  <AnchorPane prefHeight="219.0" prefWidth="894.0" style="-fx-background-color: #c6f2ff; -fx-background-radius: 10px; -fx-border-color: #c0c0c0; -fx-border-width: 1px;">
                      <padding>
                         <Insets bottom="10" left="10" right="10" top="10" />
                      </padding>
                      <children>
-                        <TableView fx:id="AchatTable" layoutX="112.0" layoutY="12.0" prefHeight="150.0" prefWidth="933.0" style="-fx-background-color: #f2f2f2;" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="101.0" AnchorPane.rightAnchor="82.0" AnchorPane.topAnchor="1.0">
+                        <TableView fx:id="AchatTable" layoutX="112.0" layoutY="12.0" prefHeight="150.0" prefWidth="933.0" style="-fx-background-color: #c6f2ff;" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="101.0" AnchorPane.rightAnchor="82.0" AnchorPane.topAnchor="1.0">
                            <columns>
                               <TableColumn fx:id="idColumn" prefWidth="111.19997787475586" text="id" />
                               <TableColumn fx:id="imageColumn" prefWidth="140.8000030517578" text="image" />
@@ -39,7 +39,7 @@
                   </AnchorPane>
                </children>
             </StackPane>
-            <AnchorPane prefHeight="563.0" prefWidth="1116.0" style="-fx-background-color: #f2f2f2;">
+            <AnchorPane prefHeight="563.0" prefWidth="1116.0" style="-fx-background-color: #c6f2ff;">
                <children>
                   <ButtonBar prefHeight="0.0" prefWidth="1319.0" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
                   <Pane layoutX="82.0" layoutY="43.0" prefHeight="473.0" prefWidth="1034.0" style="-fx-background-color: #fff; -fx-border-radius: 3px;">

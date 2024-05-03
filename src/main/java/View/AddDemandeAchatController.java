@@ -11,6 +11,7 @@ import Entity.Demande_achat;
 import Service.Demande_achatService;
 import Service.IService;
 import javafx.stage.Stage;
+import org.controlsfx.control.Notifications;
 
 
 import java.time.LocalDate;
@@ -73,11 +74,10 @@ public class AddDemandeAchatController {
         String errorMessage = "";
 
         if (userIdTextField.getText().isEmpty() || nomTextField.getText().isEmpty() ||
-                prenomTextField.getText().isEmpty() ||  numTelTextField.getText().isEmpty() ||
+                prenomTextField.getText().isEmpty() || numTelTextField.getText().isEmpty() ||
                 typePaiementTextField.getText().isEmpty() || cinTextField.getText().isEmpty() || adresseTextField.getText().isEmpty()) {
             errorMessage += "Tous les champs doivent être remplis!\n";
         }
-
 
 
         String adresse = adresseTextField.getText();

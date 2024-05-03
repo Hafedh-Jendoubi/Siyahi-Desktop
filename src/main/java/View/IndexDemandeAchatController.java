@@ -25,7 +25,6 @@ import javafx.scene.control.Alert;
 import java.io.IOException;
 import java.io.IOException;
 import java.util.Comparator;
-
 import org.controlsfx.control.Notifications;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -219,9 +218,8 @@ public class IndexDemandeAchatController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         showNotification("Opération réussie", "La demande d'achat a été ajoutée avec succès.");
-
-
     }
 
     @FXML
@@ -243,8 +241,7 @@ public class IndexDemandeAchatController {
         } else {
             showAlertDialog(Alert.AlertType.WARNING, "No Selection", "No Demande Achat Selected!", "Please select a Demande Achat in the table!");
         }
-        showNotification("Opération réussie", "La demande d'achat a été supprimé avec succées .");
-
+        showNotification("Opération réussie", "La demande d'achat a été supprimé avec succès.");
     }
 
     @FXML
@@ -273,7 +270,6 @@ public class IndexDemandeAchatController {
             showAlertDialog(Alert.AlertType.WARNING, "No Selection", "No Demande Achat Selected!", "Please select a Demande Achat in the table!");
         }
         showNotification("Opération réussie", "La demande d'achat a été modifiée avec succès.");
-
     }
     @FXML
     private void generatePDF() {
@@ -403,15 +399,7 @@ public class IndexDemandeAchatController {
             alert.showAndWait();
         }
     }
-    @FXML
 
-    private void showNotification(String title, String message) {
-        Notifications.create()
-                .title(title)
-                .text(message)
-                .darkStyle() // Vous pouvez personnaliser le style ici
-                .show();
-    }
     @FXML
     private void handleVoirStatistiques(ActionEvent event) {
         // Collecte des données fictives (remplacez cela par vos propres données)
@@ -440,6 +428,7 @@ public class IndexDemandeAchatController {
             List<Demande_achat> searchResults = null;
             try {
                 searchResults = rec.chercher(searchText);
+
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
@@ -456,7 +445,7 @@ public class IndexDemandeAchatController {
 
 
             // Set the items to the table
-            tableView.setItems(observableList);
+            DemandeAchatTable.setItems(observableList);
 
             // Create a sorted list to sort the table based on the selected column and order
             SortedList<Demande_achat> sortedList = new SortedList<>(observableList);
@@ -466,7 +455,7 @@ public class IndexDemandeAchatController {
             sortedList.setComparator(comparator);
 
             // Bind the sorted list to the table
-            tableView.setItems(sortedList);
+            DemandeAchatTable.setItems(sortedList);
         } else {
             showAlert("Input Error", "Please enter a search term.");
         }
@@ -513,5 +502,16 @@ public class IndexDemandeAchatController {
     void trier(ActionEvent event) {
         tableView.getItems().sort(getComparatorFromChoiceBox(colonneChoiceBox, ordreChoiceBox));
     }
+    @FXML
+
+    private void showNotification(String title, String message) {
+        Notifications.create()
+                .title(title)
+                .text(message)
+                .darkStyle() // Vous pouvez personnaliser le style ici
+                .show();
+    }
 }
+
+
 
