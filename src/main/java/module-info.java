@@ -8,6 +8,7 @@ module com.example.azizkh {
     requires java.sql;
     requires org.apache.pdfbox;
     requires mysql.connector.java;
+    requires twilio;
 
     opens View to javafx.fxml;
     exports App;

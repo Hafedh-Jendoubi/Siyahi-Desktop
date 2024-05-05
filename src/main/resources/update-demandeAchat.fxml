@@ -13,11 +13,6 @@
 
 <AnchorPane prefHeight="500.0" prefWidth="500.0" style="-fx-background-color: #f0f0f0;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.UpdateDemandeAchatController">
     <children>
-        <ImageView fitHeight="501.0" fitWidth="760.0" layoutX="-101.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
-            <image>
-                <Image url="@back.jpg" />
-            </image>
-        </ImageView>
         <GridPane layoutX="50.0" layoutY="50.0" prefHeight="300.0" prefWidth="400.0">
             <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -58,7 +53,7 @@
             </children>
         </GridPane>
         <Button layoutX="50.0" layoutY="420.0" mnemonicParsing="false" onAction="#handleUpdate" prefHeight="32.0" prefWidth="198.0" style="-fx-background-color: #007ACC; -fx-text-fill: #ffffff; -fx-font-weight: bold; -fx-font-size: 14px;" text="Mettre à jour la demande " />
-        <ImageView fitHeight="221.0" fitWidth="198.0" layoutX="453.0" layoutY="129.0" pickOnBounds="true" preserveRatio="true">
+        <ImageView fitHeight="141.0" fitWidth="159.0" layoutX="380.0" layoutY="362.0" pickOnBounds="true" preserveRatio="true">
             <image>
                 <Image url="@LOGOpng.png" />
             </image>

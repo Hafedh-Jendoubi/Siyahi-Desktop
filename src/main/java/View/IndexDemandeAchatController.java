@@ -24,21 +24,42 @@ import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import javafx.scene.control.Alert;
 import java.io.IOException;
 import java.io.IOException;
-import java.util.Comparator;
+import java.util.*;
+import com.twilio.Twilio;
+import com.twilio.rest.api.v2010.account.Message;
+import com.twilio.type.PhoneNumber;
+
+
 import org.controlsfx.control.Notifications;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.image.Image;
 import javafx.scene.image.Image;
-import java.util.List;
+
 import java.util.Comparator;
 import javafx.scene.control.cell.PropertyValueFactory;
 import java.sql.SQLException;
 import java.io.IOException;
+
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
+
+
 public class IndexDemandeAchatController {
     @FXML
     private ChoiceBox<String> colonneChoiceBox;
+    @FXML
+    private BarChart<String, Integer> barChart;
+    @FXML
+    private ArrayList<String> donnees = new ArrayList<>();
+    @FXML
+    private CategoryAxis xAxis;
+
+    @FXML
+    private NumberAxis yAxis;
 
     @FXML
     private ChoiceBox<String> ordreChoiceBox;
@@ -113,7 +134,8 @@ public class IndexDemandeAchatController {
 
     @FXML
     private Label labelEtatDemande;
-
+    @FXML
+    private ChoiceBox<String> triChoiceBox;
     @FXML
     private TableView<Demande_achat> DemandeAchatTable;
     private final Demande_achatService rec;
@@ -137,6 +159,7 @@ public class IndexDemandeAchatController {
         cinColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCin().toString()));
         adresseColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getAdresse()));
         etatDemandeColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getEtatdemande()));
+        searchField.textProperty().addListener((observable, oldValue, newValue) -> searchDemandeAchat());
 
         showDemandeAchatDetails(null);
 
@@ -400,108 +423,8 @@ public class IndexDemandeAchatController {
         }
     }
 
-    @FXML
-    private void handleVoirStatistiques(ActionEvent event) {
-        // Collecte des données fictives (remplacez cela par vos propres données)
-        int totalDemandes = 100;
-        int demandesParMois = 20;
-        int demandesParUtilisateur = 50;
-
-        // Génération des statistiques
-        String statistiques = "Statistiques :\n" +
-                "Nombre total de demandes : " + totalDemandes + "\n" +
-                "Demandes par mois en moyenne : " + demandesParMois + "\n" +
-                "Demandes par utilisateur en moyenne : " + demandesParUtilisateur;
-
-        // Affichage des statistiques dans une fenêtre d'alerte
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Statistiques");
-        alert.setHeaderText(null);
-        alert.setContentText(statistiques);
-        alert.showAndWait();
-    }
-    @FXML
-    public void search(ActionEvent actionEvent) {
-        String searchText = searchField.getText().trim();
-
-        if (!searchText.isEmpty()) {
-            List<Demande_achat> searchResults = null;
-            try {
-                searchResults = rec.chercher(searchText);
-
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
-
-            // Convert the list to observable list
-            ObservableList<Demande_achat> observableList = FXCollections.observableArrayList(searchResults);
-
-            // Define the cell value factories for each column
-            nomColumn.setCellValueFactory(new PropertyValueFactory<>("nom"));
-            prenomColumn.setCellValueFactory(new PropertyValueFactory<>("prenom"));
-            typePaiementColumn.setCellValueFactory(new PropertyValueFactory<>("type_paiement"));
-            cinColumn.setCellValueFactory(new PropertyValueFactory<>("cin"));
 
 
-
-            // Set the items to the table
-            DemandeAchatTable.setItems(observableList);
-
-            // Create a sorted list to sort the table based on the selected column and order
-            SortedList<Demande_achat> sortedList = new SortedList<>(observableList);
-
-            // Set the comparator based on the selected column and order
-            Comparator<Demande_achat> comparator = getComparatorFromChoiceBox(colonneChoiceBox, ordreChoiceBox);
-            sortedList.setComparator(comparator);
-
-            // Bind the sorted list to the table
-            DemandeAchatTable.setItems(sortedList);
-        } else {
-            showAlert("Input Error", "Please enter a search term.");
-        }
-
-    }
-    private Comparator<Demande_achat> getComparatorFromChoiceBox(ChoiceBox<String> colonneChoiceBox, ChoiceBox<String> ordreChoiceBox) {
-        String selectedColumn = colonneChoiceBox.getValue();
-        String selectedOrder = ordreChoiceBox.getValue();
-
-        Comparator<Demande_achat> comparator = null;
-
-        switch (selectedColumn) {
-            case "Nom":
-                comparator = Comparator.comparing(Demande_achat::getNom);
-                break;
-            case "Prenom":
-                comparator = Comparator.comparing(Demande_achat::getPrenom);
-                break;
-            case "Type Paiement":
-                comparator = Comparator.comparing(Demande_achat::getType_paiement);
-                break;
-            case "Cin":
-                comparator = Comparator.comparing(Demande_achat::getCin);
-                break;
-
-            default:
-                break;
-        }
-
-        if (comparator != null && selectedOrder != null && selectedOrder.equals("DESC")) {
-            comparator = comparator.reversed();
-        }
-
-        return comparator;
-    }
-    private void showAlert(String title, String content) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(content);
-        alert.showAndWait();
-    }
-    @FXML
-    void trier(ActionEvent event) {
-        tableView.getItems().sort(getComparatorFromChoiceBox(colonneChoiceBox, ordreChoiceBox));
-    }
     @FXML
 
     private void showNotification(String title, String message) {
@@ -511,7 +434,70 @@ public class IndexDemandeAchatController {
                 .darkStyle() // Vous pouvez personnaliser le style ici
                 .show();
     }
+
+    @FXML
+    private void searchDemandeAchat() {
+        String keyword = searchField.getText().trim().toLowerCase();
+        if (keyword.isEmpty()) {
+            // Si le champ de recherche est vide, afficher toutes les demandes d'achat
+            DemandeAchatTable.setItems(demandeAchatList);
+        } else {
+            // Filtrer les demandes d'achat en fonction du mot-clé de recherche
+            ObservableList<Demande_achat> filteredList = FXCollections.observableArrayList();
+            for (Demande_achat demandeAchat : demandeAchatList) {
+                if (demandeAchat.getNom().toLowerCase().contains(keyword) ||
+                        demandeAchat.getPrenom().toLowerCase().contains(keyword) ||
+                        demandeAchat.getNum_tel().toLowerCase().contains(keyword) ||
+                        demandeAchat.getType_paiement().toLowerCase().contains(keyword) ||
+                        demandeAchat.getCin().toString().toLowerCase().contains(keyword) ||
+                        demandeAchat.getAdresse().toLowerCase().contains(keyword) ||
+                        demandeAchat.getEtatdemande().toLowerCase().contains(keyword)) {
+                    filteredList.add(demandeAchat);
+                }
+            }
+            DemandeAchatTable.setItems(filteredList);
+        }
+    }
+    @FXML
+    private void choisirCroissant(ActionEvent event) {
+        if (!donnees.isEmpty()) {
+            Collections.sort(donnees);
+            afficherDonneesTriees("Tri Croissant", donnees);
+        } else {
+            afficherMessageErreur("Erreur", "Aucune donnée à trier.");
+        }
+    }
+
+    // Méthode pour afficher les données triées dans une boîte de dialogue
+    private void afficherDonneesTriees(String titre, ArrayList<String> donneesTriees) {
+        StringBuilder message = new StringBuilder("Données triées (Croissant) :\n");
+        for (String donnee : donneesTriees) {
+            message.append(donnee).append("\n");
+        }
+        afficherMessageInfo(titre, message.toString());
+    }
+
+    // Méthode pour afficher une boîte de dialogue d'erreur
+    private void afficherMessageErreur(String titre, String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(titre);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
+    // Méthode pour afficher une boîte de dialogue d'information
+    private void afficherMessageInfo(String titre, String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(titre);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
 }
+
+
+
 
 
 

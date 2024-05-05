@@ -13,10 +13,17 @@ import Service.IService;
 import javafx.stage.Stage;
 import org.controlsfx.control.Notifications;
 
+import java.sql.SQLException;
+
+
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.*;
+import com.twilio.Twilio;
+import com.twilio.rest.api.v2010.account.Message;
+import com.twilio.type.PhoneNumber;
 
 public class AddDemandeAchatController {
     @FXML
@@ -116,17 +123,51 @@ public class AddDemandeAchatController {
             // Create new Demande_achat object with 10 parameters
             Demande_achat newDemandeAchat = new Demande_achat(userId, achatId, nom, prenom, dateDemande, numTel, typePaiement, cin, adresse, etatdemande);
 
-            // Insert new Demande_achat into database
-            demandeAchatService.insert(newDemandeAchat);
+            try {
+                // Insert new Demande_achat into database
+                demandeAchatService.insert(newDemandeAchat);
 
-            Stage stage = (Stage) userIdTextField.getScene().getWindow();
-            if (indexDemandeAchatController != null) {
-                indexDemandeAchatController.updateTableView();
+                // Twilio credentials and number
+                String accountSid = "AC8e67691f6f5c772705c3d1be23eb7fbe";
+                String authToken = "73be092c6f48b74f863cc26b0fd32abb";
+                String twilioNumber = "+18283944491";
+
+                // Initialize Twilio
+                Twilio.init(accountSid, authToken);
+
+                // Send SMS
+                Message message = Message.creator(
+                                new PhoneNumber("+216" + numTel),  // Replace with recipient's phone number
+                                new PhoneNumber(twilioNumber),               // Your Twilio phone number
+                                "Votre demande d'achat a été enregistrée avec succès. Merci!")
+                        .create();
+
+                System.out.println("Message SID: " + message.getSid()); // Print SID for debugging purposes
+
+                // Show a success message
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Success");
+                alert.setContentText("Votre demande d'achat a été enregistrée avec succès.");
+                alert.showAndWait();
+
+                // Update table view if applicable
+                if (indexDemandeAchatController != null) {
+                    indexDemandeAchatController.updateTableView();
+                }
+
+                // Close the window
+                Stage stage = (Stage) userIdTextField.getScene().getWindow();
+                stage.close();
+
+            } catch (Exception e) {
+                // Display an error message if any exception occurs
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setContentText("Une erreur est survenue : " + e.getMessage());
+                alert.showAndWait();
             }
-            stage.close();
         }
     }
-
     private void showAlertDialog(Alert.AlertType type, String title, String header, String content) {
         Alert alert = new Alert(type);
         alert.setTitle(title);
