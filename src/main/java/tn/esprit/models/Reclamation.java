@@ -16,6 +16,16 @@ public class Reclamation {
     private String email;
     private boolean status;
 
+    private List<ReponseReclamation> reponses;
+
+    public List<ReponseReclamation> getReponses() {
+        return reponses;
+    }
+
+    public void setReponses(List<ReponseReclamation> reponses) {
+        this.reponses = reponses;
+    }
+
     // Liste d'objets suggérés
     private static List<ObjetReclamation> objetsSuggérés = new ArrayList<>();
 

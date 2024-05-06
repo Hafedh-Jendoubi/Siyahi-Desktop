@@ -5,6 +5,7 @@ import tn.esprit.models.Reclamation;
 import tn.esprit.models.ReponseReclamation;
 import tn.esprit.services.ReclamationService;
 import tn.esprit.services.ReponseReclamationService;
+import tn.esprit.util.EmailService;
 import tn.esprit.util.MaConnexion;
 
 import java.sql.Timestamp;
@@ -21,11 +22,11 @@ public class Main {
 
         MaConnexion mac =  MaConnexion.getInstance();
         //********************test add:
-        ReclamationService rs=new ReclamationService();
-        ObjetReclamation objetReclamation = new ObjetReclamation("Frais Bancaires Inattendus");
+       // ReclamationService rs=new ReclamationService();
+       // ObjetReclamation objetReclamation = new ObjetReclamation("Frais Bancaires Inattendus");
 
-        Reclamation reclamation = new Reclamation(objetReclamation, "Description de la réclamation", timestamp, "Auteur de la réclamation", "valide@mail.com",true);
-         rs.add(reclamation);
+       // Reclamation reclamation = new Reclamation(objetReclamation, "Description de la réclamation", timestamp, "Auteur de la réclamation", "valide@mail.com",true);
+        // rs.add(reclamation);
 
         //************************test update
 
@@ -53,11 +54,22 @@ public class Main {
 
 
         // Créer un objet ReponseReclamationService
-       ReponseReclamationService service = new ReponseReclamationService();
+       //ReponseReclamationService service = new ReponseReclamationService();
 
         // Tester la méthode add()
-        ReponseReclamation nouvelleReponse = new ReponseReclamation("nn", new Timestamp(System.currentTimeMillis()), "n");
-        service.add(nouvelleReponse);
+       // ReponseReclamation nouvelleReponse = new ReponseReclamation("nn", new Timestamp(System.currentTimeMillis()), "n");
+        //service.add(nouvelleReponse);
+
+        //Créer une instance de EmailService
+        EmailService emailService = new EmailService();
+
+        // Définir les détails de l'e-mail
+        String toEmail = "ashrefaamri@gmail.com";
+        String subject = "Test Email";
+        String body = "<h1>This is a test email</h1>";
+
+        // Appeler la méthode sendEmail pour envoyer l'e-mail
+        emailService.sendEmail(toEmail, subject, body);
 
 
 

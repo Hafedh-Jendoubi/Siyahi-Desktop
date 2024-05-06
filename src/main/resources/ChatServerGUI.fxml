@@ -18,7 +18,6 @@
 
     <bottom>
         <HBox alignment="CENTER" padding="10">
-            <Button text="Send" onAction="#sendMessage"/>
         </HBox>
     </bottom>
 </BorderPane>

@@ -11,6 +11,16 @@ public class ReponseReclamation {
     private Timestamp date_creation;
     private String auteur;
 
+    private Reclamation reclamation;
+
+    public Reclamation getReclamation() {
+        return reclamation;
+    }
+
+    public void setReclamation(Reclamation reclamation) {
+        this.reclamation = reclamation;
+    }
+
 
     public ReponseReclamation() {
     }

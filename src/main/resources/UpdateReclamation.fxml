@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="tn.esprit.Controllers.UpdateReclamationController"
+            prefHeight="400.0" prefWidth="600.0">
+    <Label layoutX="39.0" layoutY="39.0" style="-fx-font-weight: bold;" text="Objet de la réclamation :" />
+    <Label layoutX="39.0" layoutY="90.0" style="-fx-font-weight: bold;" text="Description :" />
+    <Label layoutX="39.0" layoutY="141.0" style="-fx-font-weight: bold;" text="Auteur :" />
+    <Label layoutX="39.0" layoutY="191.0" style="-fx-font-weight: bold;" text="Email :" />
+    <ComboBox fx:id="objectComboBox" layoutX="220.0" layoutY="35.0" prefWidth="200.0" promptText="Sélectionner un objet" />
+    <TextField fx:id="descriptionField" layoutX="220.0" layoutY="86.0" prefWidth="200.0" />
+    <TextField fx:id="auteurField" layoutX="220.0" layoutY="137.0" prefWidth="200.0" />
+    <TextField fx:id="emailField" layoutX="220.0" layoutY="186.0" prefWidth="200.0" />
+    <Button text="Update" onAction="#updateButtonClicked" layoutX="100" layoutY="40" />
+    <Button layoutX="248.0" layoutY="299.0" mnemonicParsing="false" onAction="#RetourHome" style="-fx-background-color: #f44336; -fx-text-fill: white;" text="Retour" />
+
+</AnchorPane>

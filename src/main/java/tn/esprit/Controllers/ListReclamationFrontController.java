@@ -94,7 +94,7 @@ public class ListReclamationFrontController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        PickerDate.setDayCellFactory(picker -> new DateCell() {
+        /*PickerDate.setDayCellFactory(picker -> new DateCell() {
             public void updateItem(LocalDate date, boolean empty) {
                 super.updateItem(date, empty);
                 LocalDate today = LocalDate.now();
@@ -105,10 +105,10 @@ public class ListReclamationFrontController implements Initializable {
 
         CBObjet.setItems(FXCollections.observableArrayList("Location", "Réparation", "Montage"));
         afficher();
-    }
+    }*/
 
-    @FXML
-    void modifierReclamation(ActionEvent event) throws IOException {
+    //@FXML
+   /* void modifierReclamation(ActionEvent event) throws IOException {
         Image img = new Image("\\Ressources\\iconUpdate.jpg");
         Reclamation r = TBReclamation.getSelectionModel().getSelectedItem();
 
@@ -120,7 +120,7 @@ public class ListReclamationFrontController implements Initializable {
         String email = TFEmail.getText();
 
         ReclamationService src = new ReclamationService();
-        src.update(new Reclamation(r.getId(), objet, description, dateCreation, auteur, email));
+        src.update(new Reclamation(r.getId(), objet, description,dateCreation, auteur, email));
 
         Notifications notificationBuilder = Notifications.create()
                 .title("Réclamation modifiée !")
@@ -128,9 +128,10 @@ public class ListReclamationFrontController implements Initializable {
                 .graphic(new ImageView(img))
                 .hideAfter(Duration.seconds(5))
                 .position(Pos.TOP_RIGHT);
-        notificationBuilder.showInformation();
+        notificationBuilder.showInformation();*/
 
         init();
+
     }
 
     public void updateTable() {
@@ -142,7 +143,9 @@ public class ListReclamationFrontController implements Initializable {
         tbauteur.setCellValueFactory(new PropertyValueFactory<>("auteur"));
         tbemail.setCellValueFactory(new PropertyValueFactory<>("email"));
         tbstatus.setCellValueFactory(new PropertyValueFactory<>("statut"));
-        TBReclamation.setItems(reclamations);
+        TBReclamation.setItems(FXCollections.observableArrayList(listReclamations));
+
+        //TBReclamation.setItems(reclamations);
     }
 
     public void init() {
@@ -155,10 +158,7 @@ public class ListReclamationFrontController implements Initializable {
         List<Reclamation> listReclamations = ReclamationService.getInstance().getAll();
 
         if (!listReclamations.isEmpty()) {
-            for (int i = 0; i < listReclamations.size(); i++) {
-                reclamation = listReclamations.get(i);
-                reclamations.add(reclamation);
-            }
+            reclamations.addAll(listReclamations);
 
             tbid.setCellValueFactory(new PropertyValueFactory<>("id"));
             tbobject.setCellValueFactory(new PropertyValueFactory<>("objet"));

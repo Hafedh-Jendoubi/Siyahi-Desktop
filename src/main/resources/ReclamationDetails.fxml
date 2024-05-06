@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="tn.esprit.Controllers.ReclamationDetailsController">
+    <ListView fx:id="listViewReclamationDetails" prefWidth="400" prefHeight="300"/>
+</AnchorPane>

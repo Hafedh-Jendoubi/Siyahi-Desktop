@@ -82,4 +82,44 @@ public class ReclamationHomeController {
 
     public void navigateToContact(ActionEvent event) {
     }
+
+    public void navigateToAdmin(ActionEvent event) {
+        try {
+            // Charger le fichier FXML de votre autre interface
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/AddReponseReclamation.fxml"));
+            Parent root = loader.load();
+
+            // Créer une nouvelle scène avec la racine chargée depuis le fichier FXML
+            Scene scene = new Scene(root);
+
+            // Obtenir la fenêtre principale à partir de l'événement
+            Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+
+            // Définir la nouvelle scène sur la fenêtre principale
+            stage.setScene(scene);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void navigatetochatserver(ActionEvent event) {
+        try {
+            // Charger le fichier FXML de votre autre interface
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ChatServerGUI.fxml"));
+            Parent root = loader.load();
+
+            // Créer une nouvelle scène avec la racine chargée depuis le fichier FXML
+            Scene scene = new Scene(root);
+
+            // Obtenir la fenêtre principale à partir de l'événement
+            Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+
+            // Définir la nouvelle scène sur la fenêtre principale
+            stage.setScene(scene);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
