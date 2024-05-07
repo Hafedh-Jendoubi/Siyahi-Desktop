@@ -12,6 +12,7 @@ import tn.esprit.siyahidesktop.services.ServicesService;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class ShowService {
 
@@ -27,9 +28,9 @@ public class ShowService {
     @FXML
     private TextField nom_service;
     @FXML
-    private TextField pricing; //monthly pricing
+    private TextField pricing;
     @FXML
-    private DatePicker expiration_date;
+    private TextField expiration;
     @FXML
     private boolean isActive=true;
 
@@ -49,7 +50,7 @@ public class ShowService {
             try {
                 serviceService.delete(selectedService);
                 showAlert("Success", "Service deleted successfully.");
-                backToMainPage(null); // Optionally redirect to the main page
+                backToMainPage(null);
             } catch (Exception e) {
                 showAlert("Error", "Failed to delete service: " + e.getMessage());
             }
@@ -58,26 +59,7 @@ public class ShowService {
         }
     }
 
-    private void UpdateS() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/tn/esprit/siyahidesktop/updateService.fxml"));
-            Parent root = loader.load();
-            AddService addServiceController = loader.getController();
-            addServiceController.setExistingService(selectedService);
-            Scene scene = new Scene(root);
-            Stage stage = (Stage) update_button.getScene().getWindow();
-            stage.setScene(scene);
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
-    @FXML
-    void updateS(ActionEvent event) {
-        UpdateS();
-
-    }
 
     @FXML
     void backToMainPage(ActionEvent event) {
@@ -97,12 +79,26 @@ public class ShowService {
     private final ServicesService serviceService = new ServicesService();
     public void setServiceDetails(Service service) {
         this.selectedService = service;
-        nom_service.setText(service.getNom());
-        desc_service.setText(service.getDescription());
-        pricing.setText(String.valueOf(service.getPricing()));
-        expiration_date.setValue(service.getExpiration_date());
+        if (service != null) {
+            nom_service.setText(service.getNom() != null ? service.getNom() : "");
+            desc_service.setText(service.getDescription() != null ? service.getDescription() : "");
+            pricing.setText(String.valueOf(service.getPricing()) != null ? String.valueOf(service.getPricing()) : "0.0");
 
+            LocalDate creationDate = service.getExpiration_date();
+            if (creationDate != null) {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                expiration.setText(creationDate.format(formatter));
+            } else {
+                expiration.setText("No expiration date");
+            }
+        } else {
+            nom_service.setText("");
+            desc_service.setText("");
+            pricing.setText("0.0");
+            expiration.setText("No expiration date");
+        }
     }
+
 
     @FXML
     void updateS() {

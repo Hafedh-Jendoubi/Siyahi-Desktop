@@ -6,27 +6,27 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.siyahidesktop.controllers.ShowAccount">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #153448;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.siyahidesktop.controllers.ShowAccount">
    <children>
-      <Text layoutX="220.0" layoutY="54.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Détails du compte">
+      <Text fill="#9bbec8" layoutX="177.0" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Détails du compte" underline="true">
          <font>
-            <Font size="20.0" />
+            <Font name="Arial Nova Bold" size="29.0" />
          </font>
       </Text>
-      <Text layoutX="53.0" layoutY="106.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Utilisateur:" />
-      <TextField fx:id="user" layoutX="53.0" layoutY="116.0" />
-      <Text layoutX="53.0" layoutY="163.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Service:" />
-      <TextField fx:id="service" layoutX="53.0" layoutY="175.0" />
-      <Text layoutX="53.0" layoutY="224.0" strokeType="OUTSIDE" strokeWidth="0.0" text="RIB:" />
-      <TextField fx:id="rib" layoutX="53.0" layoutY="238.0" />
-      <Text layoutX="317.0" layoutY="106.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Date de création:" />
-      <TextField fx:id="creation" layoutX="317.0" layoutY="116.0" />
-      <Text layoutX="317.0" layoutY="163.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Solde:" />
-      <TextField fx:id="solde" layoutX="317.0" layoutY="175.0" />
-      <Text layoutX="317.0" layoutY="227.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Date d'éxpiration:" />
-      <TextField fx:id="expiration" layoutX="317.0" layoutY="237.0" />
-      <Button fx:id="modifier" layoutX="220.0" layoutY="299.0" mnemonicParsing="false" text="Modifier" />
-      <Button fx:id="supprimer" layoutX="317.0" layoutY="299.0" mnemonicParsing="false" text="Supprimer" />
-      <Button fx:id="backToMenu" layoutX="252.0" layoutY="336.0" mnemonicParsing="false" text="Menu principal" />
+      <Text fill="#6ccfeb" layoutX="53.0" layoutY="106.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Utilisateur:" />
+      <TextField fx:id="user" layoutX="53.0" layoutY="116.0" style="-fx-background-color: #9bbec8;" />
+      <Text fill="#6ccfeb" layoutX="53.0" layoutY="163.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Service:" />
+      <TextField fx:id="Service" layoutX="53.0" layoutY="175.0" style="-fx-background-color: #9bbec8;" />
+      <Text fill="#6ccfeb" layoutX="53.0" layoutY="224.0" strokeType="OUTSIDE" strokeWidth="0.0" text="RIB:" />
+      <TextField fx:id="rib" layoutX="53.0" layoutY="238.0" style="-fx-background-color: #9bbec8;" />
+      <Text fill="#6ccfeb" layoutX="317.0" layoutY="106.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Date de création:" />
+      <TextField fx:id="creation" layoutX="317.0" layoutY="116.0" style="-fx-background-color: #9bbec8;" />
+      <Text fill="#6ccfeb" layoutX="317.0" layoutY="163.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Solde:" />
+      <TextField fx:id="solde" layoutX="317.0" layoutY="175.0" style="-fx-background-color: #9bbec8;" />
+      <Text fill="#6ccfeb" layoutX="317.0" layoutY="227.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Date d'éxpiration:" />
+      <TextField fx:id="expiration" layoutX="317.0" layoutY="237.0" style="-fx-background-color: #9bbec8;" />
+      <Button fx:id="modifier" style="-fx-background-radius: 20px;" layoutX="207.0" layoutY="299.0" mnemonicParsing="false" onAction="#updateAcc" prefHeight="25.0" prefWidth="72.0" text="Modifier" />
+      <Button fx:id="supprimer" style="-fx-background-radius: 20px;" layoutX="322.0" layoutY="299.0" mnemonicParsing="false" onAction="#delete" text="Supprimer" />
+      <Button fx:id="backToMenu" style="-fx-background-radius: 20px;" layoutX="252.0" layoutY="336.0" mnemonicParsing="false" onAction="#backToMainPage" text="Menu principal" />
    </children>
 </AnchorPane>

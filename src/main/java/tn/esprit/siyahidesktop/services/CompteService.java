@@ -3,6 +3,7 @@ package tn.esprit.siyahidesktop.services;
 import tn.esprit.siyahidesktop.interfaces.IService;
 import tn.esprit.siyahidesktop.models.Compte;
 import tn.esprit.siyahidesktop.models.Service;
+import tn.esprit.siyahidesktop.models.User;
 import tn.esprit.siyahidesktop.util.MaConnexion;
 
 import java.sql.*;
@@ -30,17 +31,13 @@ public class CompteService implements IService<Compte> {
     @Override
     public void update(Compte compte) {
         String req = "UPDATE `compte_client` SET " +
-                "`rib`=?, `id`=?, `created_at`=?, `service_id`=?, `solde`=?, /*`user_id`=?*/ WHERE `rib`=?";
+                "`service_id`=?, `solde`=?, /*`user_id`=?*/ WHERE `id`=?";
 
         try {
             PreparedStatement ps = cnx.prepareStatement(req);
-            ps.setLong(1, compte.getRib());
-            ps.setInt(2, compte.getId());
-            ps.setTimestamp(3, compte.getDate_creation());
-            ps.setInt(4, compte.getService().getId());
-            ps.setDouble(5, compte.getSolde());
-            //ps.setInt(6, compte.getUser().getId());
-            ps.setLong(7, compte.getRib());
+            ps.setInt(1, compte.getService().getId());
+            ps.setDouble(2, compte.getSolde());
+            ps.setInt(3, compte.getUser().getId());
             ps.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -49,21 +46,29 @@ public class CompteService implements IService<Compte> {
 
     @Override
     public void delete(Compte compte) {
-        String req = "DELETE FROM `compte_client` WHERE rib = ?";
+        // Database connection and SQL logic to delete a compte
         try {
-            PreparedStatement ps = cnx.prepareStatement(req);
-            ps.setLong(1, compte.getRib());
-            ps.executeUpdate();
+            String sql = "DELETE FROM compte_client WHERE id = ?";
+            PreparedStatement statement = cnx.prepareStatement(sql);
+            statement.setInt(1, compte.getId());
+            int rowsDeleted = statement.executeUpdate();
+            if (rowsDeleted > 0) {
+                System.out.println("A compte was deleted successfully!");
+            }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
+            throw new RuntimeException("Error deleting compte: " + e.getMessage());
         }
     }
 
     private Compte getInformation(ResultSet res) {
         Compte compte = new Compte();
         try {
+            UserService us = new UserService();
             compte.setRib(res.getLong("rib"));
             compte.setId(res.getInt("id"));
+            User user = us.getOne(res.getInt("user_id"));
+            compte.setUser(user);
             compte.setDate_creation(res.getTimestamp("created_at"));
             // Handling Service
             Service service = new Service();

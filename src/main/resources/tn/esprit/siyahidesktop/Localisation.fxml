@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.effect.ColorAdjust?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.web.WebView?>
+
+<AnchorPane prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: #153448;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.siyahidesktop.controllers.Localisation">
+   <children>
+      <WebView fx:id="mapView" layoutX="78.0" layoutY="102.0" prefHeight="622.0" prefWidth="1043.0" />
+      <Text fill="#4af3ff" layoutX="441.0" layoutY="68.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Plus proche agence">
+         <font>
+            <Font name="Arial Nova" size="36.0" />
+         </font>
+      </Text>
+      <ImageView fx:id="return_icon" onMouseClicked="#back" fitHeight="52.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@return_icon.png" />
+         </image>
+         <effect>
+            <ColorAdjust brightness="1.0" contrast="0.05" hue="0.09" saturation="1.0" />
+         </effect>
+      </ImageView>
+   </children>
+</AnchorPane>

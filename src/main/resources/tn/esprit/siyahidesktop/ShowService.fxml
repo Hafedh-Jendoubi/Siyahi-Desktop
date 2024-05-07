@@ -7,19 +7,23 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.siyahidesktop.controllers.ShowService">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #153448;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.siyahidesktop.controllers.ShowService">
     <children>
-        <TextField fx:id="nom_service" layoutX="65.0" layoutY="113.0" />
-        <Text layoutX="218.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Détails du Service">
+        <Text fill="#9bbec8" layoutX="176.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-background-color: #9bbec8;" text="Détails du Service" underline="true">
             <font>
-                <Font size="20.0" />
+                <Font name="Arial Nova Bold" size="29.0" />
             </font>
         </Text>
-        <Text layoutX="65.0" layoutY="96.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nom:" />
-        <Text layoutX="65.0" layoutY="196.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Description:" />
-        <Button fx:id="update_button" layoutX="214.0" layoutY="317.0" mnemonicParsing="false" onAction="#updateS" prefHeight="25.0" prefWidth="72.0" text="Modifier" />
-        <Button fx:id="delete_button" layoutX="301.0" layoutY="317.0" mnemonicParsing="false" onAction="#DeleteS" text="Supprimer" />
-        <Button fx:id="menu_button" layoutX="255.0" layoutY="348.0" mnemonicParsing="false" onAction="#backToMainPage" text="Menu Prinipal" />
-        <TextArea fx:id="desc_service" layoutX="65.0" layoutY="208.0" prefHeight="88.0" prefWidth="461.0" />
+        <Button fx:id="update_button" style="-fx-background-radius: 20px;" layoutX="214.0" layoutY="317.0" mnemonicParsing="false" onAction="#updateS" prefHeight="25.0" prefWidth="72.0" text="Modifier" />
+        <Button fx:id="delete_button" style="-fx-background-radius: 20px;" layoutX="301.0" layoutY="317.0" mnemonicParsing="false" onAction="#DeleteS" text="Supprimer" />
+        <Button fx:id="menu_button" style="-fx-background-radius: 20px;" layoutX="255.0" layoutY="348.0" mnemonicParsing="false" onAction="#backToMainPage" text="Menu Prinipal" />
+      <TextField fx:id="nom_service" layoutX="75.0" layoutY="123.0" style="-fx-background-color: #9bbec8;" />
+      <Text fill="#6ccfeb" layoutX="75.0" layoutY="106.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nom:" />
+      <Text fill="#6ccfeb" layoutX="75.0" layoutY="171.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Description:" />
+      <TextArea fx:id="desc_service" layoutX="75.0" layoutY="187.0" prefHeight="88.0" prefWidth="149.0" style="-fx-background-color: #9bbec8;" />
+      <Text fill="#6ccfeb" layoutX="344.0" layoutY="106.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Frais mensuel:" />
+      <TextField fx:id="pricing" layoutX="344.0" layoutY="123.0" style="-fx-background-color: #9bbec8;" />
+      <Text fill="#6ccfeb" layoutX="344.0" layoutY="171.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Date d'expiration" />
+      <TextField fx:id="expiration" layoutX="344.0" layoutY="188.0" style="-fx-background-color: #9bbec8;" />
     </children>
 </AnchorPane>

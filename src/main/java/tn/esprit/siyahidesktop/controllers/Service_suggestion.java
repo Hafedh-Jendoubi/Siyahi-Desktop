@@ -30,8 +30,8 @@ public class Service_suggestion {
     @FXML private RadioButton sect_public;
     @FXML private Button valider;
 
-    private ToggleGroup personTypeGroup = new ToggleGroup();  // ToggleGroup for morale and physique
-    private ToggleGroup EtatTypeGroup = new ToggleGroup();  // ToggleGroup for morale and physique
+    private ToggleGroup personTypeGroup = new ToggleGroup();
+    private ToggleGroup EtatTypeGroup = new ToggleGroup();
 
     private ServicesService serviceService = new ServicesService();
     Service bestService = null;
@@ -42,7 +42,6 @@ public class Service_suggestion {
     }
 
     private void setupToggleGroups() {
-        // Add both radio buttons to the same toggle group
         physique.setToggleGroup(personTypeGroup);
         morale.setToggleGroup(personTypeGroup);
         sect_prive.setToggleGroup(EtatTypeGroup);
@@ -51,7 +50,6 @@ public class Service_suggestion {
 
     @FXML
     void show_salary_field(ActionEvent event) {
-        // Toggle visibility based on the selection of 'physique'
         salary_field.setVisible(physique.isSelected());
     }
 
@@ -59,7 +57,7 @@ public class Service_suggestion {
     void show_result() {
         try {
             int age = age_field.getText().isEmpty() ? 0 : Integer.parseInt(age_field.getText());
-            double salaire = salary.getText().isEmpty() ? 0 : Double.parseDouble(salary.getText()); // Check if the salary field is empty
+            double salaire = salary.getText().isEmpty() ? 0 : Double.parseDouble(salary.getText());
             boolean isPhysique = physique.isSelected();
             boolean isPublicSector = sect_public.isSelected();
             boolean isRetrait = retrait.isSelected();
@@ -114,8 +112,8 @@ public class Service_suggestion {
     @FXML
     void valider_choix(ActionEvent event) {
         if (bestService != null) {
-            SharedService.getInstance().setSelectedService(bestService); // Save the selected service globally
-            goBackToAccountPage();  // Navigate back to the AddAccount page
+            SharedService.getInstance().setSelectedService(bestService);
+            goBackToAccountPage();
         } else {
             showAlert("Validation Error", "No service has been selected!", Alert.AlertType.ERROR);
         }
@@ -123,7 +121,7 @@ public class Service_suggestion {
 
     private void goBackToAccountPage() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/tn/esprit/siyahidesktop/AddAccount.fxml")); // Correct this path
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/tn/esprit/siyahidesktop/AddAccount.fxml"));
             Parent root = loader.load();
             Scene scene = new Scene(root);
             Stage stage = (Stage) valider.getScene().getWindow();

@@ -7,19 +7,25 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.siyahidesktop.controllers.UpdateService">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #153448;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.siyahidesktop.controllers.UpdateService">
     <children>
-        <TextField fx:id="nom_service" layoutX="65.0" layoutY="113.0" />
-        <Text layoutX="235.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Modifier Service">
+        <TextField fx:id="nom_service" layoutX="65.0" layoutY="113.0" style="-fx-background-color: #9bbec8;" />
+        <Text fill="#9bbec8" layoutX="188.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Modifier Service" underline="true">
             <font>
-                <Font size="20.0" />
+                <Font name="Arial Nova Bold" size="29.0" />
             </font>
         </Text>
-        <Text layoutX="65.0" layoutY="96.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nom:" />
-        <Text layoutX="65.0" layoutY="196.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Description:" />
-        <Button fx:id="save_button" layoutX="223.0" layoutY="317.0" mnemonicParsing="false" onAction="#SaveChanges" text="Enregsitrer" />
-        <Button fx:id="reset_button" layoutX="301.0" layoutY="317.0" mnemonicParsing="false" onAction="#Reinitialize_Page" text="Réinitialiser" />
-        <Button fx:id="menu_button_add" layoutX="255.0" layoutY="348.0" mnemonicParsing="false" onAction="#backToMainPage" text="Menu Prinipal" />
-        <TextArea fx:id="desc_service" layoutX="65.0" layoutY="208.0" prefHeight="88.0" prefWidth="461.0" />
+        <Text fill="#6ccfeb" layoutX="65.0" layoutY="96.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nom:">
+         <font>
+            <Font size="13.0" />
+         </font></Text>
+        <Text fill="#6ccfeb" layoutX="65.0" layoutY="196.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Description:">
+         <font>
+            <Font size="13.0" />
+         </font></Text>
+        <Button fx:id="save_button" style="-fx-background-radius: 20px;" layoutX="223.0" layoutY="317.0" mnemonicParsing="false" onAction="#SaveChanges" text="Enregsitrer" />
+        <Button fx:id="reset_button" style="-fx-background-radius: 20px;" layoutX="301.0" layoutY="317.0" mnemonicParsing="false" onAction="#Reinitialize_Page" text="Réinitialiser" />
+        <Button fx:id="menu_button_add" style="-fx-background-radius: 20px;" layoutX="255.0" layoutY="348.0" mnemonicParsing="false" onAction="#backToMainPage" text="Menu Prinipal" />
+        <TextArea fx:id="desc_service" layoutX="65.0" layoutY="208.0" prefHeight="88.0" prefWidth="461.0" style="-fx-background-color: #9bbec8;" />
     </children>
 </AnchorPane>

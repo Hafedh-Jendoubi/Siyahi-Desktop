@@ -2,29 +2,31 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
-<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.siyahidesktop.controllers.UpdateAccountController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #153448;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.siyahidesktop.controllers.UpdateAccount">
     <children>
-        <Text layoutX="148.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mise à jour du Compte">
+        <Text fill="#9bbec8" layoutX="146.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mise à jour du Compte" underline="true">
             <font>
-                <Font size="24.0" />
+                <Font name="Arial Nova Bold" size="29.0" />
             </font>
         </Text>
-        <Text layoutX="50.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choisir le Service:" />
-        <ChoiceBox fx:id="services" layoutX="50.0" layoutY="100.0" prefWidth="300.0" />
+        <Text fill="#6ccfeb" layoutX="50.0" layoutY="109.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choisir le Service:">
+         <font>
+            <Font size="13.0" />
+         </font></Text>
+        <ChoiceBox fx:id="services" layoutX="50.0" layoutY="129.0" prefWidth="300.0" style="-fx-background-color: #9bbec8;" />
 
-        <Text layoutX="50.0" layoutY="150.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nouveau Solde:" />
-        <TextField fx:id="solde" layoutX="50.0" layoutY="170.0" prefWidth="300.0" promptText="Entrer le nouveau solde" />
+        <Text fill="#6ccfeb" layoutX="50.0" layoutY="179.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nouveau Solde:">
+         <font>
+            <Font size="13.0" />
+         </font></Text>
+        <TextField fx:id="solde" layoutX="50.0" layoutY="199.0" prefWidth="300.0" promptText="Entrer le nouveau solde" style="-fx-background-color: #9bbec8;" />
 
-        <Text layoutX="50.0" layoutY="220.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Date d'Expiration:" />
-        <DatePicker fx:id="datePicker" layoutX="50.0" layoutY="240.0" prefWidth="300.0" />
-
-        <Button fx:id="update_button" layoutX="100.0" layoutY="300.0" mnemonicParsing="false" onAction="#updateAccount" prefHeight="30.0" prefWidth="200.0" text="Mettre à jour" />
-        <Button fx:id="back_button" layoutX="100.0" layoutY="350.0" mnemonicParsing="false" onAction="#backToMainMenu" prefHeight="30.0" prefWidth="200.0" text="Retour au Menu Principal" />
+        <Button fx:id="update_button" layoutX="200.0" layoutY="297.0" mnemonicParsing="false" onAction="#updateAccount" prefHeight="30.0" prefWidth="200.0" style="-fx-background-radius: 20px;" text="Mettre à jour" />
+        <Button fx:id="back_button" layoutX="200.0" layoutY="347.0" mnemonicParsing="false" onAction="#backToMainMenu" prefHeight="30.0" prefWidth="200.0" style="-fx-background-radius: 20px;" text="Retour au Menu Principal" />
     </children>
 </AnchorPane>

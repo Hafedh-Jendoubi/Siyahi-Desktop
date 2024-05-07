@@ -32,11 +32,12 @@ public class AddAccount {
     @FXML private ComboBox<User> userComboBox;
     @FXML private ChoiceBox<Service> services;
     @FXML private TextField rib, solde;
-    @FXML private Button generate_button, add_button, reset_button;
+    @FXML private Button generate_button, add_button, reset_button,menu_button;
     @FXML private TextField userSearchField;
 
+
     private ServicesService servicesService = new ServicesService();
-    private UserService userService = new UserService();  // Ensure UserService is initialized if not already
+    private UserService userService = new UserService();
     private ObservableList<User> allUsers;
     private Connection cnx = MaConnexion.getInstance().getCnx();
 
@@ -99,7 +100,6 @@ public class AddAccount {
             }
         });
 
-        // Set selected service if already chosen in shared model
         updateSelectedService();
     }
 
@@ -193,15 +193,29 @@ public class AddAccount {
         services.getSelectionModel().clearSelection();
         rib.clear();
         solde.clear();
-        userSearchField.clear(); // Assuming there's a TextField to filter users
+        userSearchField.clear();
     }
 
     private void showAlert(String title, String content, Alert.AlertType type) {
         Alert alert = new Alert(type);
         alert.setTitle(title);
-        alert.setHeaderText(null);  // No header text
+        alert.setHeaderText(null);
         alert.setContentText(content);
-        alert.showAndWait();  // Display the alert and wait for the user to close it
+        alert.showAndWait();
+    }
+
+    @FXML
+    void backToMainPage(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/tn/esprit/siyahidesktop/MainPage.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            Stage stage = (Stage) menu_button.getScene().getWindow();
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
@@ -221,7 +235,5 @@ public class AddAccount {
         }
     }
 
-    public void setExistingAccount(Compte selectedAccount) {
 
-    }
 }

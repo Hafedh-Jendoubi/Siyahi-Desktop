@@ -48,25 +48,30 @@ public class AddService {
             String fraisInput = frais_service.getText().trim();
 
             if (serviceName.isEmpty() || serviceDescription.isEmpty() || fraisInput.isEmpty()) {
-                showAlert("Input Error", "All fields must be filled out.");
+                showAlert("Input Error", "Tous les champs doivent être remplis.");
+                return;
+            }
+
+            if (!(serviceName.matches("[a-zA-Z]+") && serviceName.length() <= 15)) {
+                showAlert("Input Error", "Nom du service ne doit pas dépasser 15 caractères et ne contient pas de chiffres ou symboles.");
                 return;
             }
 
             Double fraisService = Double.parseDouble(fraisInput);
             if (fraisService < 0) {
-                showAlert("Input Error", "Service fee must be non-negative.");
+                showAlert("Input Error", "Frais du service ne deoit pas être négatif");
                 return;
             }
 
             LocalDate expirationService = expiration.getValue();
             if (expirationService != null && expirationService.isBefore(LocalDate.now())) {
-                showAlert("Input Error", "Expiration date cannot be in the past.");
+                showAlert("Input Error", "Date d'expiration ne peut pas être dans le passé.");
                 return;
             }
 
             Service service = new Service(serviceName, serviceDescription, fraisService, expirationService);
             addToDatabase(service);
-            showAlert("Success", "Service added successfully!");
+            showSuccessAlert("Success", "Service added successfully!");
             Reinitialize_Page(null); // Reset form on successful save
         } catch (NumberFormatException e) {
             showAlert("Input Error", "Please enter a valid number for the service fee.");
@@ -93,6 +98,13 @@ public class AddService {
 
     private void showAlert(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
+
+    private void showSuccessAlert(String title, String content) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
         alert.setContentText(content);
         alert.showAndWait();

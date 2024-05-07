@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.siyahidesktop.controllers.ServicesList">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #153448;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.siyahidesktop.controllers.ServicesList">
    <children>
-      <Text layoutX="217.0" layoutY="55.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Liste des services">
+      <Text fill="#9bbec8" layoutX="178.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Liste des services" underline="true">
          <font>
-            <Font size="22.0" />
+            <Font name="Arial Nova Bold" size="29.0" />
          </font>
       </Text>
       <ListView fx:id="liste_services" layoutX="53.0" layoutY="79.0" prefHeight="217.0" prefWidth="488.0" />
-      <Button fx:id="load_button" layoutX="271.0" layoutY="310.0" mnemonicParsing="false" text="Charger" />
-      <Button fx:id="menu_button" layoutX="252.0" layoutY="344.0" mnemonicParsing="false" text="Menu Principal" />
+      <Button fx:id="menu_button" style="-fx-background-radius: 20px;" layoutX="252.0" layoutY="344.0" mnemonicParsing="false" onAction="#backToMainPage" text="Menu Principal" />
    </children>
 </AnchorPane>

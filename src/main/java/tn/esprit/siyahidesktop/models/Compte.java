@@ -1,6 +1,10 @@
 package tn.esprit.siyahidesktop.models;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.temporal.Temporal;
+
+import tn.esprit.siyahidesktop.models.User;
 
 public class Compte {
     private long rib;
@@ -40,6 +44,15 @@ public class Compte {
 
     public Timestamp getDate_creation() {
         return created_at;
+    }
+
+    public Temporal getExpirationDate() {
+        if (created_at == null) {
+            return null; // or handle this case as needed
+        }
+        LocalDateTime creationDateTime = created_at.toLocalDateTime();
+        LocalDateTime expirationDateTime = creationDateTime.plusYears(4);
+        return expirationDateTime;
     }
 
     public void setDate_creation(Timestamp date_creation) {

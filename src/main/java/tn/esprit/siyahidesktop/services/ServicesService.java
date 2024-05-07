@@ -1,6 +1,7 @@
 package tn.esprit.siyahidesktop.services;
 
 import tn.esprit.siyahidesktop.interfaces.IService;
+import tn.esprit.siyahidesktop.models.Compte;
 import tn.esprit.siyahidesktop.models.Service;
 import tn.esprit.siyahidesktop.util.MaConnexion;
 
@@ -46,6 +47,8 @@ public class ServicesService implements IService<Service> {
             throw new RuntimeException("Failed to update service: " + e.getMessage());
         }
     }
+
+
 
     @Override
     public void delete(Service service) {
