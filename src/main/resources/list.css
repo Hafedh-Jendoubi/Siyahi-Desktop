@@ -10,24 +10,29 @@
 
 /* Bouton par défaut */
 .button {
-    -fx-background-color: #007bff; /* Couleur de fond du bouton */
-    -fx-text-fill: white; /* Couleur du texte du bouton */
+    /* Couleur de fond du bouton */
+    -fx-text-fill: #0e0e0e; /* Couleur du texte du bouton */
     -fx-background-radius: 5px; /* Rayon de coin */
-}
-/* Effet au survol */
-.button:hover {
-    -fx-background-color: #0056b3; /* Couleur de fond des boutons au survol */
+    -fx-border-color: #ffffff; /* Couleur de bordure */
+    -fx-border-radius: 5px; /* Rayon de coin */
 }
 
-/* Effet au clic */
-.button:pressed {
-    -fx-background-color: #004080; /* Couleur de fond des boutons lorsqu'ils sont enfoncés */
-    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.4) , 2,0,0,1 ); /* Effet d'ombre */
+.check-box {
+    -fx-text-fill: #333; /* Couleur du texte */
+}
+
+.date-picker {
+    -fx-background-color: #fff; /* Couleur de fond */
+    -fx-border-color: #ccc; /* Couleur de bordure */
+    -fx-border-radius: 5px; /* Rayon de coin */
 }
 .root {
-    -fx-background-image: url('uploads/b.jpg'); /* Chemin vers votre image de fond */
-    -fx-background-size: cover; /* Redimensionne l'image pour remplir tout le conteneur */
-    -fx-background-repeat: no-repeat; /* Empêche la répétition de l'image */
-    -fx-background-position: center; /* Centre l'image */
+    -fx-background-color: #ffff;
 }
-
+.custom-button {
+    -fx-background-color: #ffff;
+}
+.button:pressed {
+    -fx-background-color: rgba(62, 122, 187, 0.66); /* Couleur de fond des boutons lorsqu'ils sont enfoncés */
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.4) , 2,0,0,1 ); /* Effet d'ombre */
+}

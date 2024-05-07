@@ -1,32 +1,65 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
+<?import java.net.URL?>
+<?import javafx.collections.FXCollections?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.controllers.modifierCongeController">
-
+<AnchorPane prefHeight="543.0" prefWidth="540.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.controllers.modifierCongeController">
+    <stylesheets>
+        <URL value="@listconge.css" />
+    </stylesheets>
         <children>
-            <DatePicker fx:id="datedebutTF" layoutX="52.0" layoutY="66.0" promptText="Date_Debut" />
-            <DatePicker fx:id="datefinTF" layoutX="52.0" layoutY="115.0" promptText="Date_Fin" />
-            <TextField fx:id="type_congeTF" layoutX="52.0" layoutY="169.0" promptText="TypeConge" />
+            <Button layoutX="10.0" layoutY="49.0" onAction="#switchToEnglish" prefHeight="19.0" prefWidth="37.0" text="EN" />
+            <Button layoutX="14.0" layoutY="14.0" onAction="#switchToFrench" text="FR" />
+            <DatePicker fx:id="datedebutTF" layoutX="66.0" layoutY="70.0" />
+            <DatePicker fx:id="datefinTF" layoutX="66.0" layoutY="122.0" />
+            <ComboBox fx:id="type_congeTF" layoutX="66.0" layoutY="188.0" prefWidth="200" promptText="type de conge">
+                <items>
+                    <FXCollections fx:factory="observableArrayList">
+                        <String fx:value="Maladie" />
+                        <String fx:value="Vacances" />
+                        <String fx:value="Mariage" />
+                        <!-- Ajoutez d'autres types de congé ici si nécessaire -->
+                    </FXCollections>
+                </items>
+            </ComboBox>
 
-            <Button layoutX="160.0" layoutY="336.0" mnemonicParsing="false" onAction="#editc" prefHeight="25.0" prefWidth="103.0" text="Modifier" AnchorPane.leftAnchor="160.0" />
+            <Button layoutX="155.0" layoutY="398.0" mnemonicParsing="false" onAction="#editc" prefHeight="25.0" prefWidth="103.0" text="Modifier" AnchorPane.leftAnchor="155.0" />
 
-            <TextField fx:id="descriptionTF" layoutX="53.0" layoutY="216.0" promptText="Description" />
-            <Button fx:id="uploadButton" layoutX="62.0" layoutY="300.0" mnemonicParsing="false" onAction="#uploadImage" prefHeight="26.0" prefWidth="110.0" text="Upload Justification" />
-            <ImageView fx:id="justification" fitHeight="52.0" fitWidth="129.0" layoutX="53.0" layoutY="248.0" pickOnBounds="true" preserveRatio="true">
+            <TextField fx:id="descriptionTF" layoutX="66.0" layoutY="250.0" promptText="description" />
+            <Button fx:id="uploadButton" layoutX="70.0" layoutY="335.0" mnemonicParsing="false" onAction="#uploadImage" prefHeight="26.0" prefWidth="110.0" text="Upload Justification" />
+            <ImageView fx:id="justification" fitHeight="40.0" fitWidth="110.0" layoutX="75.0" layoutY="291.0" pickOnBounds="true" preserveRatio="true">
                 <image>
 
                 </image>
             </ImageView>
-            <Text layoutX="241.0" layoutY="43.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Modifier un congé" />
+            <Text fill="#403737" layoutX="182.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Modifier un congé">
+                <font>
+                    <Font name="Berlin Sans FB Bold" size="23.0" />
+                </font>
+            </Text>
+
             <CheckBox fx:id="status" layoutX="42.0" layoutY="534.0" text="Status" />
-            <Button layoutX="300.0" layoutY="336.0" mnemonicParsing="false" onAction="#retourLV" text="Retour à la liste de congé" />
+            <Button layoutX="302.0" layoutY="398.0" mnemonicParsing="false" onAction="#retourLV" text="Retour à la liste de congé" />
+            <ImageView fitHeight="86.0" fitWidth="113.0" layoutX="425.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true">
+                <image>
+                    <Image url="@uploads/logo.png" />
+                </image>
+            </ImageView>
+      <Text fx:id="datedebut" layoutX="70.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="start_date" />
+      <Text fx:id="datefin" layoutX="68.0" layoutY="118.0" strokeType="OUTSIDE" strokeWidth="0.0" text="end_date" />
+      <Text layoutX="69.0" layoutY="176.0" strokeType="OUTSIDE" strokeWidth="0.0" text="leave_type" />
+      <Text layoutX="67.0" layoutY="246.0" strokeType="OUTSIDE" strokeWidth="0.0" text="description" />
         </children>
 
 </AnchorPane>

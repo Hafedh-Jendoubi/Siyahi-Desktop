@@ -12,6 +12,7 @@ import tn.esprit.models.Conge;
 import tn.esprit.models.limitationConge;
 import tn.esprit.services.CongeService;
 import tn.esprit.services.limitationcongeService;
+import javafx.scene.control.Label;
 
 import java.io.IOException;
 import java.sql.Date;
@@ -28,12 +29,15 @@ public class AddLimitController {
     private ComboBox<String> mois;
 
     private final limitationcongeService cs = new limitationcongeService();
+    private int joursRestants = 10;
+    @FXML
+    private Label remainingDaysLabel;
 
 
     @FXML
     void ajouter(ActionEvent event) {
         // Check if any of the required fields are empty
-        if (annee.getText().isEmpty()   || nbrTF.getText().isEmpty() ) {
+        if (annee.getText().isEmpty() || mois.getValue() == null || nbrTF.getText().isEmpty()) {
             showAlert(AlertType.ERROR, "Error", "Veuillez remplir tous les champs requis");
             return;
         }
@@ -49,16 +53,27 @@ public class AddLimitController {
             if (year < 2024) {
                 throw new IllegalArgumentException("L'année doit être 2024 ou ultérieure.");
             }
-            limitationConge conge = new limitationConge(Integer.parseInt(annee.getText()),mois.getValue(),Integer.parseInt(nbrTF.getText()));
 
-            // Call CongeService to add the leave request
-            cs.add(conge);
+            int joursDemandes = Integer.parseInt(nbrTF.getText());
+            if (joursDemandes <= joursRestants) {
+                // Soustrayez les jours demandés du nombre total de jours disponibles
+                joursRestants -= joursDemandes;
 
-            // Show success message
-            showAlert(AlertType.INFORMATION, "Success", "Leave request added successfully.");
+                // Ajoutez le congé
+                limitationConge conge = new limitationConge(year, mois.getValue(), joursDemandes);
+                cs.add(conge);
 
-            // Clear input fields
-            clearFields();
+                // Affichez un message de succès
+                showAlert(AlertType.INFORMATION, "Success", "Leave request added successfully.");
+
+                // Mettez à jour l'affichage des jours restants
+                updateRemainingDaysLabel();
+
+                // Effacez les champs de saisie
+                clearFields();
+            } else {
+                showAlert(AlertType.ERROR, "Error", "Le nombre de jours demandés est supérieur au nombre de jours restants.");
+            }
         } catch (NumberFormatException e) {
             showAlert(AlertType.ERROR, "Error", "Veuillez saisir un nombre valide pour l'année et le nombre de congés.");
         } catch (Exception e) {
@@ -66,6 +81,7 @@ public class AddLimitController {
             showAlert(AlertType.ERROR, "Error", e.getMessage());
         }
     }
+
     // Helper method to show alerts
     private void showAlert(AlertType alertType, String title, String content) {
         Alert alert = new Alert(alertType);
@@ -82,5 +98,12 @@ public class AddLimitController {
         mois.setValue(null);
         nbrTF.clear();
 
+    }
+    private void updateRemainingDaysLabel() {
+        // Assurez-vous que remainingDaysLabel est initialisé avant de le mettre à jour
+        if (remainingDaysLabel != null) {
+            // Mettez à jour le texte du Label pour afficher le nombre de jours restants
+            remainingDaysLabel.setText("Nombre de jours restants : " + joursRestants);
+        }
     }
 }

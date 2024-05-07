@@ -6,12 +6,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import tn.esprit.models.Conge;
@@ -23,6 +21,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.sql.Date;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 public class modifierCongeController {
     @FXML
@@ -31,16 +31,57 @@ public class modifierCongeController {
     private DatePicker datedebutTF;
     @FXML
     private DatePicker datefinTF;
-    @FXML
-    private TextField type_congeTF;
+
     @FXML
     private ImageView justification;
     @FXML
     private CheckBox statusCB;
+    @FXML
+    private ComboBox<String> type_congeTF;
+    @FXML
+    private Text datedebut;
+    @FXML
+    private Text datefin;
+    @FXML
+    private Text type_conge;
+    @FXML
+    private Text description;
 
     private Conge selectedConge;
     private final CongeService cs = new CongeService();
     private String imagePath;
+    private ResourceBundle bundle;
+    @FXML
+    void switchToEnglish(ActionEvent event) {
+        loadLanguage(Locale.ENGLISH);
+    }
+
+    @FXML
+    void switchToFrench(ActionEvent event) {
+        loadLanguage(Locale.FRENCH);
+    }
+
+    private void loadLanguage(Locale locale) {
+        bundle = ResourceBundle.getBundle("Bundle", locale);
+
+        // Mise à jour des textes dans l'interface utilisateur
+        updateTexts();
+    }
+
+    private void updateTexts() {
+        // Mettre à jour les textes avec les traductions correspondantes
+        datedebutTF.setPromptText(bundle.getString("start_date"));
+        datedebut.setText(bundle.getString("start_date"));
+        datefinTF.setPromptText(bundle.getString("end_date"));
+        datefin.setText(bundle.getString("end_date"));
+        type_congeTF.setPromptText(bundle.getString("leave_type"));
+        type_conge.setText(bundle.getString("leave_type"));
+        description.setText(bundle.getString("description"));
+        descriptionTF.setPromptText(bundle.getString("description"));
+
+
+
+    }
     @FXML
 
     void uploadImage(ActionEvent event) {
@@ -80,7 +121,8 @@ public class modifierCongeController {
         descriptionTF.setText(congé.getDescription());
         datedebutTF.setValue(congé.getDate_Debut().toLocalDate());
         datefinTF.setValue(congé.getDate_Fin().toLocalDate());
-        type_congeTF.setText(congé.getType_conge());
+        type_congeTF.setValue(congé.getType_conge());
+
 
 
     }
@@ -92,8 +134,9 @@ public class modifierCongeController {
         selectedConge.setDescription(descriptionTF.getText());
         selectedConge.setDate_Debut(Date.valueOf(datedebutTF.getValue()));
         selectedConge.setDate_Fin(Date.valueOf(datefinTF.getValue()));
-        selectedConge.setType_conge(type_congeTF.getText());
-        selectedConge.setJustification(imagePath);
+        selectedConge.setType_conge(imagePath);
+
+        selectedConge.setJustification(type_congeTF.getValue());
 
 
 

@@ -14,9 +14,11 @@
 }
 
 .button {
-    -fx-background-color: #1f3f6e; /* Couleur de fond du bouton */
-    -fx-text-fill: white; /* Couleur du texte du bouton */
+     /* Couleur de fond du bouton */
+    -fx-text-fill: #0e0e0e; /* Couleur du texte du bouton */
     -fx-background-radius: 5px; /* Rayon de coin */
+    -fx-border-color: #ffffff; /* Couleur de bordure */
+    -fx-border-radius: 5px; /* Rayon de coin */
 }
 
 .check-box {
@@ -29,9 +31,22 @@
     -fx-border-radius: 5px; /* Rayon de coin */
 }
 .root {
-    -fx-background-image: url('uploads/b.jpg'); /* Chemin vers votre image de fond */
-    -fx-background-size: cover; /* Redimensionne l'image pour remplir tout le conteneur */
-    -fx-background-repeat: no-repeat; /* Empêche la répétition de l'image */
-    -fx-background-position: center; /* Centre l'image */
+    -fx-background-color: #ffff;
+}
+.custom-button {
+    -fx-background-image: url('uploads/fr.jpg');
+    -fx-background-size: cover;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;;
+}
+.custom-buttonen {
+    -fx-background-image: url('uploads/en.png');
+    -fx-background-size: cover;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;;
+}
+.button:pressed {
+    -fx-background-color: rgba(62, 122, 187, 0.66); /* Couleur de fond des boutons lorsqu'ils sont enfoncés */
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.4) , 2,0,0,1 ); /* Effet d'ombre */
 }
 

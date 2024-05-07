@@ -19,6 +19,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.sql.Date;
+import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import java.util.Properties;
+
 
 public class editCongeController {
     @FXML
@@ -88,8 +93,9 @@ public class editCongeController {
         selectedConge.setDescription(descriptionTF.getText());
         selectedConge.setDate_Debut(Date.valueOf(datedebutTF.getValue()));
         selectedConge.setDate_Fin(Date.valueOf(datefinTF.getValue()));
-        selectedConge.setType_conge(type_congeTF.getText());
-        selectedConge.setJustification(imagePath);
+        selectedConge.setType_conge(imagePath);
+
+        selectedConge.setJustification(type_congeTF.getText());
         selectedConge.setStatus(statusCB.isSelected());
 
 
@@ -115,13 +121,18 @@ public class editCongeController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/ListConge.fxml"));
             Parent root = loader.load();
             Scene scene = new Scene(root);
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(scene);
-            stage.show();
+            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            window.setHeight(515); window.setMaxHeight(515); window.setMinHeight(515);
+            window.setWidth(600); window.setMaxWidth(600); window.setMinWidth(600);
+            window.setScene(scene);
+            window.show();
         } catch (IOException e) {
 
         }
     }
 
+    }
 
-}
+
+
+
