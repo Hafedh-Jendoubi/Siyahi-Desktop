@@ -52,6 +52,9 @@ public class ProfileController {
     @FXML
     private Label tel;
 
+    @FXML
+    private Button congBut;
+
     public static int profileCheck;
 
     public static User user;
@@ -108,6 +111,43 @@ public class ProfileController {
     }
 
     @FXML
+    void navigateToCredits(ActionEvent event) {
+        try {
+            String pathTo = "";
+            String titleTo = "";
+            if(connectedUser.getRoles().equals("Client") || connectedUser.getRoles().equals("Employé(e)")) {
+                pathTo = "/ListCredit.fxml";
+                titleTo = "Siyahi Bank | Gestion des Credits";
+            } else{
+                pathTo = "/ListTypeCredit.fxml";
+                titleTo = "Siyahi Bank | Gestion des Types de Credits";
+            }
+            Parent ajouterUserParent = FXMLLoader.load(getClass().getResource(pathTo));
+            Scene ajouterUserScene = new Scene(ajouterUserParent);
+            Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+            window.setScene(ajouterUserScene);
+            window.setTitle(titleTo);
+            window.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    void navigateToConge(ActionEvent event) {
+        try {
+            Parent ajouterUserParent = FXMLLoader.load(getClass().getResource("/ListConge.fxml"));
+            Scene ajouterUserScene = new Scene(ajouterUserParent);
+            Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+            window.setScene(ajouterUserScene);
+            window.setTitle("Siyahi Bank | Gestion des Conges");
+            window.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
     private void updateUser(ActionEvent event) {
         try {
             Parent ajouterUserParent = FXMLLoader.load(getClass().getResource("/EditProfileUser.fxml"));
@@ -151,6 +191,12 @@ public class ProfileController {
 
     @FXML
     void initialize() {
+        if(connectedUser.getRoles().equals("Employé(e)")){
+            congBut.setOpacity(1);
+        }else if(connectedUser.getRoles().equals("Client")){
+            congBut.setOpacity(0);
+        }
+
         if (profileCheck == 1) { //Going into ProfileAdmin.fxml from "Profile" menuItem.
             setUserValues(connectedUser);
         } else { //Going into ProfileAdmin.fxml from "TableView" as an Admin or Super_Admin

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.Separator?>
@@ -8,7 +9,6 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.paint.LinearGradient?>
 <?import javafx.scene.paint.Stop?>
@@ -16,7 +16,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.controllers.HomePageController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.controllers.ListCredit">
    <children>
       <SplitPane dividerPositions="0.27503852080123264" prefHeight="600.0" prefWidth="1300.0">
          <items>
@@ -28,8 +28,8 @@
                         <Image url="@uploads/logoCo.png" />
                      </image>
                   </ImageView>
-                  <Button layoutX="28.0" layoutY="340.0" mnemonicParsing="false" onAction="#navigateToCredits" prefHeight="30.0" prefWidth="300.0" text="Gestion Credits" />
-                  <Button layoutX="27.0" layoutY="388.0" mnemonicParsing="false" onAction="#navigateToConge" prefHeight="30.0" prefWidth="300.0" text="Gestion Conge" />
+                  <Button layoutX="28.0" layoutY="336.0" mnemonicParsing="false" onAction="#navigateToCredits" prefHeight="30.0" prefWidth="300.0" text="Gestion Credit" />
+                  <Button fx:id="congBut" layoutX="28.0" layoutY="384.0" mnemonicParsing="false" onAction="#navigateToConge" prefHeight="30.0" prefWidth="300.0" text="Gestion Conge" />
                </children>
             </AnchorPane>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="600.0" prefWidth="800.0" style="-fx-border-radius: 50%; -fx-border-color: transparent; -fx-border-width: 10px;">
@@ -56,19 +56,26 @@
                      </fill>
                   </Text>
                   <MenuButton layoutX="830.0" layoutY="40.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0">
-                    <items>
-                      <MenuItem mnemonicParsing="false" onAction="#Profile" text="Profile" />
-                      <MenuItem fx:id="menuItem" mnemonicParsing="false" onAction="#Logout" text="Déconnexion" />
-                    </items>
+                     <items>
+                        <MenuItem mnemonicParsing="false" onAction="#Profile" text="Profile" />
+                        <MenuItem fx:id="menuItem" mnemonicParsing="false" onAction="#Logout" text="Déconnexion" />
+                     </items>
                   </MenuButton>
                   <Circle fx:id="circle" disable="true" fill="DODGERBLUE" layoutX="850.0" layoutY="60.0" radius="32.0" stroke="BLACK" strokeType="INSIDE" />
-                  <BorderPane fx:id="borderPane" layoutX="39.0" layoutY="118.0" prefHeight="400.0" prefWidth="400.0" />
-                  <BorderPane fx:id="borderPane1" layoutX="482.0" layoutY="118.0" prefHeight="400.0" prefWidth="400.0" />
+                  <AnchorPane layoutX="169.0" layoutY="131.0" prefHeight="400.0" prefWidth="600.0">
+                     <children>
+                        <ListView fx:id="ListCreditLV" layoutX="40.0" layoutY="42.0" prefHeight="301.0" prefWidth="394.0" />
+                        <Button fx:id="add" layoutX="475.0" layoutY="80.0" mnemonicParsing="false" onAction="#AjouterC" prefHeight="26.0" prefWidth="71.0" text="Ajouter" />
+                        <Button fx:id="update" layoutX="476.0" layoutY="160.0" mnemonicParsing="false" onAction="#ModifierLV" prefHeight="26.0" prefWidth="71.0" text="Modifier" />
+                        <Button fx:id="delete" layoutX="476.0" layoutY="239.0" mnemonicParsing="false" onAction="#SupprimerC" text="Supprimer" />
+                        <Button fx:id="traiter" layoutX="476.0" layoutY="317.0" mnemonicParsing="false" onAction="#AjouterReponseLV" prefHeight="26.0" prefWidth="78.0" text="Traiter" />
+                     </children>
+                  </AnchorPane>
                </children>
             </AnchorPane>
          </items>
       </SplitPane>
       <Button fx:id="ToHomePage" layoutX="30.0" layoutY="240.0" mnemonicParsing="false" onAction="#navigateToHomePage" prefHeight="30.0" prefWidth="300.0" text="Acceuil" />
-      <Button fx:id="ToUserSectionButton" layoutX="30.0" layoutY="290.0" mnemonicParsing="false" onAction="#navigateToUserSection" prefHeight="30.0" prefWidth="300.0" text="Gestion Utilisateurs" />
+      <Button layoutX="30.0" layoutY="290.0" mnemonicParsing="false" onAction="#navigateToTransactions" prefHeight="30.0" prefWidth="300.0" text="Gestion Transactions" />
    </children>
 </AnchorPane>

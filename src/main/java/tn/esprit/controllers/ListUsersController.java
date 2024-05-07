@@ -147,6 +147,43 @@ public class ListUsersController {
     }
 
     @FXML
+    void navigateToCredits(ActionEvent event) {
+        try {
+            String pathTo = "";
+            String titleTo = "";
+            if(connectedUser.getRoles().equals("Client") || connectedUser.getRoles().equals("Employé(e)")) {
+                pathTo = "/ListCredit.fxml";
+                titleTo = "Siyahi Bank | Gestion des Credits";
+            } else{
+                pathTo = "/ListTypeCredit.fxml";
+                titleTo = "Siyahi Bank | Gestion des Types de Credits";
+            }
+            Parent ajouterUserParent = FXMLLoader.load(getClass().getResource(pathTo));
+            Scene ajouterUserScene = new Scene(ajouterUserParent);
+            Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+            window.setScene(ajouterUserScene);
+            window.setTitle(titleTo);
+            window.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    void navigateToConge(ActionEvent event) {
+        try {
+            Parent ajouterUserParent = FXMLLoader.load(getClass().getResource("/ListConge.fxml"));
+            Scene ajouterUserScene = new Scene(ajouterUserParent);
+            Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+            window.setScene(ajouterUserScene);
+            window.setTitle("Siyahi Bank | Gestion des Conges");
+            window.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
     public void Logout(ActionEvent event){
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirmation");

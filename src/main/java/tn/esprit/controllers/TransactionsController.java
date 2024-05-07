@@ -49,6 +49,9 @@ public class TransactionsController {
     private Circle circle;
 
     @FXML
+    private Button congBut;
+
+    @FXML
     private TextField filterField;
 
     @FXML
@@ -82,6 +85,43 @@ public class TransactionsController {
             Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
             window.setScene(ajouterUserScene);
             window.setTitle("Siyahi Bank | Home Page");
+            window.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    void navigateToCredits(ActionEvent event) {
+        try {
+            String pathTo = "";
+            String titleTo = "";
+            if(connectedUser.getRoles().equals("Client") || connectedUser.getRoles().equals("Employé(e)")) {
+                pathTo = "/ListCredit.fxml";
+                titleTo = "Siyahi Bank | Gestion des Credits";
+            } else{
+                pathTo = "/ListTypeCredit.fxml";
+                titleTo = "Siyahi Bank | Gestion des Types de Credits";
+            }
+            Parent ajouterUserParent = FXMLLoader.load(getClass().getResource(pathTo));
+            Scene ajouterUserScene = new Scene(ajouterUserParent);
+            Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+            window.setScene(ajouterUserScene);
+            window.setTitle(titleTo);
+            window.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    void navigateToConge(ActionEvent event) {
+        try {
+            Parent ajouterUserParent = FXMLLoader.load(getClass().getResource("/ListConge.fxml"));
+            Scene ajouterUserScene = new Scene(ajouterUserParent);
+            Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+            window.setScene(ajouterUserScene);
+            window.setTitle("Siyahi Bank | Gestion des Conges");
             window.show();
         } catch (IOException e) {
             e.printStackTrace();
@@ -164,6 +204,12 @@ public class TransactionsController {
 
     @FXML
     void initialize() {
+        if(connectedUser.getRoles().equals("Employé(e)")){
+            congBut.setOpacity(1);
+        }else if(connectedUser.getRoles().equals("Client")){
+            congBut.setOpacity(0);
+        }
+
         TableTrans.setPlaceholder(new Label("Vous n'avez aucune transaction à afficher."));
         //Filling up the TableView
         numCol.setCellValueFactory(new PropertyValueFactory<>("id"));

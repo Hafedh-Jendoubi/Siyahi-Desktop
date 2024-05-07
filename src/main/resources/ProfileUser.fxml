@@ -23,6 +23,8 @@
                         <Image url="@uploads/logoCo.png" />
                      </image>
                   </ImageView>
+                  <Button layoutX="28.0" layoutY="346.0" mnemonicParsing="false" onAction="#navigateToCredits" prefHeight="30.0" prefWidth="300.0" text="Gestion Credit" />
+                  <Button fx:id="congBut" layoutX="27.0" layoutY="401.0" mnemonicParsing="false" onAction="#navigateToConge" prefHeight="30.0" prefWidth="300.0" text="Gestion Conge" />
                </children>
             </AnchorPane>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #E4E4E4;">

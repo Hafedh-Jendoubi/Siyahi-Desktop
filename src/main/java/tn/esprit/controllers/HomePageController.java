@@ -10,6 +10,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.*;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
@@ -39,6 +40,9 @@ public class HomePageController {
 
     @FXML
     private BorderPane borderPane1;
+
+    @FXML
+    private Button congBut;
 
 
     @FXML
@@ -93,6 +97,43 @@ public class HomePageController {
     }
 
     @FXML
+    void navigateToCredits(ActionEvent event) {
+        try {
+            String pathTo = "";
+            String titleTo = "";
+            if(connectedUser.getRoles().equals("Client") || connectedUser.getRoles().equals("Employé(e)")) {
+                pathTo = "/ListCredit.fxml";
+                titleTo = "Siyahi Bank | Gestion des Credits";
+            } else{
+                pathTo = "/ListTypeCredit.fxml";
+                titleTo = "Siyahi Bank | Gestion des Types de Credits";
+            }
+            Parent ajouterUserParent = FXMLLoader.load(getClass().getResource(pathTo));
+            Scene ajouterUserScene = new Scene(ajouterUserParent);
+            Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+            window.setScene(ajouterUserScene);
+            window.setTitle(titleTo);
+            window.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    void navigateToConge(ActionEvent event) {
+        try {
+            Parent ajouterUserParent = FXMLLoader.load(getClass().getResource("/ListConge.fxml"));
+            Scene ajouterUserScene = new Scene(ajouterUserParent);
+            Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+            window.setScene(ajouterUserScene);
+            window.setTitle("Siyahi Bank | Gestion des Conges");
+            window.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
     void Logout(ActionEvent event){
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirmation");
@@ -140,6 +181,12 @@ public class HomePageController {
 
     @FXML
     void initialize() {
+        if(connectedUser.getRoles().equals("Employé(e)")){
+            congBut.setOpacity(1);
+        }else if(connectedUser.getRoles().equals("Client")){
+            congBut.setOpacity(0);
+        }
+
         try {
             String imageName = connectedUser.getImage();
             String imagePath = "/uploads/user/" + imageName;

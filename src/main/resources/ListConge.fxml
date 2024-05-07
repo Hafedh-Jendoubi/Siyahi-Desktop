@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.Separator?>
@@ -8,7 +9,6 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.paint.LinearGradient?>
 <?import javafx.scene.paint.Stop?>
@@ -16,7 +16,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.controllers.HomePageController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.controllers.listCongeController">
    <children>
       <SplitPane dividerPositions="0.27503852080123264" prefHeight="600.0" prefWidth="1300.0">
          <items>
@@ -28,11 +28,11 @@
                         <Image url="@uploads/logoCo.png" />
                      </image>
                   </ImageView>
-                  <Button layoutX="28.0" layoutY="340.0" mnemonicParsing="false" onAction="#navigateToCredits" prefHeight="30.0" prefWidth="300.0" text="Gestion Credits" />
-                  <Button layoutX="27.0" layoutY="388.0" mnemonicParsing="false" onAction="#navigateToConge" prefHeight="30.0" prefWidth="300.0" text="Gestion Conge" />
+                  <Button layoutX="28.0" layoutY="342.0" mnemonicParsing="false" onAction="#navigateToCredits" prefHeight="30.0" prefWidth="300.0" text="Gestion Credits" />
+                  <Button layoutX="27.0" layoutY="392.0" mnemonicParsing="false" onAction="#navigateToConge" prefHeight="30.0" prefWidth="300.0" text="Gestion Conge" />
                </children>
             </AnchorPane>
-            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="600.0" prefWidth="800.0" style="-fx-border-radius: 50%; -fx-border-color: transparent; -fx-border-width: 10px;">
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="600.0" prefWidth="800.0" style="-fx-border-radius: 50%; -fx-border-color: transparent; -fx-border-width: 10px;" stylesheets="@listconge.css">
                <children>
                   <Text layoutX="35.0" layoutY="55.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bienvenu à Siyahi Banque" textAlignment="CENTER" AnchorPane.leftAnchor="35.0" AnchorPane.topAnchor="35.0">
                      <font>
@@ -56,14 +56,24 @@
                      </fill>
                   </Text>
                   <MenuButton layoutX="830.0" layoutY="40.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0">
-                    <items>
-                      <MenuItem mnemonicParsing="false" onAction="#Profile" text="Profile" />
-                      <MenuItem fx:id="menuItem" mnemonicParsing="false" onAction="#Logout" text="Déconnexion" />
-                    </items>
+                     <items>
+                        <MenuItem mnemonicParsing="false" onAction="#Profile" text="Profile" />
+                        <MenuItem fx:id="menuItem" mnemonicParsing="false" onAction="#Logout" text="Déconnexion" />
+                     </items>
                   </MenuButton>
                   <Circle fx:id="circle" disable="true" fill="DODGERBLUE" layoutX="850.0" layoutY="60.0" radius="32.0" stroke="BLACK" strokeType="INSIDE" />
-                  <BorderPane fx:id="borderPane" layoutX="39.0" layoutY="118.0" prefHeight="400.0" prefWidth="400.0" />
-                  <BorderPane fx:id="borderPane1" layoutX="482.0" layoutY="118.0" prefHeight="400.0" prefWidth="400.0" />
+                  <ListView fx:id="listViewConge" layoutX="242.0" layoutY="199.0" prefHeight="247.0" prefWidth="454.0" />
+                  <Button fx:id="delBut" layoutX="566.0" layoutY="478.0" mnemonicParsing="false" onAction="#supprimerConge" prefHeight="36.0" prefWidth="80.0" text="supprimer" />
+                  <Button fx:id="addBut" layoutX="292.0" layoutY="478.0" mnemonicParsing="false" onAction="#ajoutConge" prefHeight="36.0" prefWidth="87.0" text="Ajouter" />
+                  <Button fx:id="btnModifier" layoutX="496.0" layoutY="478.0" mnemonicParsing="false" onAction="#modifierConge" prefHeight="36.0" prefWidth="80.0" styleClass="button2" text="Traiter" />
+                  <Text fill="#403737" layoutX="67.0" layoutY="136.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Liste des congés">
+                     <font>
+                        <Font name="Berlin Sans FB Bold" size="23.0" />
+                     </font>
+                  </Text>
+                  <Button fx:id="updBut" layoutX="435.0" layoutY="478.0" mnemonicParsing="false" onAction="#edit" prefHeight="36.0" prefWidth="80.0" text="Modifier" />
+                  <Button fx:id="calendrier" layoutX="365.0" layoutY="478.0" mnemonicParsing="false" onAction="#calendrier" prefHeight="36.0" prefWidth="80.0" text="Calendrier" />
+                  <Button fx:id="checkBut" layoutX="727.0" layoutY="305.0" mnemonicParsing="false" onAction="#voirListLimitation" prefHeight="36.0" prefWidth="80.0" text="Limitation" />
                </children>
             </AnchorPane>
          </items>
