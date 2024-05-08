@@ -91,7 +91,7 @@ public class ListCredit {
             Scene ajoutSecene = new Scene(ajout);
             Stage window = new Stage();
             window.setScene(ajoutSecene);
-            window.setHeight(400); window.setMaxHeight(400); window.setMinHeight(400);
+            window.setHeight(750); window.setMaxHeight(750); window.setMinHeight(750);
             window.setWidth(606); window.setMaxWidth(600); window.setMinWidth(600);
             window.setTitle("Siyahi Bank | Ajouter un credit");
             window.show();
@@ -153,7 +153,7 @@ public class ListCredit {
             Scene ajoutReponseScene = new Scene(ajoutReponse);
             Stage window = new Stage();
             window.setScene(ajoutReponseScene);
-            window.setHeight(400); window.setMaxHeight(400); window.setMinHeight(400);
+            window.setHeight(600); window.setMaxHeight(600); window.setMinHeight(600);
             window.setWidth(606); window.setMaxWidth(600); window.setMinWidth(600);
             window.setTitle("Siyahi Bank | Ajouter une réponse à un crédit");
             window.show();
@@ -201,7 +201,7 @@ public class ListCredit {
             Scene editScene = new Scene(edit);
             Stage window = new Stage();
             window.setScene(editScene);
-            window.setHeight(400); window.setMaxHeight(400); window.setMinHeight(400);
+            window.setHeight(750); window.setMaxHeight(750); window.setMinHeight(750);
             window.setWidth(606); window.setMaxWidth(600); window.setMinWidth(600);
             window.setTitle("Siyahi Bank | Modifier un credit");
             window.show();

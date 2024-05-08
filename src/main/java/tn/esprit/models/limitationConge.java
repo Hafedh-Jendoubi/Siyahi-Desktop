@@ -16,6 +16,14 @@ public class limitationConge  {
         this.nbr_jours = nbr_jours;
     }
 
+    public limitationConge(int annee, String mois, int nbr_jours, int user_id) {
+        this.annee = annee;
+        this.mois = mois;
+        this.nbr_jours = nbr_jours;
+        this.user_id = user_id;
+    }
+
+
     public int getUser_id() {
         return user_id;
     }

@@ -23,7 +23,7 @@ public class CongeService implements ConService<Conge> {
 
     @Override
     public void add(Conge conge) {
-        String req = "INSERT INTO conge ( Description, Date_Debut, Date_Fin,Type_conge,justification,status) VALUES (?, ?, ?, ?,?,?)";
+        String req = "INSERT INTO conge ( Description, Date_Debut, Date_Fin,Type_conge,justification,status, user_id) VALUES (?, ?, ?, ?,?,?, ?)";
 
 // Assuming you have a PreparedStatement object named 'ps' and a Conge object named 'conge'
 
@@ -38,7 +38,7 @@ public class CongeService implements ConService<Conge> {
             ps.setString(4, conge.getType_conge());
             ps.setString(5, conge.getJustification());
             ps.setBoolean(6, conge.isStatus());
-
+            ps.setInt(7, conge.getUser_id());
 
 
 

@@ -14,7 +14,7 @@ public class limitationcongeService implements ConService<limitationConge> {
     private List<limitationConge> limit_conges;
     @Override
     public void add(limitationConge limitationconge) {
-        String req = "INSERT INTO limitation_Conge ( annee, mois, nbr_jours) VALUES (?, ?, ?)";
+        String req = "INSERT INTO limitation_Conge ( annee, mois, nbr_jours, user_id) VALUES (?, ?, ?, ?)";
 
 // Assuming you have a PreparedStatement object named 'ps' and a Conge object named 'conge'
 
@@ -23,7 +23,7 @@ public class limitationcongeService implements ConService<limitationConge> {
             ps.setInt(1,limitationconge .getAnnee());
             ps.setString(2,limitationconge.getMois());
             ps.setInt(3, limitationconge.getNbr_jours());
-
+            ps.setInt(4, limitationconge.getUser_id());
 
 
 
@@ -147,6 +147,26 @@ public class limitationcongeService implements ConService<limitationConge> {
         }
 
         return LimitationConges;
+    }
+
+    public int getDaysLeft(int id, int annee, String mois){
+        String req = "SELECT SUM(nbr_jours) AS total_days FROM limitation_conge WHERE user_id = ? AND annee = ? AND mois = ?";
+        int totalDays = 0;
+        try {
+            PreparedStatement ps = cnx.prepareStatement(req);
+            ps.setInt(1, id);
+            ps.setInt(2, annee);
+            ps.setString(3, mois);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                totalDays = rs.getInt("total_days");
+            }
+            rs.close();
+            ps.close();
+        } catch (SQLException e) {
+            System.out.println("Failed to get: " + e.getMessage());
+        }
+        return 10 - totalDays;
     }
 }
 

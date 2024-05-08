@@ -1,21 +1,14 @@
 package tn.esprit.controllers;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import javafx.event.ActionEvent;
-import javafx.stage.Stage;
-import tn.esprit.models.Conge;
+import javafx.scene.text.Text;
 import tn.esprit.models.limitationConge;
-import tn.esprit.services.CongeService;
 import tn.esprit.services.limitationcongeService;
 import javafx.scene.control.Label;
 
-import java.io.IOException;
-import java.sql.Date;
+import static tn.esprit.services.UserService.connectedUser;
 
 public class AddLimitController {
     @FXML
@@ -24,6 +17,8 @@ public class AddLimitController {
     @FXML
     private TextField nbrTF;
 
+    @FXML
+    private Text jrsRestant;
 
     @FXML
     private ComboBox<String> mois;
@@ -32,6 +27,28 @@ public class AddLimitController {
     private int joursRestants = 10;
     @FXML
     private Label remainingDaysLabel;
+
+    @FXML
+    private Button add;
+
+    @FXML
+    void initialize(){
+        jrsRestant.setText("");
+        nbrTF.setOpacity(0);
+        add.setOpacity(0);
+    }
+
+    @FXML
+    void checkDaysLeft(ActionEvent event) {
+        int daysLeft = cs.getDaysLeft(connectedUser.getId(), Integer.parseInt(annee.getText()), mois.getValue());
+        if(daysLeft > 0) {
+            jrsRestant.setText(String.valueOf(daysLeft) + " jour(s) restant.");
+            nbrTF.setOpacity(1); add.setOpacity(1);
+        }else {
+            jrsRestant.setText("0 jour restant.");
+            nbrTF.setOpacity(0); add.setOpacity(0);
+        }
+    }
 
 
     @FXML
@@ -60,7 +77,7 @@ public class AddLimitController {
                 joursRestants -= joursDemandes;
 
                 // Ajoutez le congé
-                limitationConge conge = new limitationConge(year, mois.getValue(), joursDemandes);
+                limitationConge conge = new limitationConge(year, mois.getValue(), joursDemandes, connectedUser.getId());
                 cs.add(conge);
 
                 // Affichez un message de succès

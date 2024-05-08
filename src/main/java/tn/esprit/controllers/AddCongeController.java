@@ -28,6 +28,8 @@ import java.util.ResourceBundle;
 
 import javafx.scene.control.Alert;
 
+import static tn.esprit.services.UserService.connectedUser;
+
 public class AddCongeController {
     @FXML
     private DatePicker datedebutTF;
@@ -156,7 +158,7 @@ public class AddCongeController {
             }
 
             // Create a Conge object
-            Conge conge = new Conge(description, dateDebut, dateFin, typeConge, relativeImagePath, stat);
+            Conge conge = new Conge(description, dateDebut, dateFin, typeConge, relativeImagePath, stat, connectedUser.getId());
 
             // Call CongeService to add the leave request
             cs.add(conge);
