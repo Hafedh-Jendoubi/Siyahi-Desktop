@@ -1,17 +1,17 @@
 package tn.esprit.controllers;
 
 import javafx.event.ActionEvent;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.control.Alert;
+import javafx.scene.control.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.ListView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.scene.control.ListView;
 import tn.esprit.models.Conge;
@@ -22,6 +22,8 @@ import tn.esprit.services.limitationcongeService;
 import java.io.IOException;
 import java.util.Optional;
 
+import static tn.esprit.services.UserService.connectedUser;
+
 public class listController {
     @FXML
     private ListView<limitationConge> listViewConge;
@@ -30,9 +32,49 @@ public class listController {
 
     @FXML
     public void initialize() {
-        // Récupérer les données de congé et les lier au ListView
-        ObservableList<limitationConge> conges = FXCollections.observableArrayList(congeService.getAll());
-        listViewConge.setItems(conges);
+        if(connectedUser.getRoles().equals("Admin")){
+            ObservableList<limitationConge> conges = FXCollections.observableArrayList(congeService.getLimitationConges(connectedUser.getId())); //Only the logged in user
+            listViewConge.setItems(conges);
+        }else{
+            ObservableList<limitationConge> conges = FXCollections.observableArrayList(congeService.getAll());
+            listViewConge.setItems(conges);
+        }
+
+        listViewConge.setCellFactory(param -> new ListCell<limitationConge>() {
+            @Override
+            protected void updateItem(limitationConge item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                    setGraphic(null);
+                } else {
+                    // Créer les éléments d'interface utilisateur pour afficher les détails de la réponse au crédit
+                    Label anneeLabel = new Label("Année: " + item.getAnnee());
+                    anneeLabel.setStyle("-fx-font-weight: bold; -fx-text-fill: #387296; -fx-font-size: 14;"); // Bleu clair
+
+                    Label moisLabel = new Label("Mois: " + item.getMois() );
+                    moisLabel.setStyle("-fx-font-weight: bold; -fx-text-fill: #387296; -fx-font-size: 14;"); // Bleu clair
+
+                    Label nbrLabel = new Label("Nombre de jours de congé: " + item.getNbr_jours() );
+                    nbrLabel.setStyle("-fx-font-weight: bold; -fx-text-fill: #387296; -fx-font-size: 14;"); // Bleu clair
+
+
+
+                    // Créer un VBox pour contenir les éléments avec un padding et un espacement spécifiques
+                    VBox rootVBox = new VBox(anneeLabel, moisLabel, nbrLabel);
+
+                    rootVBox.setAlignment(Pos.CENTER_LEFT); // Alignement à gauche
+                    rootVBox.setSpacing(5); // Espace vertical entre les éléments
+                    rootVBox.setPadding(new Insets(10)); // Padding autour du VBox
+
+                    // Appliquer un style au VBox pour définir un fond et une bordure
+                    rootVBox.setStyle("-fx-background-color: #f0f0f0; -fx-border-color: #387296; -fx-border-width: 2px;");
+
+                    // Set the layout as the graphic for the ListCell
+                    setGraphic(rootVBox);
+                }
+            }
+        });
     }
     private void showAlert(Alert.AlertType alertType, String title, String header, String content) {
         Alert alert = new Alert(alertType);

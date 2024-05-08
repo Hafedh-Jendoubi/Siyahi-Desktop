@@ -19,9 +19,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.sql.Date;
-import javax.mail.*;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 import java.util.Properties;
 
 
@@ -33,7 +30,7 @@ public class editCongeController {
     @FXML
     private DatePicker datefinTF;
     @FXML
-    private TextField type_congeTF;
+    private ComboBox<String> type_congeTF;
     @FXML
     private ImageView justification;
     @FXML
@@ -81,7 +78,7 @@ public class editCongeController {
         descriptionTF.setText(congé.getDescription());
         datedebutTF.setValue(congé.getDate_Debut().toLocalDate());
         datefinTF.setValue(congé.getDate_Fin().toLocalDate());
-        type_congeTF.setText(congé.getType_conge());
+        type_congeTF.setValue(congé.getType_conge());
 
 
     }
@@ -95,7 +92,7 @@ public class editCongeController {
         selectedConge.setDate_Fin(Date.valueOf(datefinTF.getValue()));
         selectedConge.setType_conge(imagePath);
 
-        selectedConge.setJustification(type_congeTF.getText());
+        selectedConge.setJustification(type_congeTF.getValue());
         selectedConge.setStatus(statusCB.isSelected());
 
 
@@ -117,18 +114,8 @@ public class editCongeController {
     }
     @FXML
     void retourLV(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ListConge.fxml"));
-            Parent root = loader.load();
-            Scene scene = new Scene(root);
-            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            window.setHeight(515); window.setMaxHeight(515); window.setMinHeight(515);
-            window.setWidth(600); window.setMaxWidth(600); window.setMinWidth(600);
-            window.setScene(scene);
-            window.show();
-        } catch (IOException e) {
-
-        }
+        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+        window.close();
     }
 
     }

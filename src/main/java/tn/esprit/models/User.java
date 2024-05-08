@@ -1,8 +1,6 @@
 package tn.esprit.models;
 
-import java.sql.Time;
 import java.sql.Timestamp;
-import java.util.Date;
 
 public class User {
     //Att
@@ -20,11 +18,23 @@ public class User {
     private String image;
     private String old_email;
     private String activity;
+    private int verified;
 
     //Constructors
     public User(){}
 
-    public User(String email, String roles, String password, String first_name, String last_name, String gender, String address, int phone_number, int cin, String image, String old_email, String activity) {
+    public User(String first_name, String last_name, String gender, String address, int phone_number, int cin, String old_email, String image) {
+        this.first_name = first_name;
+        this.last_name = last_name;
+        this.gender = gender;
+        this.address = address;
+        this.phone_number = phone_number;
+        this.cin = cin;
+        this.old_email = old_email;
+        this.image = image;
+    }
+
+    public User(String email, String roles, String password, String first_name, String last_name, String gender, String address, int phone_number, int cin, String image, String old_email, String activity, int verified) {
         this.email = email;
         this.roles = roles;
         this.password = password;
@@ -37,6 +47,7 @@ public class User {
         this.image = image;
         this.old_email = old_email;
         this.activity = activity;
+        this.verified = verified;
     }
 
     //Getters & Setters
@@ -153,6 +164,10 @@ public class User {
         this.activity = activity;
     }
 
+    public int getVerified() { return verified; }
+
+    public void setVerified(int verified) { this.verified = verified; }
+
     //Display
 
     @Override
@@ -171,7 +186,8 @@ public class User {
                 ", date_creation_c=" + date_creation_c +
                 ", image='" + image + '\'' +
                 ", old_email='" + old_email + '\'' +
-                ", activity=" + activity +
+                ", activity=" + activity + '\'' +
+                ", verified=" + verified +
                 '}';
     }
 }

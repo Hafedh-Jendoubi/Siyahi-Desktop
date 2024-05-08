@@ -1,7 +1,9 @@
 package tn.esprit.services;
 
-import tn.esprit.interfaces.IService;
+import tn.esprit.interfaces.ConService;
 import tn.esprit.models.Conge;
+import tn.esprit.models.Credit;
+import tn.esprit.models.Transaction;
 import tn.esprit.util.MaConnexion;
 
 import java.sql.*;
@@ -11,7 +13,7 @@ import java.util.List;
 import java.sql.Date;
 
 
-public class CongeService implements IService<Conge> {
+public class CongeService implements ConService<Conge> {
 
     //ATT
     Connection cnx = MaConnexion.getInstance().getCnx();
@@ -21,7 +23,7 @@ public class CongeService implements IService<Conge> {
 
     @Override
     public void add(Conge conge) {
-        String req = "INSERT INTO conge ( Description, Date_Debut, Date_Fin,Type_conge,justification,status) VALUES (?, ?, ?, ?,?,?)";
+        String req = "INSERT INTO conge ( Description, Date_Debut, Date_Fin,Type_conge,justification,status, user_id) VALUES (?, ?, ?, ?,?,?, ?)";
 
 // Assuming you have a PreparedStatement object named 'ps' and a Conge object named 'conge'
 
@@ -36,6 +38,7 @@ public class CongeService implements IService<Conge> {
             ps.setString(4, conge.getType_conge());
             ps.setString(5, conge.getJustification());
             ps.setBoolean(6, conge.isStatus());
+            ps.setInt(7, conge.getUser_id());
 
 
 
@@ -128,10 +131,9 @@ public class CongeService implements IService<Conge> {
         return conges;
     }
 
-
     @Override
     public Conge getOne(int id) {
-        String req = "SELECT * FROM conge WHERE id = ?";
+        String req = "SELECT * FROM Conge WHERE id = ?";
         Conge conge = null;
         try {
             PreparedStatement st = cnx.prepareStatement(req);
@@ -152,5 +154,25 @@ public class CongeService implements IService<Conge> {
             throw new RuntimeException(e);
         }
         return conge;
+    }
+
+    public List<Conge> getConges(int id) {
+        List<Conge> Conges = new ArrayList<>();
+        String req = "SELECT * FROM `conge` WHERE user_id = ?";
+        try {
+
+            PreparedStatement ps = cnx.prepareStatement(req);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                Conge conge = new Conge(rs.getString(3), rs.getDate(4), rs.getDate(5), rs.getString(8), rs.getString(6), rs.getBoolean(9));
+                conge.setId(rs.getInt(1));
+                Conges.add(conge);
+            }
+        } catch (SQLException ex) {
+            System.out.println("Failed to get Credit: " + ex.getMessage());
+        }
+
+        return Conges;
     }
 }

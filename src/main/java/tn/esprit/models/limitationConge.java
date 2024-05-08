@@ -1,8 +1,9 @@
 package tn.esprit.models;
 
-import tn.esprit.interfaces.IService;
+import tn.esprit.interfaces.ConService;
 
 public class limitationConge  {
+    private int user_id;
     private int id;
     private int annee;
     private String mois;
@@ -13,6 +14,21 @@ public class limitationConge  {
         this.annee = annee;
         this.mois = mois;
         this.nbr_jours = nbr_jours;
+    }
+    public limitationConge(int annee, String mois, int nbr_jours, int user_id) {
+        this.annee = annee;
+        this.mois = mois;
+        this.nbr_jours = nbr_jours;
+        this.user_id = user_id;
+    }
+
+
+    public int getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(int user_id) {
+        this.user_id = user_id;
     }
 
     public int getId() {

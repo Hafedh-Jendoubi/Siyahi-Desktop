@@ -31,6 +31,12 @@ public class modifierCongeController {
     private DatePicker datedebutTF;
     @FXML
     private DatePicker datefinTF;
+    @FXML
+    private Button uploadButton;
+    @FXML
+    private Button confirm;
+    @FXML
+    private Button retour;
 
     @FXML
     private ImageView justification;
@@ -78,7 +84,9 @@ public class modifierCongeController {
         type_conge.setText(bundle.getString("leave_type"));
         description.setText(bundle.getString("description"));
         descriptionTF.setPromptText(bundle.getString("description"));
-
+        uploadButton.setText(bundle.getString("upload_image"));
+        confirm.setText(bundle.getString("confirm"));
+        retour.setText(bundle.getString("return_to_leave_list"));
 
 
     }
@@ -158,16 +166,8 @@ public class modifierCongeController {
     }
     @FXML
     void retourLV(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ListConge.fxml"));
-            Parent root = loader.load();
-            Scene scene = new Scene(root);
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(scene);
-            stage.show();
-        } catch (IOException e) {
-
-        }
+        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+        window.close();
     }
 
 }

@@ -14,10 +14,10 @@
         <URL value="@list.css" /> <!-- Ajoutez cette ligne pour référencer votre fichier CSS -->
     </stylesheets>
     <children>
-        <ListView fx:id="listViewConge" layoutX="57.0" layoutY="76.0" prefHeight="271.0" prefWidth="456.0" />
-        <Button layoutX="528.0" layoutY="93.0" mnemonicParsing="false" onAction="#supprimerConge" prefHeight="36.0" prefWidth="80.0" text="supprimer" />
-        <Button layoutX="528.0" layoutY="241.0" mnemonicParsing="false" onAction="#ajoutConge" prefHeight="36.0" prefWidth="80.0" text="Ajouter" />
-        <Button layoutX="528.0" layoutY="164.0" mnemonicParsing="false" onAction="#edit" prefHeight="36.0" prefWidth="80.0" text="Modifier" />
+        <ListView fx:id="listViewConge" layoutX="64.0" layoutY="56.0" prefHeight="271.0" prefWidth="456.0" />
+        <Button layoutX="361.0" layoutY="340.0" mnemonicParsing="false" onAction="#supprimerConge" prefHeight="36.0" prefWidth="80.0" text="supprimer" />
+        <Button layoutX="107.0" layoutY="340.0" mnemonicParsing="false" onAction="#ajoutConge" prefHeight="36.0" prefWidth="80.0" text="Ajouter" />
+        <Button layoutX="234.0" layoutY="340.0" mnemonicParsing="false" onAction="#edit" prefHeight="36.0" prefWidth="80.0" text="Modifier" />
         <ImageView fitHeight="49.0" fitWidth="87.0" layoutX="24.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
             <image>
                 <Image url="@uploads/logo.png" />

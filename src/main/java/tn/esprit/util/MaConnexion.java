@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 public class MaConnexion {
     //DB
-    final String URL = "jdbc:mysql://localhost:3306/bank";
+    final String URL = "jdbc:mysql://localhost:3306/siyahibank";
     final String USR = "root";
     final String PWD = "";
 
@@ -15,11 +15,9 @@ public class MaConnexion {
     private static MaConnexion instance;
 
     //Constructor
-
     private MaConnexion(){
         try {
             cnx = DriverManager.getConnection(URL, USR, PWD);
-            System.out.println("connection etablie avec succes");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

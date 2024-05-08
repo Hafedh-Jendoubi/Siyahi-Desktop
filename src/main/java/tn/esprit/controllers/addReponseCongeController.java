@@ -78,17 +78,7 @@ public class addReponseCongeController {
     }
     @FXML
     void retourLV(ActionEvent event) {
-        try {
-            Parent retour = FXMLLoader.load(getClass().getResource("/ListReponseConge.fxml"));
-            Scene listSecene = new Scene(retour);
-            Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-            window.setScene(listSecene);
-            window.setHeight(400); window.setMaxHeight(400); window.setMinHeight(400);
-            window.setWidth(606); window.setMaxWidth(600); window.setMinWidth(600);
-            window.setTitle("Siyahi Bank | liste des  reponses congé");
-            window.show();
-        } catch (IOException e) {
-            System.err.println(e.getMessage());
-        }
-        }
+        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+        window.close();
+    }
 }

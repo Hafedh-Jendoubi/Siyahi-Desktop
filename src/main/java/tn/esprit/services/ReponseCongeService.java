@@ -1,6 +1,6 @@
 package tn.esprit.services;
 
-import tn.esprit.interfaces.IService;
+import tn.esprit.interfaces.ConService;
 import tn.esprit.models.Conge;
 import tn.esprit.models.ReponseConge;
 import tn.esprit.util.MaConnexion;
@@ -12,7 +12,7 @@ import java.util.List;
 import java.sql.Date;
 
 
-public class ReponseCongeService implements IService<ReponseConge> {
+public class ReponseCongeService implements ConService<ReponseConge> {
 
     //ATT
     Connection cnx = MaConnexion.getInstance().getCnx();

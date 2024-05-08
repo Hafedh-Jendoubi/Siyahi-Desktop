@@ -6,6 +6,7 @@ import java.time.LocalDate;
 
 public class Conge {
     //Att
+    private int user_id;
     private int id;
     private String Description;
     private  Date Date_Debut;
@@ -31,7 +32,28 @@ public class Conge {
         this.status = status;
 
     }
+    public Conge(String Description, Date Date_Debut, Date Date_Fin, String Type_conge,String Justification ,boolean status, int user_id) {
+
+        this.Description = Description;
+
+        this.Date_Debut = Date_Debut;
+        this.Date_Fin = Date_Fin;
+
+        this.Justification = Justification;
+        this.Type_conge = Type_conge;
+        this.status = status;
+        this.user_id = user_id;
+    }
     //Getters & Setters
+
+
+    public int getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(int user_id) {
+        this.user_id = user_id;
+    }
 
     public int getId() {
         return id;
@@ -111,15 +133,15 @@ public class Conge {
 
     @Override
     public String toString() {
-        return "Conge{" +
-                "id=" + id +
+        return /*"Conge{" +
+                "id=" + id +*/
                 ", Description='" + Description + '\'' +
                 ", Date_Debut=" + Date_Debut +
                 ", Date_Fin=" + Date_Fin +
                 ", status=" + status +
                 ", Date_demande=" + Date_demande +
                 ", Type_conge='" + Type_conge + '\'' +
-                ", Justification='" + Justification + '\'' +
-                '}';
+                ", Justification='" + Justification + '\''
+                /*'}'*/;
     }
 }

@@ -27,6 +27,7 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 import javafx.scene.control.Alert;
+import static tn.esprit.services.UserService.connectedUser;
 
 public class AddCongeController {
     @FXML
@@ -40,6 +41,10 @@ public class AddCongeController {
     private DatePicker datefinTF;
     @FXML
     private Button uploadButton;
+    @FXML
+    private Button confirm;
+    @FXML
+    private Button retour;
 
     @FXML
     private TextField descriptionTF;
@@ -48,6 +53,8 @@ public class AddCongeController {
     @FXML
     private Text type_conge;
     @FXML
+    private Text titre;
+    @FXML
     private Text description;
 
     @FXML
@@ -55,6 +62,7 @@ public class AddCongeController {
     @FXML
     private ImageView justification;
     private ResourceBundle bundle;
+
 
     private final CongeService cs = new CongeService();
     private String imagePath;
@@ -87,7 +95,10 @@ public class AddCongeController {
         description.setText(bundle.getString("description"));
         descriptionTF.setPromptText(bundle.getString("description"));
         uploadButton.setText(bundle.getString("upload_image"));
+        confirm.setText(bundle.getString("confirm"));
+        retour.setText(bundle.getString("return_to_leave_list"));
         status.setText(bundle.getString("status"));
+        titre.setText(bundle.getString("add_leave"));
 
 
     }
@@ -149,6 +160,7 @@ public class AddCongeController {
             String typeConge = type_congeTF.getValue();
             String relativeImagePath = "Images/" + new File(imagePath).getName();
             boolean stat = status.isSelected();
+
             LocalDate today = LocalDate.now();
             if (dateDebut.toLocalDate().isBefore(today)) {
                 showAlert(AlertType.ERROR, "Error", "la date de debut de congé doit être superieur à aujourd'huit.");
@@ -156,7 +168,7 @@ public class AddCongeController {
             }
 
             // Create a Conge object
-            Conge conge = new Conge(description, dateDebut, dateFin, typeConge, relativeImagePath, stat);
+            Conge conge = new Conge(description, dateDebut, dateFin, typeConge, relativeImagePath, stat,connectedUser.getId());
 
             // Call CongeService to add the leave request
             cs.add(conge);
@@ -191,20 +203,8 @@ public class AddCongeController {
     }
     @FXML
     void retourLV(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ListConge.fxml"));
-            Parent root = loader.load();
-            Scene scene = new Scene(root);
-            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-
-            window.setHeight(515); window.setMaxHeight(515); window.setMinHeight(515);
-            window.setWidth(600); window.setMaxWidth(600); window.setMinWidth(600);
-            window.setScene(scene);
-            window.show();
-        } catch (IOException e) {
-            showAlert(Alert.AlertType.ERROR, "Error", e.getMessage());
-        }
+        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+        window.close();
     }
 
 }
