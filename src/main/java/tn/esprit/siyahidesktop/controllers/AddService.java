@@ -37,6 +37,8 @@ public class AddService {
 
     @FXML
     private Button menu_button_add;
+    private Service existingService;
+
 
     Connection cnx = MaConnexion.getInstance().getCnx();
 
@@ -132,7 +134,22 @@ public class AddService {
         }
     }
 
-    public void setExistingService(Service selectedService) {
-        // Optional: Set an existing service to edit
+    public void setExistingService(Service service) {
+        this.existingService = service;
+        updateFormFields();
+    }
+
+    private void updateFormFields() {
+        if (existingService != null) {
+            nom_service.setText(existingService.getNom());
+            desc_service.setText(existingService.getDescription());
+            frais_service.setText(String.valueOf(existingService.getPricing()));
+
+            if (existingService.getExpiration_date() != null) {
+                expiration.setValue(existingService.getExpiration_date());
+            } else {
+                expiration.setValue(null); // Clear the field if no date
+            }
+        }
     }
 }

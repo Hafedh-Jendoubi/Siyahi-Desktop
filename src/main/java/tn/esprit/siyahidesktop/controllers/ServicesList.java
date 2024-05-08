@@ -15,6 +15,11 @@ import tn.esprit.siyahidesktop.services.ServicesService;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.Label;
+import javafx.scene.layout.VBox;
+import javafx.geometry.Pos;
+import javafx.geometry.Insets;
 
 public class ServicesList implements Initializable {
 
@@ -32,6 +37,35 @@ public class ServicesList implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         liste_services.getItems().addAll(serviceService.getAll());
+
+        // Set a custom cell factory to display each service with detailed information
+        liste_services.setCellFactory(param -> new ListCell<Service>() {
+            @Override
+            protected void updateItem(Service item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                    setGraphic(null);
+                } else {
+                    // Create labels for each piece of data you want to display
+                    Label nameLabel = new Label("Name: " + item.getNom());
+                    nameLabel.setStyle("-fx-font-weight: bold; -fx-text-fill: #387296; -fx-font-size: 14;");
+
+                    Label descriptionLabel = new Label("Description: " + item.getDescription());
+                    descriptionLabel.setStyle("-fx-font-weight: bold; -fx-text-fill: #387296; -fx-font-size: 14;");
+
+                    Label statusLabel = new Label("Status: " + (item.isActive() ? "Active" : "Inactive"));
+                    statusLabel.setStyle("-fx-font-weight: bold; -fx-text-fill: #387296; -fx-font-size: 14;");
+
+                    // Create a VBox to hold all labels
+                    VBox vbox = new VBox(10, nameLabel, descriptionLabel, statusLabel);
+                    vbox.setPadding(new Insets(10));
+                    vbox.setStyle("-fx-background-color: #f0f0f0; -fx-border-color: #387296; -fx-border-width: 2px;");
+
+                    setGraphic(vbox);
+                }
+            }
+        });
 
         liste_services.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {

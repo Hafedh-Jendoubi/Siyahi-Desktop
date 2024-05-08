@@ -18,6 +18,11 @@ import tn.esprit.siyahidesktop.services.ServicesService;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.Label;
+import javafx.scene.layout.VBox;
+import javafx.geometry.Pos;
+import javafx.geometry.Insets;
 
 public class AccountsList implements Initializable {
 
@@ -34,8 +39,39 @@ public class AccountsList implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        // Load all accounts from the service and add them to the ListView
         liste_comptes.getItems().addAll(compteservice.getAll());
 
+        // Set a custom cell factory to display each account with detailed information
+        liste_comptes.setCellFactory(param -> new ListCell<Compte>() {
+            @Override
+            protected void updateItem(Compte item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                    setGraphic(null);
+                } else {
+                    // Create labels for each piece of data you want to display
+                    Label nameLabel = new Label("Name: " + item.getUser().getFullName());
+                    nameLabel.setStyle("-fx-font-weight: bold; -fx-text-fill: #387296; -fx-font-size: 14;");
+
+                    Label ribLabel = new Label("RIB: " + item.getRib());
+                    ribLabel.setStyle("-fx-font-weight: bold; -fx-text-fill: #387296; -fx-font-size: 14;");
+
+                    Label soldeLabel = new Label("Balance: " + item.getSolde());
+                    soldeLabel.setStyle("-fx-font-weight: bold; -fx-text-fill: #387296; -fx-font-size: 14;");
+
+                    // Create a VBox to hold all labels
+                    VBox vbox = new VBox(10, nameLabel, ribLabel, soldeLabel);
+                    vbox.setPadding(new Insets(10));
+                    vbox.setStyle("-fx-background-color: #f0f0f0; -fx-border-color: #387296; -fx-border-width: 2px;");
+
+                    setGraphic(vbox);
+                }
+            }
+        });
+
+        // Add a listener to handle clicks or selection changes on the ListView
         liste_comptes.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
                 loadAccountDetails(newValue);
