@@ -4,6 +4,7 @@ import java.sql.Date;
 
 public class ReponseCredit {
     private int id;
+    private int user_id;
     private int nbr_mois_paiement;
     private String description;
     private float solde_a_payer;
@@ -25,13 +26,14 @@ public class ReponseCredit {
         this.setCredit_id(credit_id);
     }
 
-    public ReponseCredit(int nbr_mois_paiement, String description, float solde_a_payer,float auto_financement, Date date_debut_paiement, int credit_id) {
+    public ReponseCredit(int nbr_mois_paiement, String description, float solde_a_payer,float auto_financement, Date date_debut_paiement, int credit_id, int user_id) {
         this.setNbr_mois_paiement(nbr_mois_paiement);
         this.setDescription(description);
         this.setSolde_a_payer(solde_a_payer);
         this.setauto_financement(auto_financement);
         this.setDate_debut_paiement(date_debut_paiement);
         this.setCredit_id(credit_id);
+        this.setUser_id(user_id);
     }
 
     public int getId() {
@@ -103,10 +105,19 @@ public class ReponseCredit {
         this.credit_id = credit_id;
     }
 
+    public int getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(int user_id) {
+        this.user_id = user_id;
+    }
+
     @Override
     public String toString() {
         return "ReponseCredit{" +
                 "id=" + id +
+                "user_id=" + user_id + '\'' +
                 ", nbr_mois_paiement=" + nbr_mois_paiement +
                 ", description='" + description + '\'' +
                 ", solde_a_payer=" + solde_a_payer +"TND" +

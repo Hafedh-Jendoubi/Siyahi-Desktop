@@ -14,7 +14,7 @@ public class ReponseCreditService {
         if (reponseCredit.getNbr_mois_paiement() <= 0) {
             throw new IllegalArgumentException("Le nombre de mois de paiement doit être supérieur à zéro.");
         }
-        String req = "INSERT INTO `reponse_credit`(`nbr_mois_paiement`, `description`, `solde_a_payer`, `auto_financement`, `date_debut_paiement`, `credit_id`) VALUES (?, ?, ?, ?, ?, ?)";
+        String req = "INSERT INTO `reponse_credit`(`nbr_mois_paiement`, `description`, `solde_a_payer`, `auto_financement`, `date_debut_paiement`, `credit_id`, `user_id`) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try {
             PreparedStatement st = cnx.prepareStatement(req);
             st.setInt(1, reponseCredit.getNbr_mois_paiement());
@@ -23,6 +23,7 @@ public class ReponseCreditService {
             st.setFloat(4, reponseCredit.getauto_financement());
             st.setDate(5, new java.sql.Date(reponseCredit.getDate_debut_paiement().getTime()));
             st.setInt(6, reponseCredit.getCredit_id());
+            st.setInt(7, reponseCredit.getUser_id());
             st.executeUpdate();
             System.out.println("Réponse de crédit ajoutée avec succès !");
         } catch (SQLException e) {
@@ -87,6 +88,7 @@ public class ReponseCreditService {
                 reponseCredit.setauto_financement(res.getFloat("auto_financement"));
                 reponseCredit.setDate_debut_paiement(res.getDate("date_debut_paiement"));
                 reponseCredit.setCredit_id(res.getInt("credit_id"));
+                reponseCredit.setUser_id(res.getInt("user_id"));
                 reponseCredits.add(reponseCredit);
             }
         } catch (SQLException e) {
@@ -112,6 +114,7 @@ public class ReponseCreditService {
                 reponseCredit.setauto_financement(res.getFloat("auto_financement"));
                 reponseCredit.setDate_debut_paiement(res.getDate("date_debut_paiement"));
                 reponseCredit.setCredit_id(res.getInt("credit_id"));
+                reponseCredit.setUser_id(res.getInt("user_id"));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);

@@ -1,5 +1,6 @@
 package tn.esprit.services;
 
+import tn.esprit.interfaces.CRService;
 import tn.esprit.models.TypeCredit;
 import tn.esprit.interfaces.IService;
 import tn.esprit.util.MaConnexion;
@@ -8,7 +9,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TypeCreditService implements IService<TypeCredit> {
+public class TypeCreditService implements CRService<TypeCredit> {
     //attributes
     Connection cnx = MaConnexion.getInstance().getCnx();
 

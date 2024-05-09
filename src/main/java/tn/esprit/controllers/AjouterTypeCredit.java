@@ -40,16 +40,8 @@ public class AjouterTypeCredit {
 
     @FXML
     void RetourTLV(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ListTypeCredit.fxml"));
-            Parent root = loader.load();
-            Scene scene = new Scene(root);
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(scene);
-            stage.show();
-        } catch (IOException e) {
-            showAlert(Alert.AlertType.ERROR, "Error", e.getMessage());
-        }
+        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+        window.close();
     }
 
     private void showAlert(Alert.AlertType alertType, String title, String content) {

@@ -10,6 +10,7 @@ public class Credit {
     private float solde_demande;
     private Date date_debut_paiement;
     private int type_credit_id; // Nouvelle propriété pour la jointure avec TypeCredit
+    private int user_id;
     private String nom_type_credit; // Nouvelle propriété pour le nom du type de crédit
 
     public Credit() {}
@@ -102,6 +103,14 @@ public class Credit {
         this.type_credit_id = type_credit_id;
     }
 
+    public int getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(int user_id) {
+        this.user_id = user_id;
+    }
+
     public String getType_credit_nom() {
         return nom_type_credit;
     }
@@ -113,8 +122,9 @@ public class Credit {
     @Override
     public String toString() {
         return "Credit{" +
-                "id=" + id +
-                ", nbr_mois_paiement=" + nbr_mois_paiement +
+                "id=" + id + '\'' +
+                "User_id=" + user_id + '\'' +
+                ", nbr_mois_paiement=" + nbr_mois_paiement + '\'' +
                 ", description='" + description + '\'' +
                 ", contrat='" + contrat + '\'' +
                 ", solde_demande=" + solde_demande +"TND" +

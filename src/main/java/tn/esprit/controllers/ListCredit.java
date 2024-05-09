@@ -5,13 +5,18 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.ListView;
+import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
+import tn.esprit.models.Conge;
 import tn.esprit.models.Credit;
 import tn.esprit.services.CreditService;
 import tn.esprit.services.ReponseCreditService;
@@ -20,18 +25,114 @@ import tn.esprit.services.ReponseCreditService;
 import java.io.IOException;
 import java.util.Optional;
 
+import static tn.esprit.controllers.ProfileController.profileCheck;
+import static tn.esprit.services.UserService.connectedUser;
+
 public class ListCredit {
+    @FXML
+    private Button traiter;
+
+    @FXML
+    private Button update;
+
+    @FXML
+    private Button add;
+
+    @FXML
+    private Circle circle;
+
+    @FXML
+    private Button delete;
 
     @FXML
     private ListView<Credit> ListCreditLV;
 
+    @FXML
+    private Button congBut;
+
     private CreditService CreditService = new CreditService();
+
+    @FXML
+    private MenuItem menuItem;
 
 
     @FXML
     public void initialize() {
-        ObservableList<Credit> credits = FXCollections.observableArrayList(CreditService.getAll());
-        ListCreditLV.setItems(credits);
+        if (connectedUser.getRoles().equals("Employé(e)")) {
+            congBut.setOpacity(1);
+        } else if (connectedUser.getRoles().equals("Client")) {
+            congBut.setOpacity(0);
+        }
+
+        if (connectedUser.getRoles().equals("Client")) {
+            add.setOpacity(1);
+            delete.setOpacity(1);
+            update.setOpacity(1);
+            traiter.setOpacity(0);
+
+            ObservableList<Credit> credits = FXCollections.observableArrayList(CreditService.getCredits(connectedUser.getId()));
+            ListCreditLV.setItems(credits);
+        } else {
+            add.setOpacity(0);
+            delete.setOpacity(0);
+            update.setOpacity(0);
+            traiter.setOpacity(1);
+
+            ObservableList<Credit> credits = FXCollections.observableArrayList(CreditService.getAll());
+            ListCreditLV.setItems(credits);
+        }
+
+        ListCreditLV.setCellFactory(param -> new ListCell<Credit>() {
+            @Override
+            protected void updateItem(Credit item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                    setGraphic(null);
+                } else {
+                    String connectedUserEmail = connectedUser.getEmail();
+                    String userEmail = CreditService.getEmailById(item.getUser_id());
+
+                    // Afficher l'e-mail de l'utilisateur
+                    Label userEmailLabel = new Label("User Email: " + userEmail);
+                    userEmailLabel.setStyle("-fx-font-weight: bold; -fx-text-fill: #387296; -fx-font-size: 14;");
+
+                    Label typeLabel = new Label("Type: " + item.getType_credit_nom());
+                    typeLabel.setStyle("-fx-font-weight: bold; -fx-text-fill: #387296; -fx-font-size: 14;"); // Bleu clair
+
+                    Label soldeLabel = new Label("Solde demande: " + item.getSolde_demande() + " TND");
+                    soldeLabel.setStyle("-fx-font-weight: bold; -fx-text-fill: #387296; -fx-font-size: 14;"); // Bleu clair
+
+                    Label datePaiementLabel = new Label("Date de paiement: " + item.getDate_debut_paiement() +
+                            " sur " + item.getNbr_mois_paiement() + " mois");
+                    datePaiementLabel.setStyle("-fx-font-weight: bold; -fx-text-fill: #387296; -fx-font-size: 14;"); // Bleu clair
+
+                    Label descriptionLabel = new Label("Description: " + item.getDescription());
+                    descriptionLabel.setStyle("-fx-font-weight: bold; -fx-text-fill: #387296; -fx-font-size: 14;"); // Bleu clair
+
+                    // Créer un VBox pour contenir les éléments avec un padding et un espacement spécifiques
+                    VBox rootVBox = new VBox(userEmailLabel, typeLabel, soldeLabel, datePaiementLabel, descriptionLabel);
+                    rootVBox.setAlignment(Pos.CENTER_LEFT); // Alignement à gauche
+                    rootVBox.setSpacing(5); // Espace vertical entre les éléments
+                    rootVBox.setPadding(new Insets(10)); // Padding autour du VBox
+
+                    // Appliquer un style au VBox pour définir un fond et une bordure
+                    rootVBox.setStyle("-fx-background-color: #f0f0f0; -fx-border-color: #387296; -fx-border-width: 2px;");
+
+                    // Set the layout as the graphic for the ListCell
+                    setGraphic(rootVBox);
+                }
+            }
+        });
+
+        try {
+            String imageName = connectedUser.getImage();
+            String imagePath = "/uploads/user/" + imageName;
+            Image image = new Image(getClass().getResource(imagePath).toExternalForm());
+            circle.setFill(new ImagePattern(image));
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
     }
 
     @FXML
@@ -39,9 +140,9 @@ public class ListCredit {
         try {
             Parent ajout = FXMLLoader.load(getClass().getResource("/AjouterCredit.fxml"));
             Scene ajoutSecene = new Scene(ajout);
-            Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+            Stage window = new Stage();
             window.setScene(ajoutSecene);
-            window.setHeight(400); window.setMaxHeight(400); window.setMinHeight(400);
+            window.setHeight(750); window.setMaxHeight(750); window.setMinHeight(750);
             window.setWidth(606); window.setMaxWidth(600); window.setMinWidth(600);
             window.setTitle("Siyahi Bank | Ajouter un credit");
             window.show();
@@ -101,9 +202,9 @@ public class ListCredit {
             ajouterReponseCredit.ReferenceCredit.getSelectionModel().select(selectedCredit);
 
             Scene ajoutReponseScene = new Scene(ajoutReponse);
-            Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+            Stage window = new Stage();
             window.setScene(ajoutReponseScene);
-            window.setHeight(400); window.setMaxHeight(400); window.setMinHeight(400);
+            window.setHeight(600); window.setMaxHeight(600); window.setMinHeight(600);
             window.setWidth(606); window.setMaxWidth(600); window.setMinWidth(600);
             window.setTitle("Siyahi Bank | Ajouter une réponse à un crédit");
             window.show();
@@ -149,9 +250,9 @@ public class ListCredit {
             ModifierCredit.initData(selectedCredit);
 
             Scene editScene = new Scene(edit);
-            Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+            Stage window = new Stage();
             window.setScene(editScene);
-            window.setHeight(400); window.setMaxHeight(400); window.setMinHeight(400);
+            window.setHeight(750); window.setMaxHeight(750); window.setMinHeight(750);
             window.setWidth(606); window.setMaxWidth(600); window.setMinWidth(600);
             window.setTitle("Siyahi Bank | Modifier un credit");
             window.show();
@@ -165,5 +266,108 @@ public class ListCredit {
         alert.setHeaderText(header);
         alert.setContentText(content);
         alert.showAndWait();
+    }
+
+
+    @FXML
+    void navigateToCredits(ActionEvent event) {
+
+    }
+
+    @FXML
+    void Logout(ActionEvent event){
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmation");
+        alert.setHeaderText("Voulez-vous vraiment déconnecter?");
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            Stage window_toClose = (Stage) menuItem.getParentPopup().getOwnerWindow();
+            window_toClose.close();
+            Parent users_section = null;
+            try {
+                users_section = FXMLLoader.load(getClass().getResource("/UserAuth.fxml"));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            Scene users_sectionSecene = new Scene(users_section);
+            Stage window = new Stage();
+            window.setScene(users_sectionSecene);
+            window.setHeight(400); window.setMaxHeight(400); window.setMinHeight(400);
+            window.setWidth(600); window.setMaxWidth(600); window.setMinWidth(600);
+            window.setTitle("Siyahi Bank | Connexion");
+            window.show();
+        } else {
+            alert.close();
+        }
+    }
+
+    @FXML
+    void Profile(ActionEvent event) {
+        Parent parent = null;
+        try {
+            profileCheck = 1;
+            if(connectedUser.getRoles().equals("Client") || connectedUser.getRoles().equals("Employé(e)"))
+                parent = FXMLLoader.load(getClass().getResource("/ProfileUser.fxml"));
+            else
+                parent = FXMLLoader.load(getClass().getResource("/ProfileAdmin.fxml"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        Scene scene = new Scene(parent);
+        Stage window = (Stage) menuItem.getParentPopup().getOwnerWindow();
+        window.setScene(scene);
+        window.setTitle("Siyahi Bank | Profil d'utitlisateur");
+        window.show();
+    }
+
+    @FXML
+    void navigateToTransactions(ActionEvent event) {
+        try {
+            Parent ajouterUserParent = FXMLLoader.load(getClass().getResource("/Transactions.fxml"));
+            Scene ajouterUserScene = new Scene(ajouterUserParent);
+            Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+            window.setScene(ajouterUserScene);
+            window.setTitle("Siyahi Bank | Gestion des Transactions");
+            window.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    void navigateToHomePage(ActionEvent event) {
+        try {
+            String pathTo = "";
+            String titleTo = "";
+            if(connectedUser.getRoles().equals("Client") || connectedUser.getRoles().equals("Employé(e)")) {
+                pathTo = "/UserHomePage.fxml";
+                titleTo = "Siyahi Bank | HomePage";
+            } else{
+                pathTo = "/AdminHomePage.fxml";
+                titleTo = "Siyahi Bank | Dashboard";
+            }
+            Parent ajouterUserParent = FXMLLoader.load(getClass().getResource(pathTo));
+            Scene ajouterUserScene = new Scene(ajouterUserParent);
+            Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+            window.setScene(ajouterUserScene);
+            window.setTitle(titleTo);
+            window.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    void navigateToConge(ActionEvent event) {
+        try {
+            Parent ajouterUserParent = FXMLLoader.load(getClass().getResource("/ListConge.fxml"));
+            Scene ajouterUserScene = new Scene(ajouterUserParent);
+            Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+            window.setScene(ajouterUserScene);
+            window.setTitle("Siyahi Bank | Gestion des Conges");
+            window.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
