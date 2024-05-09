@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
 <?import java.net.URL?>
+<?import javafx.collections.FXCollections?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
@@ -16,9 +19,19 @@
         <URL value="@listconge.css" />
     </stylesheets>
     <children>
+        <ComboBox fx:id="type_congeTF" layoutX="52.0" layoutY="172.0" prefWidth="200" promptText="type de conge">
+            <items>
+                <FXCollections fx:factory="observableArrayList">
+                    <String fx:value="Maladie" />
+                    <String fx:value="Vacances" />
+                    <String fx:value="Mariage" />
+                    <!-- Ajoutez d'autres types de congé ici si nécessaire -->
+                </FXCollections>
+            </items>
+        </ComboBox>
         <DatePicker fx:id="datedebutTF" layoutX="52.0" layoutY="66.0" promptText="Date_Debut" />
         <DatePicker fx:id="datefinTF" layoutX="52.0" layoutY="115.0" promptText="Date_Fin" />
-        <TextField fx:id="type_congeTF" layoutX="52.0" layoutY="169.0" promptText="TypeConge" />
+
 
         <Button layoutX="185.0" layoutY="362.0" mnemonicParsing="false" onAction="#modifierC" prefHeight="25.0" prefWidth="103.0" text="Modifier" AnchorPane.leftAnchor="185.0" />
         <CheckBox fx:id="statusCB" layoutX="53.0" layoutY="344.0" text="Status" />

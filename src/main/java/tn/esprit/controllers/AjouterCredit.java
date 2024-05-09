@@ -106,8 +106,10 @@ public class AjouterCredit {
     @FXML
     void AjouterC(ActionEvent event) {
         try {
-            String relativeImagePath = "Images/" + new File(imagePath).getName();
-            // Retrieve selected type credit from the ComboBox
+            // Supprimez la validation de l'image ici
+            String relativeImagePath = imagePath != null ? "Images/" + new File(imagePath).getName() : null;
+
+            // Reste du code pour récupérer et ajouter le crédit
             TypeCredit selectedTypeCredit = TypeCreditCB.getSelectionModel().getSelectedItem();
             if (selectedTypeCredit == null) {
                 showAlert(Alert.AlertType.ERROR, "Error", "Please select a credit type.");
@@ -118,10 +120,10 @@ public class AjouterCredit {
             credit.setUser_id(connectedUser.getId());
             credit.setNbr_mois_paiement(Integer.parseInt(NbrTF.getText()));
             credit.setDescription(DescriptionTF.getText());
-            credit.setContrat(relativeImagePath);
+            credit.setContrat(relativeImagePath); // Utilisez le chemin relatif seulement si imagePath n'est pas null
             credit.setSolde_demande(Float.parseFloat(SoldeTF.getText()));
             credit.setDate_debut_paiement(Date.valueOf(DateTF.getValue()));
-            credit.setType_credit_id(selectedTypeCredit.getId()); // Set the selected type credit ID
+            credit.setType_credit_id(selectedTypeCredit.getId());
 
             creditService.Add(credit);
             showAlert(Alert.AlertType.INFORMATION, "Success", "Credit added successfully.");
@@ -130,6 +132,7 @@ public class AjouterCredit {
             showAlert(Alert.AlertType.ERROR, "Error", e.getMessage());
         }
     }
+
 
     @FXML
     void RetourLV(ActionEvent event) {

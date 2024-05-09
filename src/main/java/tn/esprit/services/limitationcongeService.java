@@ -37,32 +37,32 @@ public class limitationcongeService implements ConService<limitationConge> {
             e.printStackTrace();
             // Handle exceptions appropriately
         }}
-        @Override
-        public void update(limitationConge limitationconge) {
+    @Override
+    public void update(limitationConge limitationconge) {
 
-            String req = "UPDATE limitation_conge SET  annee = ?, mois = ?, nbr_jours = ?  WHERE id = ?";
+        String req = "UPDATE limitation_conge SET  annee = ?, mois = ?, nbr_jours = ?  WHERE id = ?";
 
-            try {
-                PreparedStatement ps = cnx.prepareStatement(req);
+        try {
+            PreparedStatement ps = cnx.prepareStatement(req);
 
-                ps.setInt(1, limitationconge.getAnnee());
-                ps.setString(2, limitationconge.getMois());
-                ps.setInt(3,  limitationconge.getNbr_jours());
-                ps.setInt(4, limitationconge.getId());
+            ps.setInt(1, limitationconge.getAnnee());
+            ps.setString(2, limitationconge.getMois());
+            ps.setInt(3,  limitationconge.getNbr_jours());
+            ps.setInt(4, limitationconge.getId());
 
 
-                int rowsUpdated = ps.executeUpdate();
-                if (rowsUpdated > 0) {
-                    System.out.println("Conge updated successfully");
-                } else {
-                    System.out.println("No conge found with ID: " + limitationconge.getId());
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-                // Handle exceptions appropriately
+            int rowsUpdated = ps.executeUpdate();
+            if (rowsUpdated > 0) {
+                System.out.println("Conge updated successfully");
+            } else {
+                System.out.println("No conge found with ID: " + limitationconge.getId());
             }
-
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Handle exceptions appropriately
         }
+
+    }
     @Override
     public void delete(limitationConge limitationconge) {
         String req = "DELETE FROM limitation_conge WHERE id = ?";
@@ -117,7 +117,7 @@ public class limitationcongeService implements ConService<limitationConge> {
             st.setInt(1, id);
             ResultSet res = st.executeQuery();
             if (res.next()) {
-                 conge = new limitationConge();
+                conge = new limitationConge();
                 conge.setId(res.getInt("id"));
                 conge.setAnnee(res.getInt("annee"));
                 conge.setMois(res.getString("mois"));
@@ -169,6 +169,3 @@ public class limitationcongeService implements ConService<limitationConge> {
         return 10 - totalDays;
     }
 }
-
-
-

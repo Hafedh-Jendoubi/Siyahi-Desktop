@@ -34,10 +34,10 @@
                 </items>
             </ComboBox>
 
-            <Button layoutX="155.0" layoutY="398.0" mnemonicParsing="false" onAction="#editc" prefHeight="25.0" prefWidth="103.0" text="Modifier" AnchorPane.leftAnchor="155.0" />
+            <Button  fx:id="confirm" layoutX="155.0" layoutY="398.0" mnemonicParsing="false" onAction="#editc" prefHeight="25.0" prefWidth="103.0" text="confirm" AnchorPane.leftAnchor="155.0" />
 
             <TextField fx:id="descriptionTF" layoutX="66.0" layoutY="250.0" promptText="description" />
-            <Button fx:id="uploadButton" layoutX="70.0" layoutY="335.0" mnemonicParsing="false" onAction="#uploadImage" prefHeight="26.0" prefWidth="110.0" text="Upload Justification" />
+            <Button fx:id="uploadButton" layoutX="70.0" layoutY="335.0" mnemonicParsing="false" onAction="#uploadImage" prefHeight="26.0" prefWidth="110.0" text="upload_image" />
             <ImageView fx:id="justification" fitHeight="40.0" fitWidth="110.0" layoutX="75.0" layoutY="291.0" pickOnBounds="true" preserveRatio="true">
                 <image>
 
@@ -50,7 +50,7 @@
             </Text>
 
             <CheckBox fx:id="status" layoutX="42.0" layoutY="534.0" text="Status" />
-            <Button layoutX="302.0" layoutY="398.0" mnemonicParsing="false" onAction="#retourLV" text="Retour à la liste de congé" />
+            <Button  fx:id="retour" layoutX="302.0" layoutY="398.0" mnemonicParsing="false" onAction="#retourLV" text="Retour à la liste de congé" />
             <ImageView fitHeight="86.0" fitWidth="113.0" layoutX="425.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true">
                 <image>
                     <Image url="@uploads/logo.png" />
@@ -58,8 +58,8 @@
             </ImageView>
       <Text fx:id="datedebut" layoutX="70.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="start_date" />
       <Text fx:id="datefin" layoutX="68.0" layoutY="118.0" strokeType="OUTSIDE" strokeWidth="0.0" text="end_date" />
-      <Text layoutX="69.0" layoutY="176.0" strokeType="OUTSIDE" strokeWidth="0.0" text="leave_type" />
-      <Text layoutX="67.0" layoutY="246.0" strokeType="OUTSIDE" strokeWidth="0.0" text="description" />
+      <Text  fx:id="type_conge" layoutX="69.0" layoutY="176.0" strokeType="OUTSIDE" strokeWidth="0.0" text="leave_type" />
+      <Text  fx:id="description" layoutX="67.0" layoutY="246.0" strokeType="OUTSIDE" strokeWidth="0.0" text="description" />
         </children>
 
 </AnchorPane>

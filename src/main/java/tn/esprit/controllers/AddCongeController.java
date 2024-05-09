@@ -27,7 +27,6 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 import javafx.scene.control.Alert;
-
 import static tn.esprit.services.UserService.connectedUser;
 
 public class AddCongeController {
@@ -42,6 +41,10 @@ public class AddCongeController {
     private DatePicker datefinTF;
     @FXML
     private Button uploadButton;
+    @FXML
+    private Button confirm;
+    @FXML
+    private Button retour;
 
     @FXML
     private TextField descriptionTF;
@@ -50,6 +53,8 @@ public class AddCongeController {
     @FXML
     private Text type_conge;
     @FXML
+    private Text titre;
+    @FXML
     private Text description;
 
     @FXML
@@ -57,6 +62,7 @@ public class AddCongeController {
     @FXML
     private ImageView justification;
     private ResourceBundle bundle;
+
 
     private final CongeService cs = new CongeService();
     private String imagePath;
@@ -89,7 +95,10 @@ public class AddCongeController {
         description.setText(bundle.getString("description"));
         descriptionTF.setPromptText(bundle.getString("description"));
         uploadButton.setText(bundle.getString("upload_image"));
+        confirm.setText(bundle.getString("confirm"));
+        retour.setText(bundle.getString("return_to_leave_list"));
         status.setText(bundle.getString("status"));
+        titre.setText(bundle.getString("add_leave"));
 
 
     }
@@ -151,6 +160,7 @@ public class AddCongeController {
             String typeConge = type_congeTF.getValue();
             String relativeImagePath = "Images/" + new File(imagePath).getName();
             boolean stat = status.isSelected();
+
             LocalDate today = LocalDate.now();
             if (dateDebut.toLocalDate().isBefore(today)) {
                 showAlert(AlertType.ERROR, "Error", "la date de debut de congé doit être superieur à aujourd'huit.");
@@ -158,7 +168,7 @@ public class AddCongeController {
             }
 
             // Create a Conge object
-            Conge conge = new Conge(description, dateDebut, dateFin, typeConge, relativeImagePath, stat, connectedUser.getId());
+            Conge conge = new Conge(description, dateDebut, dateFin, typeConge, relativeImagePath, stat,connectedUser.getId());
 
             // Call CongeService to add the leave request
             cs.add(conge);

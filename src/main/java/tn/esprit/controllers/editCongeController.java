@@ -30,7 +30,7 @@ public class editCongeController {
     @FXML
     private DatePicker datefinTF;
     @FXML
-    private TextField type_congeTF;
+    private ComboBox<String> type_congeTF;
     @FXML
     private ImageView justification;
     @FXML
@@ -78,7 +78,7 @@ public class editCongeController {
         descriptionTF.setText(congé.getDescription());
         datedebutTF.setValue(congé.getDate_Debut().toLocalDate());
         datefinTF.setValue(congé.getDate_Fin().toLocalDate());
-        type_congeTF.setText(congé.getType_conge());
+        type_congeTF.setValue(congé.getType_conge());
 
 
     }
@@ -92,7 +92,7 @@ public class editCongeController {
         selectedConge.setDate_Fin(Date.valueOf(datefinTF.getValue()));
         selectedConge.setType_conge(imagePath);
 
-        selectedConge.setJustification(type_congeTF.getText());
+        selectedConge.setJustification(type_congeTF.getValue());
         selectedConge.setStatus(statusCB.isSelected());
 
 

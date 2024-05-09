@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.URL?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
@@ -8,16 +9,26 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
 <AnchorPane prefHeight="600.0" prefWidth="600.0" stylesheets="@listconge.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.controllers.AjouterReponseCredit">
+   <stylesheets>
+      <URL value="@listconge.css" />
+   </stylesheets>
    <children>
+   <Text fx:id="titre" fill="#403737" layoutX="207.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ajouter reponse_credit">
+      <font>
+         <Font name="Berlin Sans FB Bold" size="23.0" />
+      </font>
+   </Text>
       <ComboBox fx:id="ReferenceCredit" layoutX="58.0" layoutY="238.0" prefHeight="27.0" prefWidth="163.0" promptText="Sélectionner un crédit" />
       <TextField fx:id="SoldeàpTF" layoutX="363.0" layoutY="238.0" promptText="Solde à payer" />
       <TextField fx:id="autoFinancementTF" layoutX="57.0" layoutY="329.0" promptText="Auto-financement" />
       <TextField fx:id="nbrconfirmTF" layoutX="363.0" layoutY="329.0" promptText="Nbr de mois de paiement" />
       <DatePicker fx:id="DateConfirm" layoutX="361.0" layoutY="427.0" promptText="Date debut paiement" />
-      <Button layoutX="208.0" layoutY="495.0" mnemonicParsing="false" onAction="#AjouterRC" prefHeight="26.0" prefWidth="78.0" text="Ajouter" />
-      <Button layoutX="312.0" layoutY="495.0" mnemonicParsing="false" onAction="#RetourReponseLV" prefHeight="27.0" prefWidth="116.0" text="Voir chat"/>
+      <Button layoutX="182.0" layoutY="495.0" mnemonicParsing="false" onAction="#AjouterRC" prefHeight="26.0" prefWidth="78.0" text="Ajouter" />
+      <Button layoutX="300.0" layoutY="495.0" mnemonicParsing="false" onAction="#RetourReponseLV" prefHeight="27.0" prefWidth="163.0" text="Voir les reponse aux credits" />
       <Label layoutX="58.0" layoutY="207.0" text="Sélectionner un crédit:" />
       <Label layoutX="363.0" layoutY="207.0" text="Solde à payer:" />
       <Label layoutX="362.0" layoutY="399.0" text="Date debut de paiement:" />

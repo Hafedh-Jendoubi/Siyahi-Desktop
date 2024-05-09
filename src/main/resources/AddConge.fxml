@@ -40,15 +40,15 @@
       <Text fx:id="description" layoutX="70.0" layoutY="260.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label" text="description" />
       <TextField fx:id="descriptionTF" layoutX="70.0" layoutY="280.0" prefWidth="200" promptText="description" />
       <CheckBox fx:id="status" layoutX="65.0" layoutY="539.0" text="status" />
-      <Button layoutX="70.0" layoutY="446.0" mnemonicParsing="false" onAction="#ajouterC" prefWidth="100" styleClass="button" text="confirm" />
-      <Button layoutX="195.0" layoutY="446.0" mnemonicParsing="false" onAction="#retourLV" prefWidth="150" styleClass="button" text="return_to_leave_list" />
+      <Button  fx:id="confirm" layoutX="70.0" layoutY="446.0" mnemonicParsing="false" onAction="#ajouterC" prefWidth="100" styleClass="button" text="confirm" />
+      <Button  fx:id="retour" layoutX="195.0" layoutY="446.0" mnemonicParsing="false" onAction="#retourLV" prefWidth="150" styleClass="button" text="return_to_leave_list" />
       <Button fx:id="uploadButton" layoutX="74.0" layoutY="400.0" mnemonicParsing="false" onAction="#uploadImage" prefHeight="19.0" prefWidth="91.0" styleClass="button" text="upload_image" />
       <ImageView fx:id="justification" fitHeight="73.0" fitWidth="129.0" layoutX="74.0" layoutY="318.0" pickOnBounds="true" preserveRatio="true">
          <image>
 
          </image>
       </ImageView>
-      <Text fill="#403737" layoutX="207.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="add_leave">
+      <Text fx:id="titre" fill="#403737" layoutX="207.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="add_leave">
          <font>
             <Font name="Berlin Sans FB Bold" size="23.0" />
          </font>

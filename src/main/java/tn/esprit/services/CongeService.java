@@ -4,6 +4,7 @@ import tn.esprit.interfaces.ConService;
 import tn.esprit.models.Conge;
 import tn.esprit.models.Credit;
 import tn.esprit.models.Transaction;
+import tn.esprit.models.User;
 import tn.esprit.util.MaConnexion;
 
 import java.sql.*;
@@ -39,6 +40,7 @@ public class CongeService implements ConService<Conge> {
             ps.setString(5, conge.getJustification());
             ps.setBoolean(6, conge.isStatus());
             ps.setInt(7, conge.getUser_id());
+
 
 
 
@@ -120,6 +122,7 @@ public class CongeService implements ConService<Conge> {
                 conge.setType_conge(res.getString("Type_conge"));
                 conge.setStatus(res.getBoolean("status"));
                 conge.setJustification(res.getString("Justification"));
+                conge.setUser_id(res.getInt("user_id"));
 
                 conges.add(conge);
             }
@@ -157,21 +160,36 @@ public class CongeService implements ConService<Conge> {
 
     public List<Conge> getConges(int id) {
         List<Conge> Conges = new ArrayList<>();
-        String req = "SELECT * FROM `conge` WHERE user_id = ?";
+        String req = "SELECT * FROM `conge` c   JOIN User tc ON c.user_id = tc.id WHERE c.user_id = ?";
         try {
 
             PreparedStatement ps = cnx.prepareStatement(req);
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
-                Conge conge = new Conge(rs.getString(3), rs.getDate(4), rs.getDate(5), rs.getString(8), rs.getString(6), rs.getBoolean(9));
+                Conge conge = new Conge(rs.getString(3), rs.getDate(4), rs.getDate(5), rs.getString(8), rs.getString(6), rs.getBoolean(9),rs.getInt(2));
                 conge.setId(rs.getInt(1));
                 Conges.add(conge);
             }
         } catch (SQLException ex) {
-            System.out.println("Failed to get Credit: " + ex.getMessage());
+            System.out.println("Failed to get Conge: " + ex.getMessage());
         }
 
         return Conges;
+    }
+    public String getEmailById(int userId) {
+        String userEmail = null;
+        String req = "SELECT email FROM User WHERE id = ?";
+        try {
+            PreparedStatement ps = cnx.prepareStatement(req);
+            ps.setInt(1, userId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                userEmail = rs.getString("email");
+            }
+        } catch (SQLException ex) {
+            System.out.println("Failed to get user email by ID: " + ex.getMessage());
+        }
+        return userEmail;
     }
 }

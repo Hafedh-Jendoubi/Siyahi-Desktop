@@ -10,6 +10,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import tn.esprit.models.User;
 
@@ -55,9 +56,26 @@ public class ProfileController {
     @FXML
     private Button congBut;
 
+    @FXML
+    private Rectangle reclamPicture;
+
     public static int profileCheck;
 
     public static User user;
+
+    @FXML
+    void navigateToReclamations(ActionEvent event) {
+        try {
+            Parent ajouterUserParent = FXMLLoader.load(getClass().getResource("/Home.fxml"));
+            Scene ajouterUserScene = new Scene(ajouterUserParent);
+            Stage window = new Stage();
+            window.setScene(ajouterUserScene);
+            window.setTitle("Siyahi Bank | Gestion des Conges");
+            window.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     @FXML
     public void navigateToHomePage(ActionEvent event) {
@@ -187,6 +205,9 @@ public class ProfileController {
         String imagePath = "/uploads/user/" + imageName;
         Image image = new Image((Objects.requireNonNull(getClass().getResource(imagePath))).toExternalForm());
         big_circle.setFill(new ImagePattern(image));
+        String image1Path = "/Images/danger.png";
+        Image image1 = new Image(getClass().getResource(image1Path).toExternalForm());
+        reclamPicture.setFill(new ImagePattern(image1));
     }
 
     @FXML

@@ -15,6 +15,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import tn.esprit.models.Transaction;
 import tn.esprit.models.User;
@@ -53,6 +54,9 @@ public class TransactionsController {
 
     @FXML
     private TextField filterField;
+
+    @FXML
+    private Rectangle reclamPicture;
 
     @FXML
     private MenuItem menuItem;
@@ -225,8 +229,11 @@ public class TransactionsController {
         try {
             String imageName = connectedUser.getImage();
             String imagePath = "/uploads/user/" + imageName;
+            String image1Path = "/Images/danger.png";
             Image image = new Image(getClass().getResource(imagePath).toExternalForm());
+            Image image1 = new Image(getClass().getResource(image1Path).toExternalForm());
             circle.setFill(new ImagePattern(image));
+            reclamPicture.setFill(new ImagePattern(image1));
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
@@ -255,5 +262,34 @@ public class TransactionsController {
         SortedList<Transaction> sortedData = new SortedList<>(filteredData);
         sortedData.comparatorProperty().bind(TableTrans.comparatorProperty());
         TableTrans.setItems(sortedData);
+    }
+
+    @FXML
+    void navigateToAccount(ActionEvent event) {
+        Parent parent = null;
+        try {
+            parent = FXMLLoader.load(getClass().getResource("/tn/esprit/siyahidesktop/ShowAccountDetailsFront.fxml"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        Scene scene = new Scene(parent);
+        Stage window = (Stage) menuItem.getParentPopup().getOwnerWindow();
+        window.setScene(scene);
+        window.setTitle("Siyahi Bank | Profil d'utitlisateur");
+        window.show();
+    }
+
+    @FXML
+    void navigateToReclamations(ActionEvent event) {
+        try {
+            Parent ajouterUserParent = FXMLLoader.load(getClass().getResource("/Home.fxml"));
+            Scene ajouterUserScene = new Scene(ajouterUserParent);
+            Stage window = new Stage();
+            window.setScene(ajouterUserScene);
+            window.setTitle("Siyahi Bank | Gestion des Conges");
+            window.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

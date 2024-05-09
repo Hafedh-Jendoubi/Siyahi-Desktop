@@ -40,5 +40,6 @@
          <Insets right="9.0" />
       </padding>
    </HBox>
+   <Button layoutX="41.0" layoutY="24.0" mnemonicParsing="false" onAction="#retourLV" text="Retour" />
 
 </AnchorPane>

@@ -13,6 +13,7 @@
 <?import javafx.scene.paint.LinearGradient?>
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
@@ -28,8 +29,12 @@
                         <Image url="@uploads/logoCo.png" />
                      </image>
                   </ImageView>
-                  <Button layoutX="28.0" layoutY="342.0" mnemonicParsing="false" onAction="#navigateToCredits" prefHeight="30.0" prefWidth="300.0" text="Gestion Credits" />
-                  <Button layoutX="27.0" layoutY="392.0" mnemonicParsing="false" onAction="#navigateToConge" prefHeight="30.0" prefWidth="300.0" text="Gestion Conge" />
+                  <Button layoutX="39.0" layoutY="388.0" mnemonicParsing="false" onAction="#navigateToCredits" prefHeight="30.0" prefWidth="300.0" text="Gestion Credits" />
+                  <Button layoutX="38.0" layoutY="436.0" mnemonicParsing="false" onAction="#navigateToConge" prefHeight="30.0" prefWidth="300.0" text="Gestion Conge" />
+                  <Button fx:id="achBut" layoutX="38.0" layoutY="481.0" mnemonicParsing="false" onAction="#navigateToAchat" prefHeight="30.0" prefWidth="300.0" text="Gestion Achat" />
+                  <Button layoutX="33.0" layoutY="529.0" mnemonicParsing="false" onAction="#navigateToReclamations" prefHeight="25.0" prefWidth="33.0" />
+                  <Rectangle fx:id="reclamPicture" arcHeight="5.0" arcWidth="5.0" disable="true" fill="DODGERBLUE" height="50.0" layoutX="24.0" layoutY="516.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
+                  <Button fx:id="cmpBut" layoutX="39.0" layoutY="345.0" mnemonicParsing="false" onAction="#navigateToHamroun" prefHeight="30.0" prefWidth="300.0" text="Gestion Comptes &amp; Services" />
                </children>
             </AnchorPane>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="600.0" prefWidth="800.0" style="-fx-border-radius: 50%; -fx-border-color: transparent; -fx-border-width: 10px;" stylesheets="@listconge.css">
@@ -58,6 +63,7 @@
                   <MenuButton layoutX="830.0" layoutY="40.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0">
                      <items>
                         <MenuItem mnemonicParsing="false" onAction="#Profile" text="Profile" />
+                        <MenuItem mnemonicParsing="false" onAction="#navigateToAccount" text="Compte" />
                         <MenuItem fx:id="menuItem" mnemonicParsing="false" onAction="#Logout" text="Déconnexion" />
                      </items>
                   </MenuButton>
@@ -78,7 +84,7 @@
             </AnchorPane>
          </items>
       </SplitPane>
-      <Button fx:id="ToHomePage" layoutX="30.0" layoutY="240.0" mnemonicParsing="false" onAction="#navigateToHomePage" prefHeight="30.0" prefWidth="300.0" text="Acceuil" />
-      <Button fx:id="ToUserSectionButton" layoutX="30.0" layoutY="290.0" mnemonicParsing="false" onAction="#navigateToUserSection" prefHeight="30.0" prefWidth="300.0" text="Gestion Utilisateurs" />
+      <Button fx:id="ToHomePage" layoutX="40.0" layoutY="250.0" mnemonicParsing="false" onAction="#navigateToHomePage" prefHeight="30.0" prefWidth="300.0" text="Acceuil" />
+      <Button fx:id="ToUserSectionButton" layoutX="40.0" layoutY="300.0" mnemonicParsing="false" onAction="#navigateToUserSection" prefHeight="30.0" prefWidth="300.0" text="Gestion Utilisateurs" />
    </children>
 </AnchorPane>

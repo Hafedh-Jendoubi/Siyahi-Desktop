@@ -9,8 +9,19 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
+<?import java.net.URL?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.Font?>
 <AnchorPane prefHeight="752.0" prefWidth="600.0" stylesheets="@listconge.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.controllers.AjouterCredit">
+   <stylesheets>
+      <URL value="@listconge.css" />
+   </stylesheets>
    <children>
+   <Text fx:id="titre" fill="#403737" layoutX="207.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ajouter credit">
+      <font>
+         <Font name="Berlin Sans FB Bold" size="23.0" />
+      </font>
+   </Text>
       <ComboBox fx:id="TypeCreditCB" layoutX="58.0" layoutY="238.0" prefHeight="27.0" prefWidth="207.0" promptText="Sélectionner un type de crédit" />
       <TextField fx:id="SoldeTF" layoutX="363.0" layoutY="238.0" promptText="Solde demandé" />
       <TextField fx:id="DescriptionTF" layoutX="60.0" layoutY="428.0" promptText="Description" />

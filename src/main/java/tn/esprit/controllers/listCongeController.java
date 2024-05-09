@@ -17,6 +17,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import tn.esprit.models.Conge;
 import tn.esprit.models.Credit;
@@ -52,31 +53,79 @@ public class listCongeController {
 
     @FXML
     private Button calendrier;
+
+    @FXML
+    private Button achBut;
+
+    @FXML
+    private Button cmpBut;
+
+    @FXML
+    private Rectangle reclamPicture;
     @FXML
     private Button btnSupprimer;
 
     @FXML
     private MenuItem menuItem;
     private CongeService congeService = new CongeService(); // Changez CongeService avec votre service réel
+
+    @FXML
+    void navigateToAccount(ActionEvent event) {
+        Parent parent = null;
+        try {
+            parent = FXMLLoader.load(getClass().getResource("/tn/esprit/siyahidesktop/ShowAccountDetailsFront.fxml"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        Scene scene = new Scene(parent);
+        Stage window = (Stage) menuItem.getParentPopup().getOwnerWindow();
+        window.setScene(scene);
+        window.setTitle("Siyahi Bank | Profil d'utitlisateur");
+        window.show();
+    }
+
+    @FXML
+    void navigateToReclamations(ActionEvent event) {
+        try {
+            Parent ajouterUserParent = FXMLLoader.load(getClass().getResource("/Home.fxml"));
+            Scene ajouterUserScene = new Scene(ajouterUserParent);
+            Stage window = new Stage();
+            window.setScene(ajouterUserScene);
+            window.setTitle("Siyahi Bank | Gestion des Conges");
+            window.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     @FXML
     public void initialize() {
         try {
             String imageName = connectedUser.getImage();
             String imagePath = "/uploads/user/" + imageName;
+            String image1Path = "/Images/danger.png";
             Image image = new Image(getClass().getResource(imagePath).toExternalForm());
+            Image image1 = new Image(getClass().getResource(image1Path).toExternalForm());
             circle.setFill(new ImagePattern(image));
+            reclamPicture.setFill(new ImagePattern(image1));
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
 
-        if(connectedUser.getRoles().equals("Admin") || connectedUser.getRoles().equals("Employé(e)")){
+        if(connectedUser.getRoles().equals("Admin") || connectedUser.getRoles().equals("Employé(e)") ){
             addBut.setOpacity(1); delBut.setOpacity(1); updBut.setOpacity(1); checkBut.setOpacity(1); calendrier.setOpacity(0); btnModifier.setOpacity(0);
             ObservableList<Conge> conges = FXCollections.observableArrayList(congeService.getConges(connectedUser.getId())); //Only the logged in user
             listViewConge.setItems(conges);
         }else{
-            addBut.setOpacity(0); delBut.setOpacity(0); updBut.setOpacity(0); checkBut.setOpacity(0); calendrier.setOpacity(1); btnModifier.setOpacity(1);
+            addBut.setOpacity(0); delBut.setOpacity(1); updBut.setOpacity(0); checkBut.setOpacity(0); calendrier.setOpacity(1); btnModifier.setOpacity(1);
             ObservableList<Conge> conges = FXCollections.observableArrayList(congeService.getAll());
             listViewConge.setItems(conges);
+        }
+
+        if(connectedUser.getRoles().equals("Employé(e)") ){
+            achBut.setOpacity(0); cmpBut.setOpacity(0);
+        }else{
+            achBut.setOpacity(1); cmpBut.setOpacity(1);
         }
 
         listViewConge.setCellFactory(param -> new ListCell<Conge>() {
@@ -87,7 +136,20 @@ public class listCongeController {
                     setText(null);
                     setGraphic(null);
                 } else {
+                    String connectedUserEmail = connectedUser.getEmail();
+                    String userEmail = congeService.getEmailById(item.getUser_id());
+
+                        // Afficher l'e-mail de l'utilisateur
+                        Label userEmailLabel = new Label("User Email: " + userEmail);
+                        userEmailLabel.setStyle("-fx-font-weight: bold; -fx-text-fill: #387296; -fx-font-size: 14;"); // Bleu clair
+
+
+
+
+
                     // Créer les éléments d'interface utilisateur pour afficher les détails de la réponse au crédit
+                    Label userLabel = new Label("User: " + item.getUser_id());
+                    userLabel.setStyle("-fx-font-weight: bold; -fx-text-fill: #387296; -fx-font-size: 14;"); // Bleu clair
                     Label descriptionLabel = new Label("Description: " + item.getDescription());
                     descriptionLabel.setStyle("-fx-font-weight: bold; -fx-text-fill: #387296; -fx-font-size: 14;"); // Bleu clair
 
@@ -104,7 +166,7 @@ public class listCongeController {
                     statusLabel.setStyle("-fx-font-weight: bold; -fx-text-fill: #387296; -fx-font-size: 14;"); // Bleu clair
 
                     // Créer un VBox pour contenir les éléments avec un padding et un espacement spécifiques
-                    VBox rootVBox = new VBox(descriptionLabel, dateDebutLabel, DateFinLabel, TypeLabel, statusLabel);
+                    VBox rootVBox = new VBox(userEmailLabel,userLabel,descriptionLabel, dateDebutLabel, DateFinLabel, TypeLabel, statusLabel);
 
                     rootVBox.setAlignment(Pos.CENTER_LEFT); // Alignement à gauche
                     rootVBox.setSpacing(5); // Espace vertical entre les éléments
@@ -118,8 +180,36 @@ public class listCongeController {
                 }
             }
         });
+
     }
 
+    @FXML
+    void navigateToAchat(ActionEvent event) {
+        try {
+            Parent ajouterUserParent = FXMLLoader.load(getClass().getResource("/demandeAchat.fxml"));
+            Scene ajouterUserScene = new Scene(ajouterUserParent);
+            Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+            window.setScene(ajouterUserScene);
+            window.setTitle("Siyahi Bank | Gestion des Conges");
+            window.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    void navigateToHamroun(ActionEvent event) {
+        try {
+            Parent ajouterUserParent = FXMLLoader.load(getClass().getResource("/tn/esprit/siyahidesktop/MainPage.fxml"));
+            Scene ajouterUserScene = new Scene(ajouterUserParent);
+            Stage window = new Stage();
+            window.setScene(ajouterUserScene);
+            window.setTitle("Siyahi Bank | Gestion des Comptes & Services");
+            window.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     @FXML
     void modifierConge(ActionEvent event) {
         Conge selectedConge = listViewConge.getSelectionModel().getSelectedItem();
@@ -213,9 +303,11 @@ public class listCongeController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/calendrier.fxml"));
             Parent root = loader.load();
             Scene scene = new Scene(root);
-            Stage stage = new Stage();
-            stage.setScene(scene);
-            stage.show();
+            Stage window = new Stage();
+            window.setHeight(700); window.setMaxHeight(700); window.setMinHeight(700);
+            window.setWidth(700); window.setMaxWidth(700); window.setMinWidth(700);
+            window.setScene(scene);
+            window.show();
         } catch (IOException e) {
 
         }
@@ -286,7 +378,7 @@ public class listCongeController {
             Scene ajouterUserScene = new Scene(ajouterUserParent);
             Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
             window.setScene(ajouterUserScene);
-            window.setTitle("Siyahi Bank | Gestion des Conges");
+            window.setTitle("Siyahi Bank | Gestion des Transactions");
             window.show();
         } catch (IOException e) {
             e.printStackTrace();

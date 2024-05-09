@@ -17,8 +17,8 @@
         <URL value="@listconge.css" />
     </stylesheets>
     <children>
-        <TextField fx:id="annee" layoutX="47.0" layoutY="73.0" prefHeight="26.0" prefWidth="104.0" promptText="Année" />
-        <ComboBox fx:id="mois" layoutX="47.0" layoutY="127.0" promptText="mois">
+        <TextField fx:id="annee" layoutX="47.0" layoutY="73.0" prefHeight="27.0" prefWidth="110.0" promptText="Année" />
+        <ComboBox fx:id="mois" layoutX="47.0" layoutY="127.0" prefHeight="27.0" prefWidth="110.0" promptText="mois">
             <items>
                 <FXCollections fx:factory="observableArrayList">
                     <String fx:value="Janvier " />
@@ -37,8 +37,8 @@
                 </FXCollections>
             </items>
         </ComboBox>
-        <TextField fx:id="nbrTF" layoutX="48.0" layoutY="216.0" prefHeight="26.0" prefWidth="103.0" promptText="Nbr de jours " />
-        <Button fx:id="add" layoutX="48.0" layoutY="259.0" mnemonicParsing="false" onAction="#ajouter" prefHeight="25.0" prefWidth="103.0" text="Confirmer" AnchorPane.leftAnchor="48.0" />
+        <TextField fx:id="nbrTF" layoutX="47.0" layoutY="235.0" prefHeight="27.0" prefWidth="110.0" promptText="Nbr de jours " />
+        <Button fx:id="add" layoutX="89.0" layoutY="296.0" mnemonicParsing="false" onAction="#ajouter" prefHeight="25.0" prefWidth="103.0" text="Confirmer" AnchorPane.leftAnchor="89.0" />
 
         <Text fill="#403737" layoutX="207.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ajouter un congé">
             <font>
@@ -50,7 +50,11 @@
                 <Image url="@uploads/logo.png" />
             </image>
         </ImageView>
-      <Button layoutX="47.0" layoutY="173.0" mnemonicParsing="false" onAction="#checkDaysLeft" prefHeight="27.0" prefWidth="94.0" text="Check" />
-      <Text fx:id="jrsRestant" layoutX="166.0" layoutY="191.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+        <Button layoutX="47.0" layoutY="173.0" mnemonicParsing="false" onAction="#checkDaysLeft" prefHeight="27.0" prefWidth="94.0" text="Check" />
+        <Text fx:id="jrsRestant" layoutX="166.0" layoutY="191.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+      <Text layoutX="48.0" layoutY="66.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Année :" />
+      <Text layoutX="48.0" layoutY="118.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mois:" />
+      <Text layoutX="48.0" layoutY="231.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre de jours:" />
+      <Button layoutX="259.0" layoutY="297.0" mnemonicParsing="false" onAction="#RetourLV" prefHeight="27.0" prefWidth="110.0" text="Retour à la liste" />
     </children>
 </AnchorPane>
