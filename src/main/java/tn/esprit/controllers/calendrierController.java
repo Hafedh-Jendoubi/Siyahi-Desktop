@@ -122,6 +122,10 @@ public class calendrierController implements Initializable {
 
                         List<Conge> calendarActivities = calendarActivityMap.get(currentDate);
                         if(calendarActivities != null){
+                            boolean allUnchecked = calendarActivities.stream().allMatch(conge -> !conge.isStatus());
+                            if (allUnchecked) {
+                                rectangle.setFill(Color.RED); // Couleur pour les congés non cochés
+                            }
                             createCalendarActivity(calendarActivities, rectangleHeight, rectangleWidth, stackPane);
                         }
                     }
@@ -153,12 +157,14 @@ public class calendrierController implements Initializable {
                 });
                 break;
             }
-            Text text = new Text(calendarActivities.get(k).getDescription() + ", " + calendarActivities.get(k).getDate_Debut());
+            Conge conge = calendarActivities.get(k);
+            Text text = new Text("Description: " + conge.getDescription() + "\n" );
             calendarActivityBox.getChildren().add(text);
             text.setOnMouseClicked(mouseEvent -> {
                 //On Text clicked
                 System.out.println(text.getText());
             });
+
         }
         calendarActivityBox.setTranslateY((rectangleHeight / 2) * 0.20);
         calendarActivityBox.setMaxWidth(rectangleWidth * 0.8);
@@ -232,6 +238,11 @@ public class calendrierController implements Initializable {
         alert.setContentText(message);
         alert.showAndWait();
 
-}}
+}
+    @FXML
+    void retourLV(ActionEvent event) {
+        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+        window.close();
+    } }
 
 

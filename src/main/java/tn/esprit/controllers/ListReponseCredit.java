@@ -11,7 +11,10 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import tn.esprit.models.Credit;
 import tn.esprit.models.ReponseCredit;
@@ -30,10 +33,22 @@ public class ListReponseCredit {
     @FXML
     private MenuItem menuItem;
 
+    @FXML
+    private Circle circle;
+
     private ReponseCreditService ReponseCreditService = new ReponseCreditService();
 
     @FXML
     public void initialize() {
+        try {
+            String imageName = connectedUser.getImage();
+            String imagePath = "/uploads/user/" + imageName;
+            Image image = new Image(getClass().getResource(imagePath).toExternalForm());
+            circle.setFill(new ImagePattern(image));
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+
         ObservableList<ReponseCredit> credits = FXCollections.observableArrayList(ReponseCreditService.getAll());
         ListReponseCreditLV.setItems(credits);
 
@@ -83,10 +98,8 @@ public class ListReponseCredit {
         try {
             Parent ajoute = FXMLLoader.load(getClass().getResource("/AjouterReponseCredit.fxml"));
             Scene ajouteSecene = new Scene(ajoute);
-            Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+            Stage window = new Stage();
             window.setScene(ajouteSecene);
-            window.setHeight(400); window.setMaxHeight(400); window.setMinHeight(400);
-            window.setWidth(606); window.setMaxWidth(600); window.setMinWidth(600);
             window.setTitle("Siyahi Bank | Ajouter une reponse à un credit");
             window.show();
         } catch (IOException e) {
@@ -110,10 +123,8 @@ public class ListReponseCredit {
             ModifierReponseCredit.initData(selectedReponseCredit);
 
             Scene editScene = new Scene(edit);
-            Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+            Stage window = new Stage();
             window.setScene(editScene);
-            window.setHeight(400); window.setMaxHeight(400); window.setMinHeight(400);
-            window.setWidth(606); window.setMaxWidth(600); window.setMinWidth(600);
             window.setTitle("Siyahi Bank | Modifier une reponse d'un credit");
             window.show();
         } catch (IOException e) {
@@ -146,8 +157,16 @@ public class ListReponseCredit {
 
     @FXML
     void VoirCreditsLV(ActionEvent event) {
-        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-        window.close();
+        try {
+            Parent ajouterUserParent = FXMLLoader.load(getClass().getResource("/ListCredit.fxml"));
+            Scene ajouterUserScene = new Scene(ajouterUserParent);
+            Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+            window.setScene(ajouterUserScene);
+            window.setTitle("Siyahi Bank | Gestion des Creditss");
+            window.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
     private void showAlert(Alert.AlertType alertType, String title, String header, String content) {
         Alert alert = new Alert(alertType);

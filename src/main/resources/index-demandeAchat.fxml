@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<?import javafx.collections.FXCollections?>
+<?import javafx.scene.control.ChoiceBox?>
+
+
+<?import java.lang.Integer?>
+<?import com.sun.org.apache.xpath.internal.operations.String?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.layout.HBox?>
+<AnchorPane prefHeight="600.0" prefWidth="600.0" style="-fx-background-color: #c6f2ff;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.IndexDemandeAchatController">
+    <children>
+        <SplitPane dividerPositions="0.23430493273542602" layoutX="97.0" orientation="VERTICAL" prefHeight="680.0" prefWidth="1118.0">
+            <items>
+                <StackPane prefHeight="300.0" style="-fx-background-color: #f2f2f2;">
+                    <children>
+                        <AnchorPane prefHeight="219.0" prefWidth="894.0" style="-fx-background-color: #c6f2ff; -fx-background-radius: 10px; -fx-border-color: #c0c0c0; -fx-border-width: 1px;">
+                            <padding>
+                                <Insets bottom="10" left="10" right="10" top="10" />
+                            </padding>
+                            <children>
+                                <TableView fx:id="DemandeAchatTable" layoutX="48.0" layoutY="-3.0" prefHeight="167.0" prefWidth="1059.0" style="-fx-background-color: #f2f2f2;" AnchorPane.bottomAnchor="3.0" AnchorPane.leftAnchor="37.0" AnchorPane.rightAnchor="22.0" AnchorPane.topAnchor="-14.0">
+                                    <columns>
+                                        <TableColumn fx:id="idColumn" prefWidth="111.19997787475586" text="ID" />
+                                        <TableColumn fx:id="userIdColumn" prefWidth="111.19997787475586" text="User ID" />
+                                        <TableColumn fx:id="achatIdColumn" prefWidth="111.19997787475586" text="Achat ID" />
+                                        <TableColumn fx:id="nomColumn" prefWidth="111.19997787475586" text="Nom" />
+                                        <TableColumn fx:id="prenomColumn" prefWidth="111.19997787475586" text="Prénom" />
+                                        <TableColumn fx:id="dateDemandeColumn" prefWidth="111.19997787475586" text="Date Demande" />
+                                        <TableColumn fx:id="numTelColumn" prefWidth="111.19997787475586" text="Numéro de Téléphone" />
+                                        <TableColumn fx:id="typePaiementColumn" prefWidth="111.19997787475586" text="Type Paiement" />
+                                        <TableColumn fx:id="cinColumn" prefWidth="111.19997787475586" text="CIN" />
+                                        <TableColumn fx:id="adresseColumn" prefWidth="111.19997787475586" text="Adresse" />
+                                        <TableColumn fx:id="etatDemandeColumn" prefWidth="111.19997787475586" text="Etat Demande" />
+                                    </columns>
+                                </TableView>
+                            </children>
+                        </AnchorPane>
+                    </children>
+                </StackPane>
+                <AnchorPane prefHeight="563.0" prefWidth="1116.0" style="-fx-background-color: #c6f2ff;">
+                    <children>
+                        <Pane layoutX="82.0" layoutY="43.0" prefHeight="473.0" prefWidth="1034.0" style="-fx-background-color: #c6f2ff; -fx-border-radius: 3px;">
+                            <children>
+                                <GridPane fx:id="DemandeAchatDetails" layoutX="28.0" layoutY="66.0" prefHeight="372.0" prefWidth="960.0" style="-fx-background-color: #c6f2ff;">
+                                    <children>
+                                        <Label text="Details:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                                        <Label text="ID" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                                        <Label fx:id="labelId" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                        <Label prefHeight="21.0" prefWidth="131.0" text="User ID" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                                        <Label fx:id="labelUserId" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                        <Label text="Achat ID" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                                        <Label fx:id="labelAchatId" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                        <Label text="Nom" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+                                        <Label fx:id="labelNom" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                        <Label text="Prénom" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+                                        <Label fx:id="labelPrenom" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                                        <Label text="Date Demande" GridPane.columnIndex="0" GridPane.rowIndex="6" />
+                                        <Label fx:id="labelDateDemande" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                                        <Label text="Numéro de Téléphone" GridPane.columnIndex="0" GridPane.rowIndex="7" />
+                                        <Label fx:id="labelNumTel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                                        <Label text="Type Paiement" GridPane.columnIndex="0" GridPane.rowIndex="8" />
+                                        <Label fx:id="labelTypePaiement" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+                                        <Label text="CIN" GridPane.columnIndex="0" GridPane.rowIndex="9" />
+                                        <Label fx:id="labelCIN" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+                                        <Label text="Adresse" GridPane.columnIndex="0" GridPane.rowIndex="10" />
+                                        <Label fx:id="labelAdresse" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="10" />
+                                        <Label text="Etat Demande" GridPane.columnIndex="0" GridPane.rowIndex="11" />
+                                        <Label fx:id="labelEtatDemande" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="11" />
+                                    </children>
+                                    <columnConstraints>
+                                        <ColumnConstraints />
+                                        <ColumnConstraints />
+                                    </columnConstraints>
+                                    <rowConstraints>
+                                        <RowConstraints />
+                                        <RowConstraints />
+                                        <RowConstraints />
+                                        <RowConstraints />
+                                        <RowConstraints />
+                                        <RowConstraints />
+                                        <RowConstraints />
+                                        <RowConstraints />
+                                        <RowConstraints />
+                                        <RowConstraints />
+                                        <RowConstraints />
+                                        <RowConstraints />
+                                    </rowConstraints>
+                                </GridPane>
+                                <ImageView fitHeight="322.0" fitWidth="330.0" layoutX="346.0" layoutY="40.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@LOGOpng.png" />
+                                    </image>
+                                </ImageView>
+                                <VBox alignment="CENTER" spacing="10" xmlns:fx="http://javafx.com/fxml" />
+                                <!-- Bouton pour générer le PDF -->
+                                <!--<Button layoutX="664.0" layoutY="32.0" onAction="#generatePDF" text="Générer PDF" />-->
+                                <!-- Bouton pour créer une demande d'achat -->
+                                <Button layoutX="784.0" layoutY="32.0" mnemonicParsing="false" onAction="#createDemandeAchat" text="Create" />
+                                <!-- Bouton pour mettre à jour une demande d'achat -->
+                                <Button layoutX="869.0" layoutY="32.0" mnemonicParsing="false" onAction="#updateDemandeAchat" text="Update" />
+                                <!-- Bouton pour supprimer une demande d'achat -->
+                                <Button layoutX="954.0" layoutY="32.0" mnemonicParsing="false" onAction="#handleDeleteDemandeAchat" text="Delete" />
+                                <TextField fx:id="searchField" layoutX="95.0" layoutY="2.0" onKeyReleased="#searchDemandeAchat" promptText="Rechercher..." />
+
+                                <HBox spacing="10">
+                                    <Button text="Croissant" onAction="#choisirCroissant" />
+
+                                </HBox>
+
+
+                            </children>
+                        </Pane>
+                    </children>
+                </AnchorPane>
+            </items>
+        </SplitPane>
+
+    </children>
+</AnchorPane>

@@ -30,8 +30,8 @@ public class Conge {
         this.Justification = Justification;
         this.Type_conge = Type_conge;
         this.status = status;
-    }
 
+    }
     public Conge(String Description, Date Date_Debut, Date Date_Fin, String Type_conge,String Justification ,boolean status, int user_id) {
 
         this.Description = Description;

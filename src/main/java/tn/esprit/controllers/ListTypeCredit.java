@@ -12,6 +12,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import tn.esprit.models.TypeCredit;
 import tn.esprit.services.TypeCreditService;
@@ -35,6 +36,9 @@ public class ListTypeCredit {
     @FXML
     private ListView<TypeCredit> ListTypeCreditLV;
 
+    @FXML
+    private Rectangle reclamPicture;
+
     private final TypeCreditService typeCreditService = new TypeCreditService();
 
     @FXML
@@ -42,8 +46,11 @@ public class ListTypeCredit {
         try {
             String imageName = connectedUser.getImage();
             String imagePath = "/uploads/user/" + imageName;
+            String image1Path = "/Images/danger.png";
             Image image = new Image(getClass().getResource(imagePath).toExternalForm());
+            Image image1 = new Image(getClass().getResource(image1Path).toExternalForm());
             circle.setFill(new ImagePattern(image));
+            reclamPicture.setFill(new ImagePattern(image1));
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
@@ -84,6 +91,48 @@ public class ListTypeCredit {
                 }
             }
         });
+    }
+
+    @FXML
+    void navigateToAchat(ActionEvent event) {
+        try {
+            Parent ajouterUserParent = FXMLLoader.load(getClass().getResource("/demandeAchat.fxml"));
+            Scene ajouterUserScene = new Scene(ajouterUserParent);
+            Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+            window.setScene(ajouterUserScene);
+            window.setTitle("Siyahi Bank | Gestion des Conges");
+            window.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    void navigateToHamroun(ActionEvent event) {
+        try {
+            Parent ajouterUserParent = FXMLLoader.load(getClass().getResource("/tn/esprit/siyahidesktop/MainPage.fxml"));
+            Scene ajouterUserScene = new Scene(ajouterUserParent);
+            Stage window = new Stage();
+            window.setScene(ajouterUserScene);
+            window.setTitle("Siyahi Bank | Gestion des Comptes & Services");
+            window.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    void navigateToReclamations(ActionEvent event) {
+        try {
+            Parent ajouterUserParent = FXMLLoader.load(getClass().getResource("/Home.fxml"));
+            Scene ajouterUserScene = new Scene(ajouterUserParent);
+            Stage window = new Stage();
+            window.setScene(ajouterUserScene);
+            window.setTitle("Siyahi Bank | Gestion des Conges");
+            window.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML

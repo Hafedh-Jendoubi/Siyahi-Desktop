@@ -15,6 +15,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import tn.esprit.models.Conge;
 import tn.esprit.models.Credit;
@@ -31,6 +32,9 @@ import static tn.esprit.services.UserService.connectedUser;
 public class ListCredit {
     @FXML
     private Button traiter;
+
+    @FXML
+    private Rectangle reclamPicture;
 
     @FXML
     private Button update;
@@ -128,8 +132,11 @@ public class ListCredit {
         try {
             String imageName = connectedUser.getImage();
             String imagePath = "/uploads/user/" + imageName;
+            String image1Path = "/Images/danger.png";
             Image image = new Image(getClass().getResource(imagePath).toExternalForm());
+            Image image1 = new Image(getClass().getResource(image1Path).toExternalForm());
             circle.setFill(new ImagePattern(image));
+            reclamPicture.setFill(new ImagePattern(image1));
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
@@ -149,6 +156,35 @@ public class ListCredit {
         } catch (IOException e) {
             System.err.println(e.getMessage());
         }
+    }
+
+    @FXML
+    void navigateToReclamations(ActionEvent event) {
+        try {
+            Parent ajouterUserParent = FXMLLoader.load(getClass().getResource("/Home.fxml"));
+            Scene ajouterUserScene = new Scene(ajouterUserParent);
+            Stage window = new Stage();
+            window.setScene(ajouterUserScene);
+            window.setTitle("Siyahi Bank | Gestion des Conges");
+            window.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    void navigateToAccount(ActionEvent event) {
+        Parent parent = null;
+        try {
+            parent = FXMLLoader.load(getClass().getResource("/tn/esprit/siyahidesktop/ShowAccountDetailsFront.fxml"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        Scene scene = new Scene(parent);
+        Stage window = (Stage) menuItem.getParentPopup().getOwnerWindow();
+        window.setScene(scene);
+        window.setTitle("Siyahi Bank | Profil d'utitlisateur");
+        window.show();
     }
 
     @FXML
@@ -196,16 +232,19 @@ public class ListCredit {
             Parent ajoutReponse = loader.load();
 
             AjouterReponseCredit ajouterReponseCredit = loader.getController();
+            ajouterReponseCredit.setPreviousStage((Stage) ((Node) event.getSource()).getScene().getWindow()); // Pass reference to previous stage
             ajouterReponseCredit.initData(selectedCredit.getId());
-
-            // Initialiser la sélection dans le ComboBox "ReferenceCredit" avec le crédit sélectionné
             ajouterReponseCredit.ReferenceCredit.getSelectionModel().select(selectedCredit);
 
             Scene ajoutReponseScene = new Scene(ajoutReponse);
             Stage window = new Stage();
             window.setScene(ajoutReponseScene);
-            window.setHeight(600); window.setMaxHeight(600); window.setMinHeight(600);
-            window.setWidth(606); window.setMaxWidth(600); window.setMinWidth(600);
+            window.setHeight(600);
+            window.setMaxHeight(600);
+            window.setMinHeight(600);
+            window.setWidth(606);
+            window.setMaxWidth(600);
+            window.setMinWidth(600);
             window.setTitle("Siyahi Bank | Ajouter une réponse à un crédit");
             window.show();
         } catch (IOException e) {
