@@ -10,3 +10,4 @@ public interface IService <T>{
     List<T> getAll();
     T getOneByID(int id);
 }
+
