@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.collections.FXCollections?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="tn.esprit.controllers.EditLimitController"
+            prefHeight="400.0" prefWidth="600.0">
+    <children>
+        <TextField fx:id="annee" layoutX="47.0" layoutY="73.0" prefHeight="26.0" prefWidth="104.0" promptText="Année" />
+        <ComboBox fx:id="mois" layoutX="47.0" layoutY="127.0" promptText="mois">
+            <items>
+                <FXCollections fx:factory="observableArrayList">
+                    <String fx:value="Janvier " />
+                    <String fx:value="Février" />
+                    <String fx:value="Mars" />
+                    <String fx:value="Avril " />
+                    <String fx:value="Mai" />
+                    <String fx:value="Juin" />
+                    <String fx:value="Juillet " />
+                    <String fx:value="Aout" />
+                    <String fx:value="Septembre" />
+                    <String fx:value="Octobre " />
+                    <String fx:value="Novembre" />
+                    <String fx:value="Decembre" />
+                    <!-- Ajoutez d'autres types de congé ici si nécessaire -->
+                </FXCollections>
+            </items>
+        </ComboBox>
+
+        <TextField fx:id="nbrTF" layoutX="47.0" layoutY="187.0" prefHeight="26.0" prefWidth="103.0" promptText="Nbr de jours " />
+        <Button layoutX="177.0" layoutY="249.0" mnemonicParsing="false" onAction="#modifier" prefHeight="25.0" prefWidth="103.0" text="Confirmer" AnchorPane.leftAnchor="177.0" />
+
+
+    </children>
+</AnchorPane>

@@ -81,10 +81,10 @@ public class AccountsList implements Initializable {
 
     private void loadAccountDetails(Compte selectedAccount) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/tn/esprit/siyahidesktop/ShowAccountDetailsFront.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/tn/esprit/siyahidesktop/ShowAccount.fxml"));
             Parent root = loader.load();
 
-            ShowAccountDetailsFront showAccountController = loader.getController();
+            ShowAccount showAccountController = loader.getController();
 
             showAccountController.setAccountDetails(selectedAccount);
 

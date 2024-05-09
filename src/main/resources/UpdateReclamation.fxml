@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.controllers.UpdateReclamationController">
+    <Label layoutX="39.0" layoutY="39.0" style="-fx-font-weight: bold;" text="Objet de la réclamation :" />
+    <Label layoutX="39.0" layoutY="90.0" style="-fx-font-weight: bold;" text="Description :" />
+    <Label layoutX="39.0" layoutY="141.0" style="-fx-font-weight: bold;" text="Auteur :" />
+    <Label layoutX="39.0" layoutY="191.0" style="-fx-font-weight: bold;" text="Email :" />
+    <ComboBox fx:id="objectComboBox" layoutX="220.0" layoutY="35.0" prefWidth="200.0" promptText="Sélectionner un objet" />
+    <TextField fx:id="descriptionField" layoutX="220.0" layoutY="86.0" prefWidth="200.0" />
+    <TextField fx:id="auteurField" layoutX="220.0" layoutY="137.0" prefWidth="200.0" />
+    <TextField fx:id="emailField" layoutX="220.0" layoutY="186.0" prefWidth="200.0" />
+    <Button layoutX="242.0" layoutY="275.0" onAction="#updateButtonClicked" text="Update" />
+    <Button layoutX="359.0" layoutY="275.0" mnemonicParsing="false" onAction="#delete" style="-fx-background-color: #f44336; -fx-text-fill: white;" text="Supprimer" />
+   <Label layoutX="39.0" layoutY="239.0" style="-fx-font-weight: bold;" text="Status:" />
+   <Text fx:id="statusField" layoutX="220.0" layoutY="252.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+   <TextField fx:id="idField" layoutX="373.0" layoutY="349.0" prefHeight="25.0" prefWidth="22.0" />
+   <Button layoutX="123.0" layoutY="275.0" onAction="#repondreRec" text="Répondre" />
+
+</AnchorPane>

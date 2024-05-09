@@ -16,6 +16,8 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+import static tn.esprit.services.UserService.connectedUser;
+
 public class ShowAccountDetailsFront {
 
     @FXML
@@ -66,7 +68,7 @@ public class ShowAccountDetailsFront {
         if (compte != null) {
             rib.setText(String.valueOf(compte.getRib()));
             expiration.setText(compte.getExpirationDate().toString());
-            nom.setText(compte.getUser().getFullName());
+            nom.setText(connectedUser.getFirst_name() + " " + connectedUser.getLast_name());
             solde.setText(String.valueOf(compte.getSolde()));
         }
     }
@@ -74,7 +76,7 @@ public class ShowAccountDetailsFront {
     @FXML
     void backToMainPage(MouseEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/tn/esprit/siyahidesktop/MainPage.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/UserHomePage.fxml"));
             Parent root = loader.load();
             Scene scene = new Scene(root);
             Stage stage = (Stage) return_button.getScene().getWindow();

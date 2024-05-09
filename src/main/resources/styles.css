@@ -1,0 +1,34 @@
+.root {
+    -fx-background-color: #2e86ec; /* Couleur d'arrière-plan pour toute l'interface */
+}
+
+/* Style des boutons */
+.button {
+    -fx-background-color: #4CAF50; /* Couleur de base du bouton */
+    -fx-text-fill: white; /* Couleur du texte */
+}
+
+/* Style des boutons lorsqu'ils sont survolés */
+.button:hover {
+    -fx-background-color: #456fa0; /* Nouvelle couleur lorsque survolé */
+}
+    /* Style du texte */
+    .text {
+        -fx-fill: #ffffff; /* Couleur du texte */
+        -fx-font-size: 14px; /* Taille de la police */
+}
+.text2 {
+    -fx-fill: #ffffff; /* Couleur du texte */
+    -fx-font-size: 25px; /* Taille de la police */
+}
+
+.details-box {
+    -fx-background-color: #f0f0f0; /* Couleur de fond */
+    -fx-padding: 10px; /* Espacement intérieur */
+    -fx-spacing: 5px; /* Espacement entre les enfants */
+}
+
+.detail-label {
+    -fx-font-size: 14px; /* Taille de la police */
+    -fx-font-weight: bold; /* Gras */
+}
