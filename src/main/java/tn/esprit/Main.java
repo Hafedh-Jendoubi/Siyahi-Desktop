@@ -1,80 +1,28 @@
 package tn.esprit;
 
-import tn.esprit.models.ObjetReclamation;
-import tn.esprit.models.Reclamation;
-import tn.esprit.models.ReponseReclamation;
-import tn.esprit.services.ReclamationService;
-import tn.esprit.services.ReponseReclamationService;
-import tn.esprit.util.EmailService;
-import tn.esprit.util.MaConnexion;
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
-import java.sql.Timestamp;
-import java.util.Date;
-import java.util.List;
+import java.io.IOException;
 
-
-public class Main {
-    public static void main(String[] args) {
-        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+public class Main extends Application{
+    public static void main(String[] args) {launch();}
 
 
-
-
-        MaConnexion mac =  MaConnexion.getInstance();
-        //********************test add:
-       // ReclamationService rs=new ReclamationService();
-       // ObjetReclamation objetReclamation = new ObjetReclamation("Frais Bancaires Inattendus");
-
-       // Reclamation reclamation = new Reclamation(objetReclamation, "Description de la réclamation", timestamp, "Auteur de la réclamation", "valide@mail.com",true);
-        // rs.add(reclamation);
-
-        //************************test update
-
-        //Reclamation reclamationToUpdate = new Reclamation(50,"aa","bb",new Timestamp(System.currentTimeMillis()),"aut","eml",true);
-
-        //ReclamationService service = new ReclamationService();
-        //service.update(reclamationToUpdate);
-
-        //*********************test delete********************
-
-        /*Reclamation reclamationToDelete = new Reclamation(51, null, null, null, null, null,true);
-        ReclamationService service = new ReclamationService();
-        service.delete(reclamationToDelete);*/
-
-
-        //****test get all*****//
-
-        /*ReclamationService service = new ReclamationService();
-        // Appelez la méthode getAll()
-        List<Reclamation> reclamations = service.getAll();
-        //Parcourez la liste des réclamations et affichez-les ou traitez-les
-        for (Reclamation reclamation : reclamations) {
-            System.out.println(reclamation);
-        }*/
-
-
-        // Créer un objet ReponseReclamationService
-       //ReponseReclamationService service = new ReponseReclamationService();
-
-        // Tester la méthode add()
-       // ReponseReclamation nouvelleReponse = new ReponseReclamation("nn", new Timestamp(System.currentTimeMillis()), "n");
-        //service.add(nouvelleReponse);
-
-        //Créer une instance de EmailService
-        EmailService emailService = new EmailService();
-
-        // Définir les détails de l'e-mail
-        String toEmail = "ashrefaamri@gmail.com";
-        String subject = "Test Email";
-        String body = "<h1>This is a test email</h1>";
-
-        // Appeler la méthode sendEmail pour envoyer l'e-mail
-        emailService.sendEmail(toEmail, subject, body);
-
-
-
-
-
+    @Override
+    public void start(Stage primaryStage) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/UserAuth.fxml"));
+        try{
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            primaryStage.setTitle("Siyahi Bank | Connexion");
+            primaryStage.setScene(scene);
+            primaryStage.show();
+        }catch (IOException e){
+            throw new RuntimeException(e);
+        }
     }
-
-    }
+}

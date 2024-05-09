@@ -1,4 +1,4 @@
-package tn.esprit.Controllers;
+package tn.esprit.controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
@@ -43,5 +43,10 @@ public class EditReclamationController {
             // Appeler le service pour mettre à jour la réclamation
             reclamationService.update(reclamation);
         }
+    }
+
+    public void initData(Reclamation selectedReclamation) {
+
+
     }
 }

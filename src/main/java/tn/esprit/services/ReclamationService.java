@@ -1,6 +1,7 @@
 package tn.esprit.services;
 
-import tn.esprit.interfaces.IService;
+import tn.esprit.interfaces.ReclService;
+import tn.esprit.models.Conge;
 import tn.esprit.models.ObjetReclamation;
 import tn.esprit.models.Reclamation;
 import tn.esprit.util.MaConnexion;
@@ -9,7 +10,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReclamationService implements IService<Reclamation> {
+public class ReclamationService implements ReclService<Reclamation> {
 
     //ATT
     Connection cnx = MaConnexion.getInstance().getCnx();
@@ -35,7 +36,7 @@ public class ReclamationService implements IService<Reclamation> {
 
     @Override
     public void add(Reclamation reclamation) {
-        String req = "INSERT INTO reclamation (Object, Description, Date_Creation, auteur,Email) VALUES (?, ?, ?, ?,?)";
+        String req = "INSERT INTO reclamation (Object, Description, Date_Creation, auteur,Email, user_id) VALUES (?,?, ?, ?, ?,?)";
 
 // Assuming you have a PreparedStatement object named 'ps' and a Reclamation object named 'reclamation'
 
@@ -50,6 +51,7 @@ public class ReclamationService implements IService<Reclamation> {
             ps.setTimestamp(3, reclamation.getDate_creation());
             ps.setString(4, reclamation.getAuteur());
             ps.setString(5, reclamation.getEmail());
+            ps.setInt(6, reclamation.getUser_id());
 
 
             // Execute the statement
@@ -65,7 +67,7 @@ public class ReclamationService implements IService<Reclamation> {
         @Override
     public void update(Reclamation reclamation) {
 
-            String req = "UPDATE reclamation SET Object = ?, Description = ?, Date_Creation = ?, Auteur = ?, Email = ? WHERE id = ?";
+            String req = "UPDATE reclamation SET Object = ?, Description = ?, Auteur = ?, Email = ? WHERE id = ?";
 
             try {
                 PreparedStatement ps = cnx.prepareStatement(req);
@@ -74,10 +76,9 @@ public class ReclamationService implements IService<Reclamation> {
 
                 ps.setString(1, objReclamation.getNom());
                 ps.setString(2, reclamation.getDescription());
-                ps.setTimestamp(3, reclamation.getDate_creation());
-                ps.setString(4, reclamation.getAuteur());
-                ps.setString(5, reclamation.getEmail());
-                ps.setInt(6, reclamation.getId());
+                ps.setString(3, reclamation.getAuteur());
+                ps.setString(4, reclamation.getEmail());
+                ps.setInt(5, reclamation.getId());
 
                 int rowsUpdated = ps.executeUpdate();
                 if (rowsUpdated > 0) {
@@ -164,11 +165,53 @@ public class ReclamationService implements IService<Reclamation> {
 
     @Override
     public Reclamation getOne(int id) {
-        for (Reclamation reclamation : reclamations) {
-            if (reclamation.getId() == id) {
-                return reclamation;
+        Reclamation reclamation = new Reclamation();
+        try {
+            String req = "SELECT * FROM `reclamation` WHERE `id`=?";
+            PreparedStatement ps = cnx.prepareStatement(req);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                reclamation.setId(id);
+                ObjetReclamation or = new ObjetReclamation(rs.getString(2));
+                reclamation.setObject(or);
+                reclamation.setDescription(rs.getString(3));
+                reclamation.setDate_creation(rs.getTimestamp(5));
+                reclamation.setAuteur(rs.getString(6));
+                reclamation.setStatus(rs.getBoolean(7));
+                reclamation.setEmail(rs.getString(8));
             }
+        } catch (SQLException ex) {
+            System.out.println("Failed to get user: " + ex.getMessage());
         }
-        return null;
+
+        return reclamation;
+    }
+
+    public List<Reclamation> getReclamations(int id) {
+        List<Reclamation> Reclamations = new ArrayList<>();
+        String req = "SELECT * FROM `reclamation` WHERE user_id = ?";
+        try {
+
+            PreparedStatement ps = cnx.prepareStatement(req);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                Reclamation reclamation = new Reclamation();
+                reclamation.setId(id);
+                ObjetReclamation or = new ObjetReclamation(rs.getString(2));
+                reclamation.setObject(or);
+                reclamation.setDescription(rs.getString(3));
+                reclamation.setDate_creation(rs.getTimestamp(5));
+                reclamation.setAuteur(rs.getString(6));
+                reclamation.setStatus(rs.getBoolean(7));
+                reclamation.setEmail(rs.getString(8));
+                Reclamations.add(reclamation);
+            }
+        } catch (SQLException ex) {
+            System.out.println("Failed to get Credit: " + ex.getMessage());
+        }
+
+        return Reclamations;
     }
 }

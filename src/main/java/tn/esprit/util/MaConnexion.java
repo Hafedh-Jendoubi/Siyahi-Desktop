@@ -12,14 +12,12 @@ public class MaConnexion {
 
     //Att
     private Connection cnx;
-      private static MaConnexion instance;
+    private static MaConnexion instance;
 
     //Constructor
-    //singleton step1
     private MaConnexion(){
         try {
             cnx = DriverManager.getConnection(URL, USR, PWD);
-            System.out.println("connection etablie avec succes");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

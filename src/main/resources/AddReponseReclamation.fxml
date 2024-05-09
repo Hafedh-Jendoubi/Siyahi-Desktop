@@ -5,19 +5,16 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.Controllers.AddReponseReclamationController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.controllers.AddReponseReclamationController">
     <children>
-        <Label layoutX="39.0" layoutY="39.0" style="-fx-font-weight: bold;" text="Description :" />
-        <Label layoutX="39.0" layoutY="90.0" style="-fx-font-weight: bold;" text="Réclamation ID :" />
-        <Label layoutX="39.0" layoutY="141.0" style="-fx-font-weight: bold;" text="Date de création :" />
-        <Label layoutX="39.0" layoutY="191.0" style="-fx-font-weight: bold;" text="Auteur :" />
+        <Label layoutX="58.0" layoutY="98.0" style="-fx-font-weight: bold;" text="Description :" />
+        <Label layoutX="58.0" layoutY="51.0" style="-fx-font-weight: bold;" text="Auteur :" />
 
-        <TextField fx:id="descriptionField" layoutX="220.0" layoutY="35.0" prefWidth="200.0" />
-        <TextField fx:id="reclamationIdField" layoutX="220.0" layoutY="86.0" prefWidth="200.0" />
-        <TextField fx:id="dateCreationField" layoutX="220.0" layoutY="137.0" prefWidth="200.0" />
-        <TextField fx:id="auteurField" layoutX="220.0" layoutY="188.0" prefWidth="200.0" />
+        <TextField fx:id="descriptionField" layoutX="239.0" layoutY="94.0" prefWidth="200.0" />
+        <TextField fx:id="reclamationIdField" layoutX="529.0" layoutY="239.0" prefHeight="25.0" prefWidth="20.0" />
+        <TextField fx:id="auteurField" layoutX="239.0" layoutY="48.0" prefWidth="200.0" />
 
-        <Button layoutX="331.0" layoutY="299.0" mnemonicParsing="false" onAction="#ajouterReponseReclamation" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" text="Ajouter Réponse Réclamation" />
-        <Button layoutX="248.0" layoutY="299.0" mnemonicParsing="false" onAction="#RetourHome" style="-fx-background-color: #f44336; -fx-text-fill: white;" text="Retour" />
+        <Button layoutX="224.0" layoutY="175.0" mnemonicParsing="false" onAction="#ajouterReponseReclamation" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" text="Ajouter Réponse Réclamation" />
+        <Button layoutX="141.0" layoutY="175.0" mnemonicParsing="false" onAction="#RetourHome" style="-fx-background-color: #f44336; -fx-text-fill: white;" text="Retour" />
     </children>
 </AnchorPane>

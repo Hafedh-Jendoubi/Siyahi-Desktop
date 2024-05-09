@@ -21,3 +21,14 @@
     -fx-fill: #ffffff; /* Couleur du texte */
     -fx-font-size: 25px; /* Taille de la police */
 }
+
+.details-box {
+    -fx-background-color: #f0f0f0; /* Couleur de fond */
+    -fx-padding: 10px; /* Espacement intérieur */
+    -fx-spacing: 5px; /* Espacement entre les enfants */
+}
+
+.detail-label {
+    -fx-font-size: 14px; /* Taille de la police */
+    -fx-font-weight: bold; /* Gras */
+}

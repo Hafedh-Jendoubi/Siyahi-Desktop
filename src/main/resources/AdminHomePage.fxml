@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.controllers.HomePageController">
+   <children>
+      <SplitPane dividerPositions="0.27503852080123264" prefHeight="600.0" prefWidth="1300.0">
+         <items>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+               <children>
+                  <Separator layoutX="1.0" layoutY="213.0" prefHeight="7.0" prefWidth="354.0" />
+                  <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="78.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@uploads/logoCo.png" />
+                     </image>
+                  </ImageView>
+                  <Button layoutX="29.0" layoutY="378.0" mnemonicParsing="false" onAction="#navigateToCredits" prefHeight="30.0" prefWidth="300.0" text="Gestion Credits" />
+                  <Button layoutX="28.0" layoutY="426.0" mnemonicParsing="false" onAction="#navigateToConge" prefHeight="30.0" prefWidth="300.0" text="Gestion Conge" />
+                  <Button layoutX="28.0" layoutY="471.0" mnemonicParsing="false" onAction="#navigateToAchat" prefHeight="30.0" prefWidth="300.0" text="Gestion Achat" />
+                  <Button layoutX="23.0" layoutY="519.0" mnemonicParsing="false" onAction="#navigateToReclamations" prefHeight="25.0" prefWidth="33.0" />
+                  <Rectangle fx:id="reclamPicture" arcHeight="5.0" arcWidth="5.0" disable="true" fill="DODGERBLUE" height="50.0" layoutX="14.0" layoutY="506.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
+                  <Button layoutX="29.0" layoutY="335.0" mnemonicParsing="false" onAction="#navigateToHamroun" prefHeight="30.0" prefWidth="300.0" text="Gestion Comptes &amp; Services" />
+               </children>
+            </AnchorPane>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="600.0" prefWidth="800.0" style="-fx-border-radius: 50%; -fx-border-color: transparent; -fx-border-width: 10px;">
+               <children>
+                  <Text layoutX="35.0" layoutY="55.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bienvenu à Siyahi Banque" textAlignment="CENTER" AnchorPane.leftAnchor="35.0" AnchorPane.topAnchor="35.0">
+                     <font>
+                        <Font name="Courier New Bold" size="27.0" />
+                     </font>
+                     <fill>
+                        <LinearGradient endX="1.0" endY="1.0">
+                           <stops>
+                              <Stop>
+                                 <color>
+                                    <Color red="0.2437865436077118" green="0.35447123646736145" blue="0.9078947305679321" opacity="0.949999988079071" />
+                                 </color>
+                              </Stop>
+                              <Stop offset="1.0">
+                                 <color>
+                                    <Color />
+                                 </color>
+                              </Stop>
+                           </stops>
+                        </LinearGradient>
+                     </fill>
+                  </Text>
+                  <MenuButton layoutX="830.0" layoutY="40.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0">
+                    <items>
+                      <MenuItem mnemonicParsing="false" onAction="#Profile" text="Profile" />
+                      <MenuItem fx:id="menuItem" mnemonicParsing="false" onAction="#Logout" text="Déconnexion" />
+                    </items>
+                  </MenuButton>
+                  <Circle fx:id="circle" disable="true" fill="DODGERBLUE" layoutX="850.0" layoutY="60.0" radius="32.0" stroke="BLACK" strokeType="INSIDE" />
+                  <BorderPane fx:id="borderPane" layoutX="39.0" layoutY="118.0" prefHeight="400.0" prefWidth="400.0" />
+                  <BorderPane fx:id="borderPane1" layoutX="482.0" layoutY="118.0" prefHeight="400.0" prefWidth="400.0" />
+               </children>
+            </AnchorPane>
+         </items>
+      </SplitPane>
+      <Button fx:id="ToHomePage" layoutX="30.0" layoutY="240.0" mnemonicParsing="false" onAction="#navigateToHomePage" prefHeight="30.0" prefWidth="300.0" text="Acceuil" />
+      <Button fx:id="ToUserSectionButton" layoutX="30.0" layoutY="290.0" mnemonicParsing="false" onAction="#navigateToUserSection" prefHeight="30.0" prefWidth="300.0" text="Gestion Utilisateurs" />
+   </children>
+</AnchorPane>

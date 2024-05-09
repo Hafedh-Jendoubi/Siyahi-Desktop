@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html style="height:100%;">
+<head>
+    <title>Simple Map</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        #map {
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+<div id="map"></div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var map = L.map('map').setView([36.898061, 10.180365], 13); // Initializing map with hardcoded coordinates
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        var userIcon = L.icon({
+            iconUrl: 'gps_pin.png', // Ensure these paths are correct
+            iconSize: [50, 50],
+            iconAnchor: [25, 50],
+            popupAnchor: [0, -50]
+        });
+
+        var bankIcon = L.icon({
+            iconUrl: 'bank_icon.png',
+            iconSize: [30, 30],
+            iconAnchor: [15, 30],
+            popupAnchor: [1, -30]
+        });
+
+        var largerBankIcon = L.icon({
+            iconUrl: 'nearestbank.png',
+            iconSize: [45, 45],
+            iconAnchor: [22, 45],
+            popupAnchor: [1, -45]
+        });
+
+        L.marker([36.898061, 10.180365], {icon: userIcon}).addTo(map).bindPopup("<b>Salut!</b><br>Vous etes ici.").openPopup();
+
+        const bankLocations = [
+            { lat: 36.898061, lng: 10.180365, name: "Siyahi Agence Ariana soghra" },
+            { lat: 36.887398, lng: 10.182798, name: "Siyahi Agence Enkhilet" },
+            { lat: 36.877522, lng: 10.178536, name: "Siyahi Agence Riadh El Andalous" },
+            { lat: 36.882337, lng: 10.224673, name: "Siyahi Agence Chotrana"},
+            { lat: 36.865230, lng: 10.200117, name: "Siyahi Agence Borj Louzir"},
+            { lat: 36.863702, lng: 10.214985, name: "Siyahi Agence Soukra"},
+            { lat: 36.853386, lng: 10.204500, name: "Siyahi Agence Charguia"},
+            { lat: 36.858834, lng: 10.195653, name: "Siyahi Agence Ariana 2"},
+            { lat: 36.847124, lng: 10.195599, name: "Siyahi Agence Centre Urbain"},
+            { lat: 36.853313, lng: 10.185326, name: "Siyahi Agence Ariana"},
+            { lat: 36.856935, lng: 10.181768, name: "Siyahi Agence Menzah 8"},
+
+        ];
+
+        let nearestBank = null;
+        let minDist = Infinity;
+
+        bankLocations.forEach(function(bank) {
+            var dist = map.distance([36.898061, 10.180365], [bank.lat, bank.lng]);
+            if (dist < minDist) {
+                minDist = dist;
+                nearestBank = bank;
+            }
+            L.marker([bank.lat, bank.lng], {icon: bankIcon}).addTo(map).bindPopup(bank.name);
+        });
+
+        if (nearestBank) {
+            L.marker([nearestBank.lat, nearestBank.lng], {icon: largerBankIcon}).addTo(map).bindPopup(nearestBank.name).openPopup();
+        }
+    });
+</script>
+</body>
+</html>

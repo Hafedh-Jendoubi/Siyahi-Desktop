@@ -1,11 +1,20 @@
-package tn.esprit.Controllers;
+package tn.esprit.controllers;
+
+
+
+
+
 
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
+import javafx.scene.control.*;
 import org.controlsfx.control.Notifications;
 
 import javafx.collections.FXCollections;
@@ -17,22 +26,17 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DateCell;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
+import tn.esprit.models.User;
 import tn.esprit.services.ReclamationService;
 import tn.esprit.models.Reclamation;
+
+import static tn.esprit.services.UserService.connectedUser;
 
 public class ListReclamationFrontController implements Initializable {
 
@@ -73,14 +77,20 @@ public class ListReclamationFrontController implements Initializable {
     private ComboBox<String> CBObjet;
 
     @FXML
+    private TextField rechRecl;
+
+    @FXML
     private TableView<Reclamation> TBReclamation;
 
     @FXML
     private Button btnModifier;
+
     @FXML
     private TextField TFAuteur;
+
     @FXML
     private TextField TFEmail;
+
     @FXML
     private TextField CBStatus;
 
@@ -92,88 +102,97 @@ public class ListReclamationFrontController implements Initializable {
 
     Reclamation reclamation;
 
+
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        /*PickerDate.setDayCellFactory(picker -> new DateCell() {
-            public void updateItem(LocalDate date, boolean empty) {
-                super.updateItem(date, empty);
-                LocalDate today = LocalDate.now();
+        // Your existing initialization code...
+        updateTable();
 
-                setDisable(empty || date.compareTo(today) < 0);
+        // Set up row selection event handler
+        TBReclamation.setOnMouseClicked(event -> {
+            if (event.getClickCount() == 1) { // Check for single click
+                Reclamation selectedReclamation = TBReclamation.getSelectionModel().getSelectedItem();
+                if (selectedReclamation != null) {
+                    try {
+                        showDetails(selectedReclamation);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         });
-
-        CBObjet.setItems(FXCollections.observableArrayList("Location", "Réparation", "Montage"));
-        afficher();
-    }*/
-
-    //@FXML
-   /* void modifierReclamation(ActionEvent event) throws IOException {
-        Image img = new Image("\\Ressources\\iconUpdate.jpg");
-        Reclamation r = TBReclamation.getSelectionModel().getSelectedItem();
-
-        int idCommande = Integer.parseInt(tfIdCommande.getText());
-        String objet = CBObjet.getSelectionModel().getSelectedItem();
-        String description = TADescription.getText();
-        String dateCreation = PickerDate.getValue().toString();
-        String auteur = TFAuteur.getText();
-        String email = TFEmail.getText();
-
-        ReclamationService src = new ReclamationService();
-        src.update(new Reclamation(r.getId(), objet, description,dateCreation, auteur, email));
-
-        Notifications notificationBuilder = Notifications.create()
-                .title("Réclamation modifiée !")
-                .text("Votre réclamation a bien été modifiée.")
-                .graphic(new ImageView(img))
-                .hideAfter(Duration.seconds(5))
-                .position(Pos.TOP_RIGHT);
-        notificationBuilder.showInformation();*/
-
-        init();
-
     }
+
 
     public void updateTable() {
-        List<Reclamation> listReclamations = ReclamationService.getInstance().getAll();
+        List<Reclamation> listReclamations = new ArrayList<>();
+        if(connectedUser.getRoles().equals("Client"))
+            listReclamations = ReclamationService.getInstance().getReclamations(connectedUser.getId());
+        else
+            listReclamations = ReclamationService.getInstance().getAll();
         tbid.setCellValueFactory(new PropertyValueFactory<>("id"));
-        tbobject.setCellValueFactory(new PropertyValueFactory<>("objet"));
+        tbobject.setCellValueFactory(new PropertyValueFactory<>("object"));
         tbdescription.setCellValueFactory(new PropertyValueFactory<>("description"));
-        tbdate_creation.setCellValueFactory(new PropertyValueFactory<>("dateCreation"));
+        tbdate_creation.setCellValueFactory(new PropertyValueFactory<>("date_creation"));
         tbauteur.setCellValueFactory(new PropertyValueFactory<>("auteur"));
         tbemail.setCellValueFactory(new PropertyValueFactory<>("email"));
-        tbstatus.setCellValueFactory(new PropertyValueFactory<>("statut"));
+        tbstatus.setCellValueFactory(new PropertyValueFactory<>("status"));
         TBReclamation.setItems(FXCollections.observableArrayList(listReclamations));
 
-        //TBReclamation.setItems(reclamations);
+        //Search Filter
+        FilteredList<Reclamation> filteredData = new FilteredList<>(FXCollections.observableArrayList(listReclamations), b -> true);
+        rechRecl.setText("");
+        rechRecl.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(Reclamation -> {
+                if(newValue == null || newValue.isEmpty()){
+                    return true;
+                }
+
+                String lowerCaseFilter = newValue.toLowerCase();
+
+                if(Reclamation.getDescription().toLowerCase().indexOf(lowerCaseFilter) != -1){
+                    return true;
+                } else if (Reclamation.getAuteur().toLowerCase().indexOf(lowerCaseFilter) != -1){
+                    return true;
+                }else if(String.valueOf(Reclamation.getId()).toLowerCase().indexOf(lowerCaseFilter) != -1){
+                    return true;
+                }else
+                    return false;
+            });
+        });
+        SortedList<Reclamation> sortedData = new SortedList<>(FXCollections.observableArrayList(listReclamations));
+        sortedData.comparatorProperty().bind(TBReclamation.comparatorProperty());
+        TBReclamation.setItems(sortedData);
     }
 
-    public void init() {
-        updateTable();
-        reclamations.clear();
-        afficher();
-    }
+    @FXML
+    void modifierreclamation(ActionEvent event) {
+        Reclamation selectedReclamation = TBReclamation.getSelectionModel().getSelectedItem();
 
-    private void afficher() {
-        List<Reclamation> listReclamations = ReclamationService.getInstance().getAll();
 
-        if (!listReclamations.isEmpty()) {
-            reclamations.addAll(listReclamations);
 
-            tbid.setCellValueFactory(new PropertyValueFactory<>("id"));
-            tbobject.setCellValueFactory(new PropertyValueFactory<>("objet"));
-            tbdescription.setCellValueFactory(new PropertyValueFactory<>("description"));
-            tbdate_creation.setCellValueFactory(new PropertyValueFactory<>("dateCreation"));
-            tbauteur.setCellValueFactory(new PropertyValueFactory<>("auteur"));
-            tbemail.setCellValueFactory(new PropertyValueFactory<>("email"));
-            tbstatus.setCellValueFactory(new PropertyValueFactory<>("statut"));
+        try {
+            // Chargez la vue de modification avec les détails de la réclamation sélectionnée
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/EditReclamation.fxml"));
+            Parent edit = loader.load();
 
-            reclamationActuel = null;
+            // Passez la réclamation sélectionnée au contrôleur de la vue de modification
+            EditReclamationController controller = loader.getController();
+            controller.initData(selectedReclamation);
 
-            TBReclamation.setItems(reclamations);
+            // Affichez la fenêtre de modification
+            Stage window = new Stage();
+            window.setScene(new Scene(edit));
+            window.setTitle("Modifier Réclamation");
+            window.show();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
+
+    @FXML
     public void RetourHome(ActionEvent event) {
         try {
             // Charger le fichier FXML de votre interface Home
@@ -196,4 +215,18 @@ public class ListReclamationFrontController implements Initializable {
 
 
     }
+
+    @FXML
+    void showDetails(Reclamation selectedReclamation) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/UpdateReclamation.fxml"));
+        Parent root = loader.load();
+        UpdateReclamationController controller = loader.getController();
+        controller.initData(selectedReclamation);
+
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root));
+        stage.setTitle("Reclamation Details");
+        stage.show();
+    }
+
 }

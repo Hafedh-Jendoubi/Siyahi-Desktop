@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.controllers.EditProfileUserController">
+   <children>
+      <SplitPane dividerPositions="0.27503852080123264" prefHeight="600.0" prefWidth="1300.0">
+         <items>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+               <children>
+                  <Separator layoutX="1.0" layoutY="213.0" prefHeight="7.0" prefWidth="354.0" />
+                  <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="78.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@uploads/logoCo.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </AnchorPane>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #E4E4E4;">
+               <children>
+                  <AnchorPane layoutX="286.0" layoutY="-2.0" prefHeight="607.0" prefWidth="654.0" style="-fx-background-color: #3C5B6F;">
+                     <children>
+                        <Label layoutX="256.0" layoutY="37.0" prefHeight="31.0" prefWidth="134.0" text="Personal Info" textFill="#dfd0b8">
+                           <font>
+                              <Font name="Sitka Heading Bold" size="22.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="30.0" layoutY="77.0" styleClass="Label" text="Nom:" textFill="WHITE" underline="true">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="30.0" layoutY="107.0" styleClass="Label" text="Prénom:" textFill="WHITE" underline="true">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="30.0" layoutY="137.0" styleClass="Label" text="Genre:" textFill="WHITE" underline="true">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="30.0" layoutY="167.0" styleClass="Label" text="Carte CIN:" textFill="WHITE" underline="true">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="30.0" layoutY="352.0" styleClass="Label" text="Téléphone:" textFill="WHITE" underline="true">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="30.0" layoutY="382.0" styleClass="Label" text="Email:" textFill="WHITE" underline="true">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="30.0" layoutY="412.0" styleClass="Label" text="Adresse:" textFill="WHITE" underline="true">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="263.0" layoutY="312.0" prefHeight="31.0" prefWidth="121.0" text="Contact Info" textFill="#dfd0b8">
+                           <font>
+                              <Font name="Sitka Heading Bold" size="22.0" />
+                           </font>
+                        </Label>
+                        <Separator layoutX="70.0" layoutY="294.0" prefHeight="7.0" prefWidth="514.0" />
+                        <TextField fx:id="nomField" layoutX="86.0" layoutY="77.0" prefHeight="27.0" prefWidth="300.0" style="-fx-border-color: transparent; -fx-background-color: grey;" />
+                        <TextField fx:id="prenomField" layoutX="111.0" layoutY="107.0" prefHeight="27.0" prefWidth="274.0" style="-fx-border-color: transparent; -fx-background-color: grey;" />
+                        <TextField fx:id="cinField" layoutX="123.0" layoutY="167.0" prefHeight="27.0" prefWidth="263.0" style="-fx-border-color: transparent; -fx-background-color: grey;" />
+                        <TextField fx:id="telField" layoutX="127.0" layoutY="352.0" prefHeight="27.0" prefWidth="255.0" style="-fx-border-color: transparent; -fx-background-color: grey;" />
+                        <TextField fx:id="emailField" layoutX="86.0" layoutY="382.0" prefHeight="27.0" prefWidth="295.0" style="-fx-border-color: transparent; -fx-background-color: grey;" />
+                        <TextField fx:id="adrField" layoutX="116.0" layoutY="412.0" prefHeight="27.0" prefWidth="265.0" style="-fx-border-color: transparent; -fx-background-color: grey;" />
+                        <ComboBox fx:id="genreField" layoutX="95.0" layoutY="138.0" prefWidth="150.0" style="-fx-background-color: grey;" />
+                        <Button layoutX="206.0" layoutY="488.0" mnemonicParsing="false" onAction="#save" prefHeight="30.0" prefWidth="105.0" style="-fx-background-radius: 20px;" text="Sauvegarder" />
+                        <Button layoutX="337.0" layoutY="488.0" mnemonicParsing="false" onAction="#cancel" prefHeight="30.0" prefWidth="105.0" style="-fx-background-radius: 20px;" text="Cancel" />
+                        <Text fx:id="err2" fill="RED" layoutX="390.0" layoutY="95.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+                        <Text fx:id="err4" fill="RED" layoutX="390.0" layoutY="370.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+                        <Text fx:id="err3" fill="RED" layoutX="390.0" layoutY="185.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+                        <Text fx:id="err1" fill="RED" layoutX="390.0" layoutY="125.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+                     </children>
+                  </AnchorPane>
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#153448" height="280.0" layoutX="-164.0" layoutY="154.0" rotate="90.0" stroke="TRANSPARENT" strokeType="INSIDE" width="620.0" />
+                  <Circle fx:id="big_circle" disable="true" fill="DODGERBLUE" layoutX="146.0" layoutY="145.0" radius="100.0" stroke="BLACK" strokeType="INSIDE" />
+                  <Button layoutX="86.0" layoutY="279.0" mnemonicParsing="false" onAction="#browseImage" prefHeight="30.0" prefWidth="121.0" style="-fx-background-radius: 20px;" text="Importer Fichier" />
+               </children>
+            </AnchorPane>
+         </items>
+      </SplitPane>
+      <Button fx:id="ToHomePage" layoutX="30.0" layoutY="240.0" mnemonicParsing="false" onAction="#navigateToHomePage" prefHeight="30.0" prefWidth="300.0" text="Acceuil" />
+      <Button layoutX="30.0" layoutY="290.0" mnemonicParsing="false" onAction="#navigateToTransactions" prefHeight="30.0" prefWidth="300.0" text="Gestion Transactions" />
+   </children>
+</AnchorPane>

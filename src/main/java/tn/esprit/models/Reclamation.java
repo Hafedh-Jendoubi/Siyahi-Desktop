@@ -9,6 +9,8 @@ import java.util.List;
 public class Reclamation {
 
     private int id;
+
+    private int user_id;
     private ObjetReclamation object;
     private String description;
     private Timestamp date_creation;
@@ -34,18 +36,20 @@ public class Reclamation {
         objetsSuggérés.add(new ObjetReclamation("Frais Bancaires Inattendus"));
         objetsSuggérés.add(new ObjetReclamation("Blocage de Carte Bancaire"));
         objetsSuggérés.add(new ObjetReclamation("Virement Non Reçu"));
+        objetsSuggérés.add(new ObjetReclamation("Demande Extrait"));
     }
 
     public Reclamation() {
     }
 
-    public Reclamation(ObjetReclamation object, String description, Timestamp date_creation, String auteur, String email, boolean status) {
+    public Reclamation(ObjetReclamation object, String description, Timestamp date_creation, String auteur, String email, boolean status, int user_id) {
         setObject(object);
         setDescription(description);
         setAuteur(auteur);
         setEmail(email);
         this.date_creation = date_creation;
         this.status = status;
+        this.user_id = user_id;
     }
 
     public Reclamation(int id, ObjetReclamation object, String description, Timestamp date_creation, String auteur, String email, boolean status) {
@@ -73,6 +77,14 @@ public class Reclamation {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(int user_id) {
+        this.user_id = user_id;
     }
 
     public ObjetReclamation getObject() {

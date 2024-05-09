@@ -1,24 +1,18 @@
-package tn.esprit.Controllers;
+package tn.esprit.controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.geometry.Pos;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
-import javafx.util.Duration;
-import org.controlsfx.control.Notifications;
-import tn.esprit.interfaces.IService;
-import tn.esprit.models.ObjetReclamation;
+import tn.esprit.interfaces.ReclService;
 import tn.esprit.models.Reclamation;
 import tn.esprit.models.ReponseReclamation;
 import tn.esprit.services.ReclamationService;
+import tn.esprit.services.ReponseReclamationService;
+import tn.esprit.util.EmailService;
 
-import java.io.IOException;
 import java.sql.Timestamp;
 
 public class AddReponseReclamationController {
@@ -34,19 +28,12 @@ public class AddReponseReclamationController {
     @FXML
     private TextField auteurField;
 
-
-
-
-
-
-
-
-
-
-    private IService<ReponseReclamation> reponseReclamationService;
+    private ReclService<ReponseReclamation> reponseReclamationService;
     private Reclamation selectedReclamation;
 
-    public void setReponseReclamationService(IService<ReponseReclamation> reponseReclamationService) {
+    public String ObjectReclamation;
+
+    public void setReponseReclamationService(ReclService<ReponseReclamation> reponseReclamationService) {
         this.reponseReclamationService = reponseReclamationService;
     }
 
@@ -54,16 +41,22 @@ public class AddReponseReclamationController {
         this.selectedReclamation = selectedReclamation;
     }
 
+    public void initData(int id) {
+        reclamationIdField.setOpacity(0);
+        reclamationIdField.setText(String.valueOf(id));
+        ReclamationService rs = new ReclamationService();
+        Reclamation reclamation = rs.getOne(id);
+        ObjectReclamation = String.valueOf(reclamation.getObject());
+    }
+
     @FXML
     private void ajouterReponseReclamation(ActionEvent event) {
         // Récupérer les valeurs des champs
         String description = descriptionField.getText();
-        String reclamationId = reclamationIdField.getText();
-        String dateCreation = dateCreationField.getText();
         String auteur = auteurField.getText();
 
         // Vérifier si les champs ne sont pas vides
-        if (description.isEmpty() || reclamationId.isEmpty() || dateCreation.isEmpty() || auteur.isEmpty()) {
+        if (description.isEmpty() ||  auteur.isEmpty()) {
             // Afficher un message d'erreur ou gérer de manière appropriée si un champ est vide
             System.out.println("Veuillez remplir tous les champs.");
             return;
@@ -72,14 +65,17 @@ public class AddReponseReclamationController {
         // Effectuer les opérations nécessaires pour ajouter une réponse à la réclamation
         // Par exemple, vous pouvez appeler une méthode dans votre service ou DAO pour effectuer l'ajout dans la base de données
 
-        // Réinitialiser les champs après l'ajout
-        descriptionField.clear();
-        reclamationIdField.clear();
-        dateCreationField.clear();
-        auteurField.clear();
+        ReponseReclamationService rs = new ReponseReclamationService();
+        rs.add(new ReponseReclamation(descriptionField.getText(), Integer.parseInt(reclamationIdField.getText()), 2, new Timestamp(System.currentTimeMillis()), auteurField.getText()));
 
-        // Afficher un message de succès ou rediriger l'utilisateur vers une autre page
-        System.out.println("Réponse à la réclamation ajoutée avec succès !");
+        if(ObjectReclamation.equals("Demande Extrait")){
+            EmailService es = new EmailService();
+            es.sendEmail("ggliheb@gmail.com", "Test Email", "<h1>This is a test email</h1>");
+        }else{
+            System.out.println("GG");
+        }
+
+        RetourHome(event);
     }
 
     // Méthode pour gérer l'action du bouton "Retour"
@@ -109,24 +105,8 @@ public class AddReponseReclamationController {
     }
 
     public void RetourHome(ActionEvent event) {
-        try {
-            // Charger le fichier FXML de votre interface Home
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Home.fxml"));
-            Parent root = loader.load();
-
-            // Créer une nouvelle scène avec la racine chargée depuis le fichier FXML
-            Scene scene = new Scene(root);
-
-            // Obtenir la fenêtre principale à partir de l'événement
-            Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-
-            // Définir la nouvelle scène sur la fenêtre principale
-            stage.setScene(scene);
-            stage.show(); // Afficher la nouvelle scène
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+        window.close();
 
 
     }

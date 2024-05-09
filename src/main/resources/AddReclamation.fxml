@@ -8,7 +8,7 @@
 <?import org.controlsfx.control.Notifications?>
 
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.Controllers.AddReclamation">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.controllers.AddReclamation">
     <children>
         <Label layoutX="39.0" layoutY="39.0" style="-fx-font-weight: bold;" text="Objet de la réclamation :" />
         <Label layoutX="39.0" layoutY="90.0" style="-fx-font-weight: bold;" text="Description :" />

@@ -1,7 +1,6 @@
 package tn.esprit.services;
 
-import tn.esprit.interfaces.IService;
-import tn.esprit.models.Reclamation;
+import tn.esprit.interfaces.ReclService;
 import tn.esprit.models.ReponseReclamation;
 import tn.esprit.util.MaConnexion;
 
@@ -9,22 +8,28 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReponseReclamationService implements IService<ReponseReclamation> {
+public class ReponseReclamationService implements ReclService<ReponseReclamation> {
 
     //ATT
     Connection cnx = MaConnexion.getInstance().getCnx();
 
     @Override
     public void add(ReponseReclamation reponseReclamation) {
-        String req = "INSERT INTO reponse_reclamation (description, date_creation, auteur) VALUES (?, ?, ?)";
+        String req = "INSERT INTO reponse_reclamation (description, date_creation, auteur, reclamation_id) VALUES (?, ?, ?, ?)";
+        String req1 = "UPDATE `reclamation` SET `status`= 1 WHERE id = ?";
 
         try {
             PreparedStatement ps = cnx.prepareStatement(req);
             ps.setString(1, reponseReclamation.getDescription());
             ps.setTimestamp(2, reponseReclamation.getDate_creation());
             ps.setString(3, reponseReclamation.getAuteur());
+            ps.setInt(4, reponseReclamation.getReclamation_id());
+
+            PreparedStatement ps1 = cnx.prepareStatement(req1);
+            ps1.setInt(1, reponseReclamation.getId());
 
             ps.executeUpdate();
+            ps1.executeUpdate();
             System.out.println("Réponse à la réclamation ajoutée avec succès");
 
             ps.close();

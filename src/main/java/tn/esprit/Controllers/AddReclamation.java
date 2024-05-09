@@ -1,4 +1,4 @@
-package tn.esprit.Controllers;
+package tn.esprit.controllers;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -19,6 +19,8 @@ import tn.esprit.models.ObjetReclamation;
 import tn.esprit.models.Reclamation;
 import tn.esprit.services.ReclamationService;
 import org.controlsfx.control.Notifications;
+
+import static tn.esprit.services.UserService.connectedUser;
 
 
 import java.io.IOException;
@@ -44,7 +46,8 @@ public class AddReclamation {
         ObservableList<ObjetReclamation> options = FXCollections.observableArrayList(
                 new ObjetReclamation("Frais Bancaires Inattendus"),
                 new ObjetReclamation("Blocage de Carte Bancaire"),
-                new ObjetReclamation("Virement Non Reçu")
+                new ObjetReclamation("Virement Non Reçu"),
+                new ObjetReclamation("Demande Extrait")
         );
         objectComboBox.setItems(options);
     }
@@ -59,7 +62,7 @@ public class AddReclamation {
 
         try {
             // Créer une nouvelle réclamation
-            Reclamation nouvelleReclamation = new Reclamation(objReclamation, description, dateCreation, auteur, email, true);
+            Reclamation nouvelleReclamation = new Reclamation(objReclamation, description, dateCreation, auteur, email, true, connectedUser.getId());
 
             // Appeler le service pour ajouter la réclamation à la base de données
             ReclamationService reclamationService = new ReclamationService();

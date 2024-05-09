@@ -6,7 +6,7 @@
 
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="tn.esprit.Controllers.EditReclamationController"
+            fx:controller="tn.esprit.controllers.EditReclamationController"
             prefHeight="400.0" prefWidth="600.0">
 
     <VBox alignment="CENTER" spacing="10" padding="20">

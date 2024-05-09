@@ -30,6 +30,14 @@ public class ReponseReclamation {
     this.date_creation = date_creation;
     setAuteur(auteur);    }
 
+    public ReponseReclamation(String description, int reclamation_id, int user_id, Timestamp date_creation, String auteur) {
+        this.description = description;
+        this.reclamation_id = reclamation_id;
+        this.user_id = user_id;
+        this.date_creation = date_creation;
+        this.auteur = auteur;
+    }
+
     public ReponseReclamation(int id, String description, int reclamation_id, int user_id, Timestamp date_creation, String auteur) {
         this.id = id;
         this.description = description;
