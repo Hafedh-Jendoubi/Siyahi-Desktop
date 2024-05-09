@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        #map { height: 100%;
+            width: 100%;}
+    </style>
+</head>
+<body>
+<div id="map"></div>
+<script>
+    function initMap() {
+        var lat = 36.8065; // Tunis latitude
+        var lon = 10.1815; // Tunis longitude
+        var macarte = null;
+        var marker = null;
+
+        macarte = L.map('map').setView([lat, lon], 13);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: 'Data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'}).addTo(macarte);
+
+        macarte.on('click', function (e) {
+            if (marker) {
+                macarte.removeLayer(marker);
+            }
+            marker = L.marker(e.latlng).addTo(macarte);
+
+            fetch(https://api.mapbox.com/geocoding/v5/mapbox.places/${e.latlng.lng},${e.latlng.lat}.json?access_token=pk.eyJ1IjoibWFsZWsyYWJkIiwiYSI6ImNsdGJsenVtMzFrNWYyanFyaWoyNWV2YXYifQ.fWAD0XMItiyHb-yvooSPTQ&language=en)
+        .then(response => response.json())
+                .then(data => {
+                    const city = data.features.find(feature => feature.place_type.includes('place')).text;
+                    console.log('City:', city);
+
+                    // Call Java method with city name
+                    window.javaBridge.showCity(city);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        });
+    }
+    initMap();
+</script>
+</body>
+</html>

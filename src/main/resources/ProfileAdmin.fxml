@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.controllers.ProfileController">
+   <children>
+      <SplitPane dividerPositions="0.27503852080123264" prefHeight="600.0" prefWidth="1300.0">
+         <items>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+               <children>
+                  <Separator layoutX="1.0" layoutY="213.0" prefHeight="7.0" prefWidth="354.0" />
+                  <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="78.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@uploads/logoCo.png" />
+                     </image>
+                  </ImageView>
+                  <Button layoutX="30.0" layoutY="340.0" mnemonicParsing="false" onAction="#navigateToCredits" prefHeight="30.0" prefWidth="300.0" text="Gestion Credits" />
+                  <Button layoutX="27.0" layoutY="388.0" mnemonicParsing="false" onAction="#navigateToConge" prefHeight="30.0" prefWidth="300.0" text="Gestion Conges" />
+                  <Button layoutX="33.0" layoutY="529.0" mnemonicParsing="false" onAction="#navigateToReclamations" prefHeight="25.0" prefWidth="33.0" />
+                  <Rectangle fx:id="reclamPicture" arcHeight="5.0" arcWidth="5.0" disable="true" fill="DODGERBLUE" height="50.0" layoutX="24.0" layoutY="516.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
+               </children>
+            </AnchorPane>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #E4E4E4;">
+               <children>
+                  <AnchorPane layoutX="286.0" layoutY="-2.0" prefHeight="607.0" prefWidth="654.0" style="-fx-background-color: #3C5B6F;">
+                     <children>
+                        <Label layoutX="260.0" layoutY="30.0" prefHeight="31.0" prefWidth="134.0" text="Account Info" textFill="#dfd0b8">
+                           <font>
+                              <Font name="Sitka Heading Bold" size="22.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="30.0" layoutY="80.0" styleClass="Label" text="Etat:" textFill="WHITE" underline="true">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="activity" layoutX="75.0" layoutY="80.0" text="1">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="256.0" layoutY="200.0" prefHeight="31.0" prefWidth="134.0" text="Personal Info" textFill="#dfd0b8">
+                           <font>
+                              <Font name="Sitka Heading Bold" size="22.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="first_name" layoutX="81.0" layoutY="240.0" text="1">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="last_name" layoutX="111.0" layoutY="270.0" text="1">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="gender" layoutX="94.0" layoutY="300.0" text="1">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="cin" layoutX="125.0" layoutY="329.0" text="1">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="30.0" layoutY="110.0" styleClass="Label" text="Date création:" textFill="WHITE" underline="true">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="30.0" layoutY="140.0" styleClass="Label" text="Rôle:" textFill="WHITE" underline="true">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="30.0" layoutY="240.0" styleClass="Label" text="Nom:" textFill="WHITE" underline="true">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="30.0" layoutY="270.0" styleClass="Label" text="Prénom:" textFill="WHITE" underline="true">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="30.0" layoutY="300.0" styleClass="Label" text="Genre:" textFill="WHITE" underline="true">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="30.0" layoutY="330.0" styleClass="Label" text="Carte CIN:" textFill="WHITE" underline="true">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="30.0" layoutY="430.0" styleClass="Label" text="Téléphone:" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="30.0" layoutY="460.0" styleClass="Label" text="Email:" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="30.0" layoutY="490.0" styleClass="Label" text="Adresse:" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="date_creation" layoutX="155.0" layoutY="109.0" text="1">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="role" layoutX="80.0" layoutY="140.0" text="1">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="263.0" layoutY="400.0" prefHeight="31.0" prefWidth="121.0" text="Contact Info" textFill="#dfd0b8">
+                           <font>
+                              <Font name="Sitka Heading Bold" size="22.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="tel" layoutX="131.0" layoutY="430.0" text="1">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="email" layoutX="89.0" layoutY="460.0" text="1">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="adress" layoutX="111.0" layoutY="490.0" text="1">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <Separator layoutX="70.0" layoutY="382.0" prefHeight="7.0" prefWidth="514.0" />
+                        <Separator layoutX="69.0" layoutY="183.0" prefHeight="7.0" prefWidth="514.0" />
+                     </children>
+                  </AnchorPane>
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#153448" height="280.0" layoutX="-164.0" layoutY="154.0" rotate="90.0" stroke="TRANSPARENT" strokeType="INSIDE" width="620.0" />
+                  <Circle fx:id="big_circle" disable="true" fill="DODGERBLUE" layoutX="146.0" layoutY="145.0" radius="100.0" stroke="BLACK" strokeType="INSIDE" />
+               </children>
+            </AnchorPane>
+         </items>
+      </SplitPane>
+      <Button fx:id="ToHomePage" layoutX="30.0" layoutY="240.0" mnemonicParsing="false" onAction="#navigateToHomePage" prefHeight="30.0" prefWidth="300.0" text="Acceuil" />
+      <Button fx:id="ToUserSectionButton" layoutX="30.0" layoutY="290.0" mnemonicParsing="false" onAction="#navigateToUserSection" prefHeight="30.0" prefWidth="300.0" text="Gestion Utilisateurs" />
+   </children>
+</AnchorPane>

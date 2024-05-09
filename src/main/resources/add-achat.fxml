@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<AnchorPane prefHeight="556.0" prefWidth="663.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.AddAchatController">
+    <children>
+        <GridPane layoutX="31.0" layoutY="19.0" prefHeight="153.0" prefWidth="326.0">
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            </rowConstraints>
+        </GridPane>
+        <Button layoutX="275.0" layoutY="493.0" mnemonicParsing="false" onAction="#handleSave" prefHeight="30.0" prefWidth="100.0" style="-fx-background-color: #1E90FF; -fx-text-fill: white; -fx-font-size: 12px; -fx-font-weight: bold; -fx-font-family: 'Arial'; -fx-background-radius: 5;" text="Save" />
+        <Button layoutX="170.0" layoutY="218.0" onAction="#handleUploadImage" prefHeight="25.0" prefWidth="150.0" text="Uploader une image" />
+
+        <TextField fx:id="descriptionTextField" layoutX="169.0" layoutY="346.0" prefHeight="110.0" prefWidth="312.0" />
+        <Label layoutX="83.0" layoutY="377.0" prefHeight="48.0" prefWidth="149.0" text="Description:" />
+        <Label layoutX="104.0" layoutY="264.0" prefHeight="67.0" prefWidth="107.0" text="Type:" />
+        <TextField fx:id="typeTextField" layoutX="169.0" layoutY="283.0" prefHeight="29.0" prefWidth="312.0" />
+      <ImageView fitHeight="176.0" fitWidth="172.0" layoutX="239.0" layoutY="26.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@LOGOpng.png" />
+         </image>
+
+      </ImageView>
+        <ImageView fx:id="imageView" fitHeight="150" fitWidth="150" layoutX="490.0" layoutY="331.0" />
+          <Label layoutX="99.0" layoutY="222.0" prefHeight="17.0" prefWidth="140.0" text="    Image:" />
+    </children>
+</AnchorPane>
