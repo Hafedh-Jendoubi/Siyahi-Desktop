@@ -17,6 +17,7 @@
     <!-- Dependencies -->
     <dependencies>
         <!-- Database Connection Dependency -->
+        <!-- Database Connection Dependency -->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
@@ -162,7 +163,7 @@
             <plugin>
                 <groupId>org.openjfx</groupId>
                 <artifactId>javafx-maven-plugin</artifactId>
-                <version>0.0.2</version>
+                <version>0.0.1</version>
                 <configuration>
                     <mainClass>tn.esprit.Main</mainClass>
                 </configuration>
