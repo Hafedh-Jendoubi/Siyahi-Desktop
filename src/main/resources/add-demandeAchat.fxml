@@ -11,17 +11,17 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane prefHeight="500.0" prefWidth="500.0" style="-fx-background-color: #f0f0f0;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.AddDemandeAchatController">
+<AnchorPane prefHeight="653.0" prefWidth="692.0" style="-fx-background-color: #f0f0f0;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.AddDemandeAchatController">
     <children>
-        <ImageView fitHeight="139.0" fitWidth="142.0" layoutX="347.0" layoutY="367.0" pickOnBounds="true" preserveRatio="true">
+        <ImageView fitHeight="184.0" fitWidth="219.0" layoutX="233.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
             <image>
                 <Image url="@LOGOpng.png" />
             </image>
         </ImageView>
-        <GridPane layoutX="49.0" layoutY="50.0" prefHeight="300.0" prefWidth="400.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="100.0">
+        <GridPane layoutX="39.0" layoutY="198.0" prefHeight="300.0" prefWidth="400.0" AnchorPane.leftAnchor="39.0" AnchorPane.rightAnchor="81.0">
             <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="261.0" minWidth="10.0" prefWidth="121.0" />
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="322.0" minWidth="10.0" prefWidth="279.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="261.0" minWidth="10.0" prefWidth="225.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="347.0" minWidth="10.0" prefWidth="347.0" />
             </columnConstraints>
             <rowConstraints>
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -35,8 +35,6 @@
                 <RowConstraints maxHeight="35.0" minHeight="18.0" prefHeight="32.0" />
             </rowConstraints>
             <children>
-                <Label style="-fx-text-fill: #000000; -fx-font-weight: bold; -fx-font-size: 14px;" text="User ID:" />
-                <TextField fx:id="userIdTextField" prefHeight="25.0" prefWidth="247.0" style="-fx-background-color: #ffffff;" GridPane.columnIndex="1" />
                 <Label style="-fx-text-fill: #000000; -fx-font-weight: bold; -fx-font-size: 14px;" text="Achat ID:" GridPane.rowIndex="1" />
                 <ComboBox fx:id="comboBox" prefWidth="200.0" style="-fx-background-color: #ffffff;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                 <Label prefHeight="33.0" prefWidth="83.0" style="-fx-text-fill: #000000; -fx-font-weight: bold; -fx-font-size: 14px;" text="Nom:" GridPane.rowIndex="2" />
@@ -56,6 +54,6 @@
             <Label style="-fx-text-fill: #000000; -fx-font-weight: bold; -fx-font-size: 14px;" text="Date demande :" GridPane.rowIndex="4" />
             </children>
         </GridPane>
-        <Button layoutX="60.0" layoutY="400.0" mnemonicParsing="false" onAction="#handleSave" prefHeight="25.0" prefWidth="102.0" style="-fx-background-color: #1E90FF; -fx-text-fill: #ffffff; -fx-font-weight: bold; -fx-font-size: 14px;" text="Save" />
+        <Button layoutX="274.0" layoutY="532.0" mnemonicParsing="false" onAction="#handleSave" prefHeight="25.0" prefWidth="102.0" style="-fx-background-color: #1E90FF; -fx-text-fill: #ffffff; -fx-font-weight: bold; -fx-font-size: 14px;" text="Save" />
     </children>
 </AnchorPane>

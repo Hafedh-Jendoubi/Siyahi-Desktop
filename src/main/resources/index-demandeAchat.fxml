@@ -111,7 +111,7 @@
                                 </ImageView>
                                 <VBox alignment="CENTER" spacing="10" xmlns:fx="http://javafx.com/fxml" />
                                 <!-- Bouton pour générer le PDF -->
-                                <Button layoutX="664.0" layoutY="32.0" onAction="#generatePDF" text="Générer PDF" />
+                                <!--<Button layoutX="664.0" layoutY="32.0" onAction="#generatePDF" text="Générer PDF" />-->
                                 <!-- Bouton pour créer une demande d'achat -->
                                 <Button layoutX="784.0" layoutY="32.0" mnemonicParsing="false" onAction="#createDemandeAchat" text="Create" />
                                 <!-- Bouton pour mettre à jour une demande d'achat -->

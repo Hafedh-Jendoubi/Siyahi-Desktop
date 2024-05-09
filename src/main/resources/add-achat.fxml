@@ -24,7 +24,8 @@
             </rowConstraints>
         </GridPane>
         <Button layoutX="275.0" layoutY="493.0" mnemonicParsing="false" onAction="#handleSave" prefHeight="30.0" prefWidth="100.0" style="-fx-background-color: #1E90FF; -fx-text-fill: white; -fx-font-size: 12px; -fx-font-weight: bold; -fx-font-family: 'Arial'; -fx-background-radius: 5;" text="Save" />
-        <Button layoutX="508.0" layoutY="218.0" mnemonicParsing="false" text="Parcourir" />
+        <Button layoutX="170.0" layoutY="218.0" onAction="#handleUploadImage" prefHeight="25.0" prefWidth="150.0" text="Uploader une image" />
+
         <TextField fx:id="descriptionTextField" layoutX="169.0" layoutY="346.0" prefHeight="110.0" prefWidth="312.0" />
         <Label layoutX="83.0" layoutY="377.0" prefHeight="48.0" prefWidth="149.0" text="Description:" />
         <Label layoutX="104.0" layoutY="264.0" prefHeight="67.0" prefWidth="107.0" text="Type:" />
@@ -33,8 +34,9 @@
          <image>
             <Image url="@LOGOpng.png" />
          </image>
+
       </ImageView>
-        <TextField fx:id="imageTextField" layoutX="169.0" layoutY="216.0" prefHeight="29.0" prefWidth="312.0" />
+        <ImageView fx:id="imageView" fitHeight="150" fitWidth="150" layoutX="490.0" layoutY="331.0" />
           <Label layoutX="99.0" layoutY="222.0" prefHeight="17.0" prefWidth="140.0" text="    Image:" />
     </children>
 </AnchorPane>

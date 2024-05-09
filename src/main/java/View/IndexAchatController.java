@@ -13,30 +13,34 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+
 
 import java.io.IOException;
 import java.sql.SQLException;
-
+import javafx.stage.FileChooser;
+import java.io.File;
 
 public class IndexAchatController {
 
 
     @FXML
-    private TableColumn<Achat, String> imageColumn;
+    public TableColumn<Achat, String> imageColumn;
     @FXML
-    private TableColumn<Achat, String> DescripColumn;
+    public TableColumn<Achat, String> DescripColumn;
     @FXML
-    private TableColumn<Achat, String> typeColumn;
+    public TableColumn<Achat, String> typeColumn;
     @FXML
     private TableColumn<Achat, Integer>
             idColumn;
 
     @FXML
     private Label labelId;
-
     @FXML
-    private Label labelImage;
+    private ImageView imageview;
 
     @FXML
     private Label labelDesc;
@@ -75,15 +79,30 @@ public class IndexAchatController {
 
             labelDesc.setText(achat.getDescription());
             labelId.setText(String.valueOf(achat.getId()));
-            labelImage.setText(achat.getImage());
-            labelType.setText(achat.getType());
+            String imagePath = achat.getImage();
+            if (imagePath != null && !imagePath.isEmpty()) {
+                try {
+                    File file = new File(imagePath);
+                    Image image = new Image(file.toURI().toString());
+                    imageview.setImage(image);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    // Handle image loading error
+                    imageview.setImage(null); // Set to null if image loading fails
+                }
+            } else {
+                // No image path provided or empty
+                imageview.setImage(null); // Clear the image view
+            }
         } else {
+            // Clear all labels and image view if achat is null
             labelDesc.setText("");
             labelId.setText("");
-            labelImage.setText("");
             labelType.setText("");
+            imageview.setImage(null);
         }
-    }
+        }
+
 
     @FXML
     public void updateTableView() {

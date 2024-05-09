@@ -1,6 +1,8 @@
 package View;
 
+import Entity.Achat;
 import Entity.Demande_achat;
+import Service.AchatService;
 import Service.Demande_achatService;
 import Service.IService;
 import com.mysql.cj.exceptions.DeadlockTimeoutRollbackMarker;
@@ -12,22 +14,29 @@ import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.scene.control.Alert;
-import org.apache.pdfbox.pdmodel.PDDocument;
+/*import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
-import org.apache.pdfbox.pdmodel.font.PDType1Font;
+import org.apache.pdfbox.pdmodel.font.PDType1Font;*/
 import javafx.scene.control.Alert;
+
+import java.io.File;
 import java.io.IOException;
 import java.io.IOException;
 import java.util.*;
-import com.twilio.Twilio;
+/*import com.twilio.Twilio;
 import com.twilio.rest.api.v2010.account.Message;
-import com.twilio.type.PhoneNumber;
+import com.twilio.type.PhoneNumber;*/
 
 
 import org.controlsfx.control.Notifications;
@@ -47,24 +56,41 @@ import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 
+import static tn.esprit.controllers.ProfileController.profileCheck;
+import static tn.esprit.services.UserService.connectedUser;
 
-public class IndexDemandeAchatController {
+
+public class IndexDemandeAchatController extends IndexAchatController {
     @FXML
-    private ChoiceBox<String> colonneChoiceBox;
+    public TableColumn<Achat, String> imageColumn;
     @FXML
-    private BarChart<String, Integer> barChart;
+    public TableColumn<Achat, String> DescripColumn;
+    @FXML
+    public TableColumn<Achat, String> typeColumn;
+    @FXML
+    private TableColumn<Achat, Integer>
+            idColumn;
+
+    @FXML
+    private Label labelId;
+    @FXML
+    private ImageView imageview;
+
+    @FXML
+    private Label labelDesc;
+
+    @FXML
+    private Label labelType;
+
+    @FXML
+    private TableView<Achat> AchatTable;
+    private IService<Achat> AchatIService = new AchatService();
+    private ObservableList<Achat> AchatService = FXCollections.observableArrayList();
+
+    @FXML
+    private Circle circle;
     @FXML
     private ArrayList<String> donnees = new ArrayList<>();
-    @FXML
-    private CategoryAxis xAxis;
-
-    @FXML
-    private NumberAxis yAxis;
-
-    @FXML
-    private ChoiceBox<String> ordreChoiceBox;
-    @FXML
-    private TableColumn<Demande_achat, Integer> idColumn;
 
     @FXML
     private TableColumn<Demande_achat, Integer> userIdColumn;
@@ -74,6 +100,9 @@ public class IndexDemandeAchatController {
 
     @FXML
     private TableColumn<Demande_achat, String> nomColumn;
+
+    @FXML
+    private MenuItem menuItem;
 
     @FXML
     private TableColumn<Demande_achat, String> prenomColumn;
@@ -88,9 +117,6 @@ public class IndexDemandeAchatController {
     private TextField searchField;
 
     @FXML
-    private TableView <Demande_achat> tableView;
-
-    @FXML
     private TableColumn<Demande_achat, String> typePaiementColumn;
 
     @FXML
@@ -101,44 +127,14 @@ public class IndexDemandeAchatController {
 
     @FXML
     private TableColumn<Demande_achat, String> etatDemandeColumn;
-
-    @FXML
-    private Label labelId;
-
-    @FXML
-    private Label labelUserId;
-
-    @FXML
-    private Label labelAchatId;
-
-    @FXML
-    private Label labelNom;
-
-    @FXML
-    private Label labelPrenom;
-
-    @FXML
-    private Label labelDateDemande;
-
-    @FXML
-    private Label labelNumTel;
-
-    @FXML
-    private Label labelTypePaiement;
-
-    @FXML
-    private Label labelCIN;
-
-    @FXML
-    private Label labelAdresse;
-
-    @FXML
-    private Label labelEtatDemande;
     @FXML
     private ChoiceBox<String> triChoiceBox;
     @FXML
     private TableView<Demande_achat> DemandeAchatTable;
     private final Demande_achatService rec;
+
+    @FXML
+    private Rectangle reclamPicture;
 
     {
         rec = new Demande_achatService();
@@ -148,6 +144,24 @@ public class IndexDemandeAchatController {
 
     @FXML
     private void initialize() {
+        try {
+            String imageName = connectedUser.getImage();
+            String imagePath = "/uploads/user/" + imageName;
+            String image1Path = "/Images/danger.png";
+            Image image = new Image(getClass().getResource(imagePath).toExternalForm());
+            Image image1 = new Image(getClass().getResource(image1Path).toExternalForm());
+            circle.setFill(new ImagePattern(image));
+            reclamPicture.setFill(new ImagePattern(image1));
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+
+        DescripColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDescription()));
+        typeColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getType()));
+        imageColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getImage()));
+        idColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getId()).asObject());
+        showAchatDetails(null);
+
         idColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getId()).asObject());
         userIdColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getUser_id()).asObject());
         achatIdColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getAchat_id()).asObject());
@@ -159,9 +173,6 @@ public class IndexDemandeAchatController {
         cinColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCin().toString()));
         adresseColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getAdresse()));
         etatDemandeColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getEtatdemande()));
-        searchField.textProperty().addListener((observable, oldValue, newValue) -> searchDemandeAchat());
-
-        showDemandeAchatDetails(null);
 
         try {
             demandeAchatList.addAll(demandeAchatService.readAll());
@@ -171,35 +182,123 @@ public class IndexDemandeAchatController {
             showAlertDialog(Alert.AlertType.ERROR, "Error", "Failed to open new RendezVous window", e.getMessage());
         }
 
-        DemandeAchatTable.getSelectionModel().selectedItemProperty().addListener(
-                (observable, oldValue, newValue) -> showDemandeAchatDetails(newValue));
+        try {
+            AchatService.addAll(AchatIService.readAll());
+            AchatTable.setItems(AchatService);
+        } catch (Exception e) {
+            e.printStackTrace();
+            showAlertDialog(Alert.AlertType.ERROR, "Error", "Failed to open new RendezVous window", e.getMessage());
+        }
+
+        AchatTable.getSelectionModel().selectedItemProperty().addListener(
+                (observable, oldValue, newValue) -> showAchatDetails(newValue));
     }
 
-    private void showDemandeAchatDetails(Demande_achat demandeAchat) {
-        if (demandeAchat != null) {
-            labelId.setText(String.valueOf(demandeAchat.getId()));
-            labelUserId.setText(String.valueOf(demandeAchat.getUser_id()));
-            labelAchatId.setText(String.valueOf(demandeAchat.getAchat_id()));
-            labelNom.setText(demandeAchat.getNom());
-            labelPrenom.setText(demandeAchat.getPrenom());
-            labelDateDemande.setText(demandeAchat.getDate_demande().toString());
-            labelNumTel.setText(demandeAchat.getNum_tel());
-            labelTypePaiement.setText(demandeAchat.getType_paiement());
-            labelCIN.setText(demandeAchat.getCin().toString());
-            labelAdresse.setText(demandeAchat.getAdresse());
-            labelEtatDemande.setText(demandeAchat.getEtatdemande());
+    private void showAchatDetails(Achat achat) {
+
+    }
+
+    @FXML
+    private void createAchat(ActionEvent event) {
+        try {
+            // Charger le fichier FXML de l'interface d'ajout d'achat
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/add-achat.fxml"));
+            Parent root = loader.load();
+
+            // Créer une nouvelle scène avec la racine chargée
+            Scene scene = new Scene(root);
+
+            // Créer un nouveau stage pour la scène
+            Stage stage = new Stage();
+            stage.setTitle("Ajouter un achat");
+            stage.setScene(scene);
+
+            AddAchatController controller = loader.getController();
+
+            controller.setIndexAchatController(this);
+
+            // Afficher la fenêtre d'ajout d'achat
+            stage.showAndWait(); // Utilisez show() si vous voulez afficher la fenêtre sans bloquer le thread principal
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void handleDeleteAchat(ActionEvent event) {
+        Achat selectedAchat = AchatTable.getSelectionModel().getSelectedItem();
+        if (selectedAchat != null) {
+            try {
+                AchatIService.delete(selectedAchat.getId());
+                updateTableView();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                showAlertDialog(Alert.AlertType.ERROR, "Database Error", "Failed to delete Achat", e.getMessage());
+            }
         } else {
-            labelId.setText("");
-            labelUserId.setText("");
-            labelAchatId.setText("");
-            labelNom.setText("");
-            labelPrenom.setText("");
-            labelDateDemande.setText("");
-            labelNumTel.setText("");
-            labelTypePaiement.setText("");
-            labelCIN.setText("");
-            labelAdresse.setText("");
-            labelEtatDemande.setText("");
+            showAlertDialog(Alert.AlertType.WARNING, "No Selection", "No Achat Selected!", "Please select an Achat in the table!");
+        }
+    }
+
+    @FXML
+    private void updateAchat(ActionEvent event) {
+        Achat selectedAchat = AchatTable.getSelectionModel().getSelectedItem();
+        if (selectedAchat != null) {
+            try {
+                // Charger le fichier FXML de l'interface de mise à jour d'achat
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/update-achat.fxml"));
+                Parent root = loader.load();
+
+                // Créer une nouvelle scène avec la racine chargée
+                Scene scene = new Scene(root);
+
+                // Créer un nouveau stage pour la scène
+                Stage stage = new Stage();
+                stage.setTitle("Modifier un achat");
+                stage.setScene(scene);
+
+                // Obtenir le contrôleur du formulaire de mise à jour
+                UpdateAchatController controller = loader.getController();
+                controller.setIndexAchatController(this);
+                // Passer l'Achat sélectionné au contrôleur de mise à jour
+                controller.setSelectedAchat(selectedAchat);
+
+                // Afficher la fenêtre de mise à jour d'achat
+                stage.showAndWait(); // Utilisez show() si vous voulez afficher la fenêtre sans bloquer le thread principal
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            showAlertDialog(Alert.AlertType.WARNING, "No Selection", "No Achat Selected!", "Please select an Achat in the table!");
+        }
+    }
+
+    @FXML
+    void navigateToHamroun(ActionEvent event) {
+        try {
+            Parent ajouterUserParent = FXMLLoader.load(getClass().getResource("/tn/esprit/siyahidesktop/MainPage.fxml"));
+            Scene ajouterUserScene = new Scene(ajouterUserParent);
+            Stage window = new Stage();
+            window.setScene(ajouterUserScene);
+            window.setTitle("Siyahi Bank | Gestion des Comptes & Services");
+            window.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    void navigateToReclamations(ActionEvent event) {
+        try {
+            Parent ajouterUserParent = FXMLLoader.load(getClass().getResource("/Home.fxml"));
+            Scene ajouterUserScene = new Scene(ajouterUserParent);
+            Stage window = new Stage();
+            window.setScene(ajouterUserScene);
+            window.setTitle("Siyahi Bank | Gestion des Conges");
+            window.show();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -211,6 +310,20 @@ public class IndexDemandeAchatController {
         } catch (Exception e) {
             e.printStackTrace();
             showAlertDialog(Alert.AlertType.ERROR, "Database Error", "Failed to fetch Demande Achat", e.getMessage());
+        }
+    }
+
+    @FXML
+    void addAchat(ActionEvent event) {
+        try {
+            Parent ajouterUserParent = FXMLLoader.load(getClass().getResource("/add-achat.fxml"));
+            Scene ajouterUserScene = new Scene(ajouterUserParent);
+            Stage window = new Stage();
+            window.setScene(ajouterUserScene);
+            window.setTitle("Siyahi Bank | Gestion des Utilisateurs");
+            window.show();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -294,17 +407,17 @@ public class IndexDemandeAchatController {
         }
         showNotification("Opération réussie", "La demande d'achat a été modifiée avec succès.");
     }
-    @FXML
+    /*@FXML
     private void generatePDF() {
         Demande_achat selectedDemandeAchat = DemandeAchatTable.getSelectionModel().getSelectedItem();
 
         if (selectedDemandeAchat != null) {
             try {
                 // Création du document PDF
-                PDDocument document = new PDDocument();
+                *//*PDDocument document = new PDDocument();
                 PDPage page = new PDPage();
                 document.addPage(page);
-
+*//*
                 try (PDPageContentStream contentStream = new PDPageContentStream(document, page)) {
                     // Définir les dimensions de la page
                     float pageWidth = page.getMediaBox().getWidth();
@@ -421,7 +534,7 @@ public class IndexDemandeAchatController {
             alert.setContentText("Veuillez sélectionner une demande d'achat dans le tableau !");
             alert.showAndWait();
         }
-    }
+    }*/
 
 
 
@@ -493,6 +606,140 @@ public class IndexDemandeAchatController {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    @FXML
+    void navigateToCredits(ActionEvent event) {
+        try {
+            String pathTo = "";
+            String titleTo = "";
+            if(connectedUser.getRoles().equals("Client") || connectedUser.getRoles().equals("Employé(e)")) {
+                pathTo = "/ListCredit.fxml";
+                titleTo = "Siyahi Bank | Gestion des Credits";
+            } else{
+                pathTo = "/ListTypeCredit.fxml";
+                titleTo = "Siyahi Bank | Gestion des Types de Credits";
+            }
+            Parent ajouterUserParent = FXMLLoader.load(getClass().getResource(pathTo));
+            Scene ajouterUserScene = new Scene(ajouterUserParent);
+            Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+            window.setScene(ajouterUserScene);
+            window.setTitle(titleTo);
+            window.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    void navigateToConge(ActionEvent event) {
+        try {
+            Parent ajouterUserParent = FXMLLoader.load(getClass().getResource("/ListConge.fxml"));
+            Scene ajouterUserScene = new Scene(ajouterUserParent);
+            Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+            window.setScene(ajouterUserScene);
+            window.setTitle("Siyahi Bank | Gestion des Conges");
+            window.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    void navigateToAchat(ActionEvent event) {
+        try {
+            Parent ajouterUserParent = FXMLLoader.load(getClass().getResource("/index-demandeAchat.fxml"));
+            Scene ajouterUserScene = new Scene(ajouterUserParent);
+            Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+            window.setScene(ajouterUserScene);
+            window.setTitle("Siyahi Bank | Gestion des Conges");
+            window.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    void Logout(ActionEvent event){
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmation");
+        alert.setHeaderText("Voulez-vous vraiment déconnecter?");
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            Stage window_toClose = (Stage) menuItem.getParentPopup().getOwnerWindow();
+            window_toClose.close();
+            Parent users_section = null;
+            try {
+                users_section = FXMLLoader.load(getClass().getResource("/UserAuth.fxml"));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            Scene users_sectionSecene = new Scene(users_section);
+            Stage window = new Stage();
+            window.setScene(users_sectionSecene);
+            window.setHeight(400); window.setMaxHeight(400); window.setMinHeight(400);
+            window.setWidth(600); window.setMaxWidth(600); window.setMinWidth(600);
+            window.setTitle("Siyahi Bank | Connexion");
+            window.show();
+        } else {
+            alert.close();
+        }
+    }
+
+    @FXML
+    void Profile(ActionEvent event) {
+        Parent parent = null;
+        try {
+            profileCheck = 1;
+            if(connectedUser.getRoles().equals("Client") || connectedUser.getRoles().equals("Employé(e)"))
+                parent = FXMLLoader.load(getClass().getResource("/ProfileUser.fxml"));
+            else
+                parent = FXMLLoader.load(getClass().getResource("/ProfileAdmin.fxml"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        Scene scene = new Scene(parent);
+        Stage window = (Stage) menuItem.getParentPopup().getOwnerWindow();
+        window.setScene(scene);
+        window.setTitle("Siyahi Bank | Profil d'utitlisateur");
+        window.show();
+    }
+
+    @FXML
+    void navigateToHomePage(ActionEvent event) {
+        try {
+            String pathTo = "";
+            String titleTo = "";
+            if(connectedUser.getRoles().equals("Client") || connectedUser.getRoles().equals("Employé(e)")) {
+                pathTo = "/UserHomePage.fxml";
+                titleTo = "Siyahi Bank | HomePage";
+            } else{
+                pathTo = "/AdminHomePage.fxml";
+                titleTo = "Siyahi Bank | Dashboard";
+            }
+            Parent ajouterUserParent = FXMLLoader.load(getClass().getResource(pathTo));
+            Scene ajouterUserScene = new Scene(ajouterUserParent);
+            Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+            window.setScene(ajouterUserScene);
+            window.setTitle(titleTo);
+            window.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    void navigateToUserSection(ActionEvent event) {
+        try {
+            Parent ajouterUserParent = FXMLLoader.load(getClass().getResource("/Users.fxml"));
+            Scene ajouterUserScene = new Scene(ajouterUserParent);
+            Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+            window.setScene(ajouterUserScene);
+            window.setTitle("Siyahi Bank | Gestion des Utilisateurs");
+            window.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
 

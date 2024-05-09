@@ -2,7 +2,12 @@ package View;
 
 import Entity.Achat;
 import Service.AchatService;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -13,17 +18,23 @@ import Service.IService;
 import javafx.stage.Stage;
 import org.controlsfx.control.Notifications;
 
+import java.util.*;
+import java.io.IOException;
 import java.sql.SQLException;
 
-
+import static tn.esprit.services.UserService.connectedUser;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.*;
-import com.twilio.Twilio;
+/*import com.twilio.Twilio;
 import com.twilio.rest.api.v2010.account.Message;
-import com.twilio.type.PhoneNumber;
+import com.twilio.type.PhoneNumber;*/
+
+/*import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;*/
 
 public class AddDemandeAchatController {
     @FXML
@@ -65,6 +76,12 @@ public class AddDemandeAchatController {
 
     @FXML
     private void initialize() {
+        nomTextField.setText(connectedUser.getFirst_name());
+        prenomTextField.setText(connectedUser.getLast_name());
+        numTelTextField.setText(String.valueOf(connectedUser.getPhone_number()));
+        cinTextField.setText(String.valueOf(connectedUser.getCin()));
+        adresseTextField.setText(connectedUser.getAddress());
+
         List<Achat> achats = AchatService.readAll();
         List<Integer> ids = new ArrayList<>();
         for (Achat achat : achats) {
@@ -76,16 +93,8 @@ public class AddDemandeAchatController {
         dateDemandeLabel.setText(LocalDate.now().toString());
         setIndexDemandeAchatController(indexDemandeAchatController);
     }
-
     private boolean isInputValid() {
         String errorMessage = "";
-
-        if (userIdTextField.getText().isEmpty() || nomTextField.getText().isEmpty() ||
-                prenomTextField.getText().isEmpty() || numTelTextField.getText().isEmpty() ||
-                typePaiementTextField.getText().isEmpty() || cinTextField.getText().isEmpty() || adresseTextField.getText().isEmpty()) {
-            errorMessage += "Tous les champs doivent être remplis!\n";
-        }
-
 
         String adresse = adresseTextField.getText();
         if (adresse.length() < 10 || adresse.length() > 25) {
@@ -104,75 +113,147 @@ public class AddDemandeAchatController {
             return false;
         }
     }
+    private void sendEmail(String toEmail, String msg) {
+        final String username = "waves.esprit@gmail.com";
+        final String password = "tgao tbqg wudl aluo";
+        Properties props = new Properties();
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.port", "587");
+        /*Session session = Session.getInstance(props,
+                new Authenticator() {
+                    protected PasswordAuthentication getPasswordAuthentication() {
+                        return new PasswordAuthentication(username, password);
+                    }
+                });
+        try {
+            javax.mail.Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress("waves.esprit@gmail.com"));
+            message.setRecipients(javax.mail.Message.RecipientType.TO, InternetAddress.parse(toEmail));
+            message.setSubject("Rendez-Vous");
+            message.setText(msg);
+            Transport.send(message);
+            System.out.println("OTP email sent successfully!");
 
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }*/
+    }
     @FXML
-    private void handleSave() {
+    private void handleSave(ActionEvent actionEvent) {
+
         if (isInputValid()) {
-            // Get data from fields
-            Integer userId = Integer.parseInt(userIdTextField.getText());
-            Integer achatId = comboBox.getValue();
-            String nom = nomTextField.getText();
-            String prenom = prenomTextField.getText();
-            LocalDate dateDemande = LocalDate.now();
-            String numTel = numTelTextField.getText();
-            String typePaiement = typePaiementTextField.getText();
-            Integer cin = Integer.parseInt(cinTextField.getText());
-            String adresse = adresseTextField.getText();
-            String etatdemande = "En attente"; // Default value for etatdemande
-
-            // Create new Demande_achat object with 10 parameters
-            Demande_achat newDemandeAchat = new Demande_achat(userId, achatId, nom, prenom, dateDemande, numTel, typePaiement, cin, adresse, etatdemande);
-
             try {
+                // Get data from fields
+                Integer achatId = comboBox.getValue(); // Assuming comboBox contains the correct value
+                String nom = connectedUser.getFirst_name();
+                String prenom = connectedUser.getLast_name();
+                LocalDate dateDemande = LocalDate.now();
+                String numTel = String.valueOf(connectedUser.getPhone_number());
+                String typePaiement = typePaiementTextField.getText();
+                Integer cin = connectedUser.getCin();
+                String adresse = connectedUser.getAddress();
+                String etatdemande = "En attente"; // Default value for etatdemande
+
+                // Create new Demande_achat object
+                Demande_achat newDemandeAchat = new Demande_achat(connectedUser.getId(), achatId, nom, prenom, dateDemande, numTel, typePaiement, cin, adresse, etatdemande);
+
                 // Insert new Demande_achat into database
                 demandeAchatService.insert(newDemandeAchat);
 
-                // Twilio credentials and number
-                String accountSid = "AC8e67691f6f5c772705c3d1be23eb7fbe";
-                String authToken = "73be092c6f48b74f863cc26b0fd32abb";
-                String twilioNumber = "+18283944491";
+                // Send SMS using Twilio
+                sendSMS(numTel);
+                String msg = "Votre demande d'achat a été confirmé.\n\n" +
+                        "Détails d'achat :\n" +
+                        "nom : " + nom.toString() + "\n" +
+                        "prenom : " + prenom.toString() + "\n\n" +
+                        "numTel : " + numTel.toString() + "\n\n" +
+                        "typePaiement : " + typePaiement.toString() + "\n\n" +
+                        "adresse : " + adresse.toString() + "\n\n" +
+                        "Merci pour votre achat !";
 
-                // Initialize Twilio
-                Twilio.init(accountSid, authToken);
+                // Envoi de l'email avec le message contenant les détails du rendez-vous
+                sendEmail("imedkhlifi16@gmail.com", msg);
 
-                // Send SMS
-                Message message = Message.creator(
-                                new PhoneNumber("+216" + numTel),  // Replace with recipient's phone number
-                                new PhoneNumber(twilioNumber),               // Your Twilio phone number
-                                "Votre demande d'achat a été enregistrée avec succès. Merci!")
-                        .create();
-
-                System.out.println("Message SID: " + message.getSid()); // Print SID for debugging purposes
-
-                // Show a success message
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Success");
-                alert.setContentText("Votre demande d'achat a été enregistrée avec succès.");
-                alert.showAndWait();
+                // Show success message
+                showSuccessAlert();
 
                 // Update table view if applicable
                 if (indexDemandeAchatController != null) {
                     indexDemandeAchatController.updateTableView();
                 }
 
-                // Close the window
-                Stage stage = (Stage) userIdTextField.getScene().getWindow();
-                stage.close();
+                // Navigate to FrontUser.fxml
+                navigateToFrontUser(actionEvent);
 
+            } catch (NumberFormatException e) {
+                // Handle number format exception (e.g., parsing userId, achatId, cin)
+                displayErrorAlert("Erreur de format de nombre : " + e.getMessage());
             } catch (Exception e) {
-                // Display an error message if any exception occurs
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error");
-                alert.setContentText("Une erreur est survenue : " + e.getMessage());
-                alert.showAndWait();
+                // Handle other exceptions
+                displayErrorAlert("Une erreur est survenue : " + e.getMessage());
             }
         }
     }
+
+    private void sendSMS(String numTel) {
+        // Twilio credentials and number
+        String accountSid = "AC8e67691f6f5c772705c3d1be23eb7fbe";
+        String authToken = "73be092c6f48b74f863cc26b0fd32abb";
+        String twilioNumber = "+18283944491";
+
+        /*// Initialize Twilio
+        Twilio.init(accountSid, authToken);
+
+        // Send SMS
+        Message message = Message.creator(
+                        new PhoneNumber("+216" + numTel),  // Recipient's phone number
+                        new PhoneNumber(twilioNumber),     // Your Twilio phone number
+                        "Votre demande d'achat a été enregistrée avec succès. Merci!")
+                .create();
+
+        System.out.println("Message SID: " + message.getSid()); // Print SID for debugging purposes*/
+    }
+
+    private void showSuccessAlert() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Succès");
+        alert.setHeaderText(null);
+        alert.setContentText("Votre demande d'achat a été enregistrée avec succès.");
+        alert.showAndWait();
+    }
+
+    private void displayErrorAlert(String errorMessage) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Erreur");
+        alert.setHeaderText(null);
+        alert.setContentText(errorMessage);
+        alert.showAndWait();
+    }
+
+    private void navigateToFrontUser(ActionEvent actionEvent) throws IOException {
+        Stage window = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
+        window.close();
+    }
+
+
+
     private void showAlertDialog(Alert.AlertType type, String title, String header, String content) {
         Alert alert = new Alert(type);
         alert.setTitle(title);
         alert.setHeaderText(header);
         alert.setContentText(content);
         alert.showAndWait();
+    }
+
+    @FXML
+
+    private void showNotification(String title, String message) {
+        Notifications.create()
+                .title(title)
+                .text(message)
+                .darkStyle() // Vous pouvez personnaliser le style ici
+                .show();
     }
 }

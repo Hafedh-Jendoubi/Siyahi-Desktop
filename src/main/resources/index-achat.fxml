@@ -7,6 +7,7 @@
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -63,15 +64,16 @@
                               <Label text="id" GridPane.columnIndex="0" GridPane.rowIndex="1" />
                               <Label fx:id="labelId" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                               <Label prefHeight="21.0" prefWidth="131.0" text="image" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-                              <Label fx:id="labelImage" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                               <Label text="description" GridPane.columnIndex="0" GridPane.rowIndex="3" />
                               <Label fx:id="labelDesc" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                               <Label text="type" GridPane.columnIndex="0" GridPane.rowIndex="4" />
                               <Label fx:id="labelType" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                              <ImageView fx:id="imageview" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                            </children>
                         </GridPane>
                         <Button layoutX="784.0" layoutY="32.0" mnemonicParsing="false" onAction="#createAchat" text="Create" />
                         <Button layoutX="869.0" layoutY="32.0" mnemonicParsing="false" onAction="#updateAchat" text="Update" />
+
                         <Button layoutX="954.0" layoutY="32.0" mnemonicParsing="false" onAction="#handleDeleteAchat" text="Delete" />
                      </children>
                   </Pane>
