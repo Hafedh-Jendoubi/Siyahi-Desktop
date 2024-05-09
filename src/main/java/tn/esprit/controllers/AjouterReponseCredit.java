@@ -10,6 +10,9 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import tn.esprit.models.Credit;
 import tn.esprit.models.ReponseCredit;
@@ -48,6 +51,9 @@ public class AjouterReponseCredit {
     @FXML
     ComboBox<Credit> ReferenceCredit; // Ajout de ComboBox pour la référence au crédit
 
+    @FXML
+    private Circle circle;
+
     private final ReponseCreditService reponseCreditService = new ReponseCreditService();
     private final CreditService creditService = new CreditService();
     private final TypeCreditService typeCreditService = new TypeCreditService();
@@ -63,12 +69,48 @@ public class AjouterReponseCredit {
     static {
         Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
     }*/
+    private Stage previousStage;
+
+    public void setPreviousStage(Stage stage) {
+        this.previousStage = stage;
+    }
+
+    @FXML
+    void RetourReponseLV(ActionEvent event) {
+        if(previousStage != null){
+            previousStage.show();
+            Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            currentStage.close();
+            try {
+                // Chargement du fichier FXML
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/ListReponseCredit.fxml"));
+                Parent root = loader.load();
+
+                // Affichage de la nouvelle fenêtre avec le contenu de l'interface de réponse crédit
+                previousStage.setScene(new Scene(root));
+            } catch (IOException e) {
+                showAlert(Alert.AlertType.ERROR, "Error", e.getMessage());
+            }
+        }else{
+            Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+            window.close();
+        }
+    }
 
     public void initData(int creditId) {
         this.creditId = creditId;
     }
     @FXML
     public void initialize() {
+        try {
+            String imageName = connectedUser.getImage();
+            String imagePath = "/uploads/user/" + imageName;
+            Image image = new Image(getClass().getResource(imagePath).toExternalForm());
+            circle.setFill(new ImagePattern(image));
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+
         loadCredits(); // Charger les crédits dans la ComboBox
 
         // Listner pour détecter les changements de sélection dans la liste déroulante
@@ -169,19 +211,7 @@ public class AjouterReponseCredit {
         ).create();
     }*/
 
-    @FXML
-    void RetourReponseLV(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ListReponseCredit.fxml"));
-            Parent root = loader.load();
-            Scene scene = new Scene(root);
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(scene);
-            stage.show();
-        } catch (IOException e) {
-            showAlert(Alert.AlertType.ERROR, "Error", e.getMessage());
-        }
-    }
+
 
     private void showAlert(Alert.AlertType alertType, String title, String content) {
         Alert alert = new Alert(alertType);
@@ -199,4 +229,6 @@ public class AjouterReponseCredit {
         autoFinancementTF.clear();
         ReferenceCredit.getSelectionModel().clearSelection();
     }
+
+
 }

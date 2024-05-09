@@ -23,6 +23,10 @@
                         <Image url="@uploads/logoCo.png" />
                      </image>
                   </ImageView>
+                  <Button layoutX="30.0" layoutY="340.0" mnemonicParsing="false" onAction="#navigateToCredits" prefHeight="30.0" prefWidth="300.0" text="Gestion Credits" />
+                  <Button layoutX="27.0" layoutY="388.0" mnemonicParsing="false" onAction="#navigateToConge" prefHeight="30.0" prefWidth="300.0" text="Gestion Conges" />
+                  <Button layoutX="33.0" layoutY="529.0" mnemonicParsing="false" onAction="#navigateToReclamations" prefHeight="25.0" prefWidth="33.0" />
+                  <Rectangle fx:id="reclamPicture" arcHeight="5.0" arcWidth="5.0" disable="true" fill="DODGERBLUE" height="50.0" layoutX="24.0" layoutY="516.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
                </children>
             </AnchorPane>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #E4E4E4;">

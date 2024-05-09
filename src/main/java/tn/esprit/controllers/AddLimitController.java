@@ -1,9 +1,11 @@
 package tn.esprit.controllers;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import javafx.event.ActionEvent;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import tn.esprit.models.limitationConge;
 import tn.esprit.services.limitationcongeService;
 import javafx.scene.control.Label;
@@ -48,6 +50,11 @@ public class AddLimitController {
             jrsRestant.setText("0 jour restant.");
             nbrTF.setOpacity(0); add.setOpacity(0);
         }
+    }
+    @FXML
+    void RetourLV(ActionEvent event) {
+        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+        window.close();
     }
 
 
@@ -122,5 +129,6 @@ public class AddLimitController {
             // Mettez à jour le texte du Label pour afficher le nombre de jours restants
             remainingDaysLabel.setText("Nombre de jours restants : " + joursRestants);
         }
+
     }
 }

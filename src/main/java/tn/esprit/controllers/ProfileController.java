@@ -10,6 +10,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import tn.esprit.models.User;
 
@@ -52,9 +53,29 @@ public class ProfileController {
     @FXML
     private Label tel;
 
+    @FXML
+    private Button congBut;
+
+    @FXML
+    private Rectangle reclamPicture;
+
     public static int profileCheck;
 
     public static User user;
+
+    @FXML
+    void navigateToReclamations(ActionEvent event) {
+        try {
+            Parent ajouterUserParent = FXMLLoader.load(getClass().getResource("/Home.fxml"));
+            Scene ajouterUserScene = new Scene(ajouterUserParent);
+            Stage window = new Stage();
+            window.setScene(ajouterUserScene);
+            window.setTitle("Siyahi Bank | Gestion des Conges");
+            window.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     @FXML
     public void navigateToHomePage(ActionEvent event) {
@@ -108,6 +129,43 @@ public class ProfileController {
     }
 
     @FXML
+    void navigateToCredits(ActionEvent event) {
+        try {
+            String pathTo = "";
+            String titleTo = "";
+            if(connectedUser.getRoles().equals("Client") || connectedUser.getRoles().equals("Employé(e)")) {
+                pathTo = "/ListCredit.fxml";
+                titleTo = "Siyahi Bank | Gestion des Credits";
+            } else{
+                pathTo = "/ListTypeCredit.fxml";
+                titleTo = "Siyahi Bank | Gestion des Types de Credits";
+            }
+            Parent ajouterUserParent = FXMLLoader.load(getClass().getResource(pathTo));
+            Scene ajouterUserScene = new Scene(ajouterUserParent);
+            Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+            window.setScene(ajouterUserScene);
+            window.setTitle(titleTo);
+            window.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    void navigateToConge(ActionEvent event) {
+        try {
+            Parent ajouterUserParent = FXMLLoader.load(getClass().getResource("/ListConge.fxml"));
+            Scene ajouterUserScene = new Scene(ajouterUserParent);
+            Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+            window.setScene(ajouterUserScene);
+            window.setTitle("Siyahi Bank | Gestion des Conges");
+            window.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
     private void updateUser(ActionEvent event) {
         try {
             Parent ajouterUserParent = FXMLLoader.load(getClass().getResource("/EditProfileUser.fxml"));
@@ -147,10 +205,19 @@ public class ProfileController {
         String imagePath = "/uploads/user/" + imageName;
         Image image = new Image((Objects.requireNonNull(getClass().getResource(imagePath))).toExternalForm());
         big_circle.setFill(new ImagePattern(image));
+        String image1Path = "/Images/danger.png";
+        Image image1 = new Image(getClass().getResource(image1Path).toExternalForm());
+        reclamPicture.setFill(new ImagePattern(image1));
     }
 
     @FXML
     void initialize() {
+        if(connectedUser.getRoles().equals("Employé(e)")){
+            congBut.setOpacity(1);
+        }else if(connectedUser.getRoles().equals("Client")){
+            congBut.setOpacity(0);
+        }
+
         if (profileCheck == 1) { //Going into ProfileAdmin.fxml from "Profile" menuItem.
             setUserValues(connectedUser);
         } else { //Going into ProfileAdmin.fxml from "TableView" as an Admin or Super_Admin

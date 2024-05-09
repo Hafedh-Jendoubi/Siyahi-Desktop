@@ -497,11 +497,4 @@ public class UserService implements IService<User> {
             throw new RuntimeException(e);
         }
     }
-    public int getRemainingLeaveDays(int userId) {
-        // Implémentez la logique pour récupérer le nombre de jours de congé restants pour l'utilisateur avec l'ID spécifié
-        // Vous pouvez le récupérer à partir de la base de données ou de toute autre source de données appropriée
-        // Ici, je vais simplement renvoyer une valeur statique à titre d'exemple
-        return 10; // Nombre de jours de congé restants pour l'utilisateur avec l'ID userId
-    }
-
 }

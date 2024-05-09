@@ -32,7 +32,7 @@ public class listController {
 
     @FXML
     public void initialize() {
-        if(connectedUser.getRoles().equals("Admin")){
+        if(connectedUser.getRoles().equals("Admin") || connectedUser.getRoles().equals("Employé(e)")){
             ObservableList<limitationConge> conges = FXCollections.observableArrayList(congeService.getLimitationConges(connectedUser.getId())); //Only the logged in user
             listViewConge.setItems(conges);
         }else{

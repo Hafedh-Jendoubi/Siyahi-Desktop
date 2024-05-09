@@ -41,7 +41,8 @@ public class CreditService implements CRService<Credit> {
         if (credit.getNbr_mois_paiement() <= 0) {
             throw new IllegalArgumentException("Le nombre de mois de paiement doit être supérieur à zéro.");
         }
-        String req = "UPDATE `credit` SET `solde_demande`=?, `date_debut_paiement`=?, `nbr_mois_paiement`=?, `description`=?, `contrat`=?, `type_credit_id`=? WHERE `id`=?";
+        String req = "UPDATE credit SET solde_demande=?, date_debut_paiement=?, nbr_mois_paiement=?, description=?, contrat=?, type_credit_id=? WHERE id=?";
+
         try {
             PreparedStatement st = cnx.prepareStatement(req);
             st.setDouble(1, credit.getSolde_demande());
@@ -64,7 +65,7 @@ public class CreditService implements CRService<Credit> {
 
     @Override
     public void Delete(Credit credit) {
-        String req = "DELETE FROM `credit` WHERE `id`=?";
+        String req = "DELETE FROM credit WHERE `id`=?";
         try {
             PreparedStatement st = cnx.prepareStatement(req);
             st.setInt(1, credit.getId()); // Assuming Credit class has an id field
@@ -108,7 +109,21 @@ public class CreditService implements CRService<Credit> {
 
         return credits;
     }
-
+    public String getEmailById(int userId) {
+        String userEmail = null;
+        String req = "SELECT email FROM User WHERE id = ?";
+        try {
+            PreparedStatement ps = cnx.prepareStatement(req);
+            ps.setInt(1, userId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                userEmail = rs.getString("email");
+            }
+        } catch (SQLException ex) {
+            System.out.println("Failed to get user email by ID: " + ex.getMessage());
+        }
+        return userEmail;
+    }
     @Override
     public Credit getOne(int id) {
         String req = "SELECT * FROM credit WHERE id = ?";

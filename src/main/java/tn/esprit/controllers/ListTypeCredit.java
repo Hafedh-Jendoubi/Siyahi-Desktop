@@ -4,11 +4,15 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import tn.esprit.models.TypeCredit;
 import tn.esprit.services.TypeCreditService;
@@ -32,6 +36,9 @@ public class ListTypeCredit {
     @FXML
     private ListView<TypeCredit> ListTypeCreditLV;
 
+    @FXML
+    private Rectangle reclamPicture;
+
     private final TypeCreditService typeCreditService = new TypeCreditService();
 
     @FXML
@@ -39,8 +46,11 @@ public class ListTypeCredit {
         try {
             String imageName = connectedUser.getImage();
             String imagePath = "/uploads/user/" + imageName;
+            String image1Path = "/Images/danger.png";
             Image image = new Image(getClass().getResource(imagePath).toExternalForm());
+            Image image1 = new Image(getClass().getResource(image1Path).toExternalForm());
             circle.setFill(new ImagePattern(image));
+            reclamPicture.setFill(new ImagePattern(image1));
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
@@ -51,6 +61,92 @@ public class ListTypeCredit {
     private void refreshList() {
         ObservableList<TypeCredit> typeCredits = FXCollections.observableArrayList(typeCreditService.getAll());
         ListTypeCreditLV.setItems(typeCredits);
+
+        ListTypeCreditLV.setCellFactory(param -> new ListCell<TypeCredit>() {
+            @Override
+            protected void updateItem(TypeCredit item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                    setGraphic(null);
+                } else {
+                    // Créer les éléments d'interface utilisateur pour afficher les détails du type de crédit
+                    Label nomLabel = new Label("Nom: " + item.getNomTypeCredit());
+                    nomLabel.setStyle("-fx-font-weight: bold; -fx-text-fill: #387296; -fx-font-size: 14;"); // Bleu clair
+
+                    Label tauxLabel = new Label("Taux: " + item.getTauxCreditDirect());
+                    tauxLabel.setStyle("-fx-font-weight: bold; -fx-text-fill: #387296; -fx-font-size: 14;"); // Bleu clair
+
+                    // Créer un VBox pour contenir les éléments avec un padding et un espacement spécifiques
+                    VBox rootVBox = new VBox(nomLabel, tauxLabel);
+                    rootVBox.setAlignment(Pos.CENTER_LEFT); // Alignement à gauche
+                    rootVBox.setSpacing(5); // Espace vertical entre les éléments
+                    rootVBox.setPadding(new Insets(10)); // Padding autour du VBox
+
+                    // Appliquer un style au VBox pour définir un fond et une bordure
+                    rootVBox.setStyle("-fx-background-color: #f0f0f0; -fx-border-color: #387296; -fx-border-width: 2px;");
+
+                    // Set the layout as the graphic for the ListCell
+                    setGraphic(rootVBox);
+                }
+            }
+        });
+    }
+
+    @FXML
+    void navigateToAchat(ActionEvent event) {
+        try {
+            Parent ajouterUserParent = FXMLLoader.load(getClass().getResource("/demandeAchat.fxml"));
+            Scene ajouterUserScene = new Scene(ajouterUserParent);
+            Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+            window.setScene(ajouterUserScene);
+            window.setTitle("Siyahi Bank | Gestion des Conges");
+            window.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    void navigateToHamroun(ActionEvent event) {
+        try {
+            Parent ajouterUserParent = FXMLLoader.load(getClass().getResource("/tn/esprit/siyahidesktop/MainPage.fxml"));
+            Scene ajouterUserScene = new Scene(ajouterUserParent);
+            Stage window = new Stage();
+            window.setScene(ajouterUserScene);
+            window.setTitle("Siyahi Bank | Gestion des Comptes & Services");
+            window.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    void navigateToReclamations(ActionEvent event) {
+        try {
+            Parent ajouterUserParent = FXMLLoader.load(getClass().getResource("/Home.fxml"));
+            Scene ajouterUserScene = new Scene(ajouterUserParent);
+            Stage window = new Stage();
+            window.setScene(ajouterUserScene);
+            window.setTitle("Siyahi Bank | Gestion des Conges");
+            window.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    void navigateToConge(ActionEvent event) {
+        try {
+            Parent ajouterUserParent = FXMLLoader.load(getClass().getResource("/ListConge.fxml"));
+            Scene ajouterUserScene = new Scene(ajouterUserParent);
+            Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+            window.setScene(ajouterUserScene);
+            window.setTitle("Siyahi Bank | Gestion des Conges");
+            window.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML

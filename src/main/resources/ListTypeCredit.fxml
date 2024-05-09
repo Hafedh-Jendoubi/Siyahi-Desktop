@@ -13,6 +13,7 @@
 <?import javafx.scene.paint.LinearGradient?>
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
@@ -28,12 +29,15 @@
                         <Image url="@uploads/logoCo.png" />
                      </image>
                   </ImageView>
-                  <Button layoutX="30.0" layoutY="340.0" mnemonicParsing="false" onAction="#navigateToCredits" prefHeight="30.0" prefWidth="300.0" text="Gestion Credits" />
-                  <Button fx:id="ToHomePage" layoutX="30.0" layoutY="240.0" mnemonicParsing="false" onAction="#navigateToHomePage" prefHeight="30.0" prefWidth="300.0" text="Acceuil" />
-                  <Button fx:id="ToUserSectionButton" layoutX="30.0" layoutY="290.0" mnemonicParsing="false" onAction="#navigateToUserSection" prefHeight="30.0" prefWidth="300.0" text="Gestion Utilisateurs" />
+                  <Button layoutX="39.0" layoutY="388.0" mnemonicParsing="false" onAction="#navigateToCredits" prefHeight="30.0" prefWidth="300.0" text="Gestion Credits" />
+                  <Button layoutX="38.0" layoutY="436.0" mnemonicParsing="false" onAction="#navigateToConge" prefHeight="30.0" prefWidth="300.0" text="Gestion Conge" />
+                  <Button layoutX="38.0" layoutY="481.0" mnemonicParsing="false" onAction="#navigateToAchat" prefHeight="30.0" prefWidth="300.0" text="Gestion Achat" />
+                  <Button layoutX="33.0" layoutY="529.0" mnemonicParsing="false" onAction="#navigateToReclamations" prefHeight="25.0" prefWidth="33.0" />
+                  <Rectangle fx:id="reclamPicture" arcHeight="5.0" arcWidth="5.0" disable="true" fill="DODGERBLUE" height="50.0" layoutX="24.0" layoutY="516.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
+                  <Button layoutX="39.0" layoutY="345.0" mnemonicParsing="false" onAction="#navigateToHamroun" prefHeight="30.0" prefWidth="300.0" text="Gestion Comptes &amp; Services" />
                </children>
             </AnchorPane>
-            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="600.0" prefWidth="800.0" style="-fx-border-radius: 50%; -fx-border-color: transparent; -fx-border-width: 10px;">
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="600.0" prefWidth="800.0" style="-fx-border-radius: 50%; -fx-border-color: transparent; -fx-border-width: 10px;" stylesheets="@list.css">
                <children>
                   <Text layoutX="35.0" layoutY="55.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bienvenu à Siyahi Banque" textAlignment="CENTER" AnchorPane.leftAnchor="35.0" AnchorPane.topAnchor="35.0">
                      <font>
@@ -56,6 +60,11 @@
                         </LinearGradient>
                      </fill>
                   </Text>
+                  <Text fx:id="titre" fill="#403737" layoutX="105.0" layoutY="122.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Liste des types des credits">
+                     <font>
+                        <Font name="Berlin Sans FB Bold" size="23.0" />
+                     </font>
+                  </Text>
                   <MenuButton layoutX="830.0" layoutY="40.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0">
                      <items>
                         <MenuItem mnemonicParsing="false" onAction="#Profile" text="Profile" />
@@ -63,13 +72,15 @@
                      </items>
                   </MenuButton>
                   <Circle fx:id="circle" disable="true" fill="DODGERBLUE" layoutX="850.0" layoutY="60.0" radius="32.0" stroke="BLACK" strokeType="INSIDE" />
-                  <ListView fx:id="ListTypeCreditLV" layoutX="227.0" layoutY="157.0" prefHeight="301.0" prefWidth="394.0" />
-                  <Button layoutX="639.0" layoutY="199.0" mnemonicParsing="false" onAction="#AjouterTypeCredit" prefHeight="26.0" prefWidth="71.0" text="Ajouter" />
-                  <Button layoutX="639.0" layoutY="295.0" mnemonicParsing="false" onAction="#ModifierTypeCredit" prefHeight="26.0" prefWidth="71.0" text="Modifié" />
-                  <Button layoutX="639.0" layoutY="387.0" mnemonicParsing="false" onAction="#SupprimerTypeCredit" text="Supprimer" />
+                  <ListView fx:id="ListTypeCreditLV" layoutX="106.0" layoutY="150.0" prefHeight="313.0" prefWidth="587.0" />
+                  <Button layoutX="204.0" layoutY="483.0" mnemonicParsing="false" onAction="#AjouterTypeCredit" prefHeight="26.0" prefWidth="71.0" text="Ajouter" />
+                  <Button layoutX="369.0" layoutY="483.0" mnemonicParsing="false" onAction="#ModifierTypeCredit" prefHeight="26.0" prefWidth="71.0" text="Modifié" />
+                  <Button layoutX="536.0" layoutY="483.0" mnemonicParsing="false" onAction="#SupprimerTypeCredit" text="Supprimer" />
                </children>
             </AnchorPane>
          </items>
       </SplitPane>
+      <Button fx:id="ToHomePage" layoutX="40.0" layoutY="250.0" mnemonicParsing="false" onAction="#navigateToHomePage" prefHeight="30.0" prefWidth="300.0" text="Acceuil" />
+      <Button fx:id="ToUserSectionButton" layoutX="40.0" layoutY="300.0" mnemonicParsing="false" onAction="#navigateToUserSection" prefHeight="30.0" prefWidth="300.0" text="Gestion Utilisateurs" />
    </children>
 </AnchorPane>

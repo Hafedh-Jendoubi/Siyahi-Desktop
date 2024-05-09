@@ -1,14 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.controllers.ModifierTypeCredit">
-    <children>
-        <TextField fx:id="NomTypeCreditTFM" layoutX="47.0" layoutY="61.0" promptText="Nom du type de crédit" />
-        <TextField fx:id="TauxCreditDirectTFM" layoutX="47.0" layoutY="106.0" promptText="Taux de crédit direct" />
-        <Button layoutX="272.0" layoutY="328.0" mnemonicParsing="false" onAction="#ModifierTypeCredit" prefHeight="26.0" prefWidth="78.0" text="Modifier" />
-        <Button layoutX="378.0" layoutY="328.0" mnemonicParsing="false" onAction="#RetourTLV" prefHeight="26.0" prefWidth="112.0" text="retourner à la liste" />
-    </children>
+<?import java.net.URL?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.Font?>
+<AnchorPane prefHeight="300.0" prefWidth="450.0" stylesheets="@listconge.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.controllers.ModifierTypeCredit">
+   <stylesheets>
+      <URL value="@listconge.css" />
+   </stylesheets>
+   <children>
+   <Text fx:id="titre" fill="#403737" layoutX="207.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Modifier type_credit">
+      <font>
+         <Font name="Berlin Sans FB Bold" size="23.0" />
+      </font>
+   </Text>
+      <TextField fx:id="NomTypeCreditTFM" layoutX="60.0" layoutY="191.0" promptText="Nom du type de crédit" />
+      <TextField fx:id="TauxCreditDirectTFM" layoutX="247.0" layoutY="191.0" promptText="Taux de crédit direct" />
+      <Button layoutX="125.0" layoutY="236.0" mnemonicParsing="false" onAction="#ModifierTypeCredit" prefHeight="26.0" prefWidth="78.0" text="Ajouter" />
+      <Button layoutX="231.0" layoutY="236.0" mnemonicParsing="false" onAction="#RetourTLV" prefHeight="26.0" prefWidth="112.0" text="retourner à la liste" />
+      <Label layoutX="60.0" layoutY="168.0" text="Nom du type de crédit:" />
+      <ImageView fitHeight="144.0" fitWidth="150.0" layoutX="162.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@uploads/logoCo.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="247.0" layoutY="168.0" text="Taux de crédit direct:" />
+   </children>
 </AnchorPane>
